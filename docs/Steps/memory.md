@@ -11,7 +11,6 @@ Steps to work with memory module
 module.exports = {
     default: {
         require: [
-            '@qavajs/steps-config-loader',
             '@qavajs/steps-memory'
         ],
         
@@ -21,7 +20,7 @@ module.exports = {
 ## Steps
 
 ---
-### I expect {text} {validation} {text}
+### I expect {string} {memoryValidation} {string}
 
 Verify that value from memory satisfies validation against other value
 
@@ -38,7 +37,7 @@ Then I expect '$value' does not contain '56'
 ```
 
 ---
-### I expect every element in {text} array {validation} {text}
+### I expect every element in {string} array {memoryValidation} {string}
 
 Verify that every element in array satisfies validation against other value
 
