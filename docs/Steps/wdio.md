@@ -12,7 +12,6 @@ const App = require('./page_object');
 module.exports = {
     default: {
         require: [
-            '@qavajs/steps-config-loader',
             '@qavajs/steps-wdio'
         ],
         browser: {
@@ -28,103 +27,10 @@ module.exports = {
     }
 }
 ```
-## Parameter types
-
--------
-### {element}
-Type that resolves string selector to wdio element
-
-usage:
-```gherkin
-When I click 'Login Form > Login Button'
-```
-In step definition it will be resolved into
-corresponding element from page object
-```javascript
-When('I click {element}', async function (element: Element<'async'>) {
-    await (await element).click();
-});
-```
-
--------
-### {locator}
-Type that resolves into function that returns wdio element
-
-usage:
-```gherkin
-When I click 'Login Form > Login Button'
-```
-In step definition it will be resolved function that
-returns wdio element. It helps to handle element
-that dynamically created and removed in DOM.
-```javascript
-When('I click {locator}', async function (locator: Locator) {
-    const element = await locator();
-    await element.click();
-});
-```
-
--------
-### {conditionWait}
-Type that resolves into function
-that perform wait for element certain condition like visibility, existing, etc
-
-possible values:
-* to be visible
-* to be present
-* to be clickable
-* to be invisible
-
-values can re reversed by adding _not_ before: e.g. not to be visible
-
-usage:
-```gherkin
-When I wait until 'Header' to be visible
-```
-In step definition it will be resolved into function that
-takes element and timeout and perform necessary wait
-```javascript
-When('I wait until {element} {conditionWait}', async function (element, wait) {
-    await wait(await element, config.browser.timeout.page);
-});
-```
-
--------
-### {valueWait}
-Type that resolves into function
-that perform wait of changing value provided in for of
-get function
-
-possible values:
-* to be equal
-* to contain
-* to be above
-* to be below
-* to be greater than
-* to be less than
-* to have type
-
-values can re reversed by adding _not_ before: not to be equal
-
-usage:
-```gherkin
-When I wait until text of 'Header' to be equal 'Javascript'
-```
-In step definition it will be resolved into function that
-takes function that returns changing value, expected value and timeout
-```javascript
-When(
-    'I wait until text of {element} {valueWait} {text}',
-    async function (element: Element<'async'>, wait: Function, expectedValue: any) {
-        const getValue = async () => (await element).getText();
-        await wait(getValue, expectedValue, config.browser.timeout.page);
-    }
-);
-```
 
 ## Action Steps
 
-### I open {text} url
+### I open {string} url
 
 Opens provided url
 
@@ -136,38 +42,38 @@ example:
    When I open 'https://google.com' url
 ```
 ---
-### I type {text} to {element}
+### I type {string} to {string}
 
 Type text to element
 
-|  param  |  type   |   description   |
-|:-------:|:-------:|:---------------:|
-| element | Element | element to type |
-|  value  | string  |  value to type  |
+| param |  type  |   description   |
+|:-----:|:------:|:---------------:|
+| alias | string | element to type |
+| value | string |  value to type  |
 example:
 ```gherkin
    When I type 'wikipedia' to 'Google Input'
 ```
 ---
-### I click {element}
+### I click {string}
 
 Click element
 
-|  param  |  type   |   description    |
-|:-------:|:-------:|:----------------:|
-| element | Element | element to click |
+| param |  type  |   description    |
+|:-----:|:------:|:----------------:|
+| alias | string | element to click |
 example:
 ```gherkin
    When I click 'Google Button'
 ```
 ---
-### I clear {element}
+### I clear {string}
 
 Clear element
 
-|  param  |  type   |   description    |
-|:-------:|:-------:|:----------------:|
-| element | Element | element to clear |
+| param |  type  |   description    |
+|:-----:|:------:|:----------------:|
+| alias | string | element to clear |
 example:
 ```gherkin
    When I clear 'Search Input'
@@ -176,14 +82,14 @@ example:
 ## Validation Steps
 
 ---
-### I expect {element} {conditionWait}
+### I expect {string} {wdioConditionWait}
 
 Verify that element satisfies certain condition
 
-|     param     |   type   |        description         |             example              |
-|:-------------:|:--------:|:--------------------------:|:--------------------------------:|
-|    element    | Element  | element to check condition |           Search Input           |
-| conditionWait | Function | function to wait condition | to be visible, not to be present |
+|     param     |  type  |        description         |             example              |
+|:-------------:|:------:|:--------------------------:|:--------------------------------:|
+|     alias     | string | element to check condition |           Search Input           |
+| conditionWait | string | function to wait condition | to be visible, not to be present |
 example:
 ```gherkin
     Then I expect 'Header' to be visible
@@ -192,15 +98,15 @@ example:
 ```
 
 ---
-### I expect number of elements in {element} collection {validation} {text}
+### I expect number of elements in {string} collection {wdioValidation} {string}
 
 Verify that number of element in collection satisfies condition
 
-|     param     |     type     |          description          |                example                |
-|:-------------:|:------------:|:-----------------------------:|:-------------------------------------:|
-|  collection   | ElementArray | collection to check condition |            Search Results             |
-|  validation   |   Function   | function to verify condition  | to be equal, to be above, to be below |
-| expectedValue |    number    |        expected value         |                                       |
+|     param     |  type  |          description          |                example                |
+|:-------------:|:------:|:-----------------------------:|:-------------------------------------:|
+|  collection   | string | collection to check condition |            Search Results             |
+|  validation   | string | function to verify condition  | to be equal, to be above, to be below |
+| expectedValue | string |        expected value         |                                       |
 example:
 ```gherkin
     Then I expect number of elements in 'Search Results' collection to be equal '50'
@@ -209,31 +115,31 @@ example:
 ```
 
 ---
-### I expect text of {element} {validation} {text}
+### I expect text of {string} {wdioValidation} {string}
 
 Verify that text of element satisfies condition
 
-|     param     |   type   |        description         |                example                |
-|:-------------:|:--------:|:--------------------------:|:-------------------------------------:|
-|    element    | Element  | element to check condition |  Label, #1 of Search Results > Title  |
-|  validation   | Function |      validation type       | to be equal, to contain, not to match |
-| expectedValue |  string  |      expected result       |                                       |
+|     param     |  type  |        description         |                example                |
+|:-------------:|:------:|:--------------------------:|:-------------------------------------:|
+|     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
+|  validation   | string |      validation type       | to be equal, to contain, not to match |
+| expectedValue | string |      expected result       |                                       |
 
 example:
 ```gherkin
    Then I expect text of '#1 of Search Results' to be equal 'google'
 ```
 ---
-### I expect {text} property of {element} {validation} {text}
+### I expect {string} property of {string} {wdioValidation} {string}
 
 Verify that property of element satisfies condition
 
-|     param     |   type   |        description         |                example                |
-|:-------------:|:--------:|:--------------------------:|:-------------------------------------:|
-|   property    |  string  |  property check condition  |    value, href, checked, innerHTML    |
-|    element    | Element  | element to check condition |  Label, #1 of Search Results > Title  |
-|  validation   | Function |      validation type       | to be equal, to contain, not to match |
-| expectedValue |  string  |      expected result       |                                       |
+|     param     |  type  |        description         |                example                |
+|:-------------:|:------:|:--------------------------:|:-------------------------------------:|
+|   property    | string |  property check condition  |    value, href, checked, innerHTML    |
+|     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
+|  validation   | string |      validation type       | to be equal, to contain, not to match |
+| expectedValue | string |      expected result       |                                       |
 
 example:
 ```gherkin
@@ -241,16 +147,16 @@ example:
     Then I expect 'innerHTML' property of 'Label' to contain '<b>'
 ```
 ---
-### I expect {text} attribute of {element} {validation} {text}
+### I expect {string} attribute of {string} {wdioValidation} {string}
 
 Verify that attribute of element satisfies condition
 
-|     param     |   type   |        description         |                example                |
-|:-------------:|:--------:|:--------------------------:|:-------------------------------------:|
-|   attribute   |  string  | attribute check condition  |             href, checked             |
-|    element    | Element  | element to check condition |  Label, #1 of Search Results > Title  |
-|  validation   | Function |      validation type       | to be equal, to contain, not to match |
-| expectedValue |  string  |      expected result       |                                       |
+|     param     |  type  |        description         |                example                |
+|:-------------:|:------:|:--------------------------:|:-------------------------------------:|
+|   attribute   | string | attribute check condition  |             href, checked             |
+|     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
+|  validation   | string |      validation type       | to be equal, to contain, not to match |
+| expectedValue | string |      expected result       |                                       |
 
 example:
 ```gherkin
@@ -260,29 +166,29 @@ example:
 ## Memory Steps
  
 ---
-### I save text of {element} as {string}
+### I save text of {string} as {string}
 
 Save text of element to memory
 
-|  param  |  type   |     description      |               example               |
-|:-------:|:-------:|:--------------------:|:-----------------------------------:|
-| element | Element | element to get value | Label, #1 of Search Results > Title |
-|   key   | string  |  key to store value  |                                     |
+| param |  type  |     description      |               example               |
+|:-----:|:------:|:--------------------:|:-----------------------------------:|
+| alias | string | element to get value | Label, #1 of Search Results > Title |
+|  key  | string |  key to store value  |                                     |
 
 example:
 ```gherkin
    When I save text of '#1 of Search Results' as 'firstSearchResult'
 ```
 ---
-### I save {text} property of {element} as {string}
+### I save {string} property of {string} as {string}
 
 Save property of element to memory
 
-|  param   |  type   |     description      |               example               |
-|:--------:|:-------:|:--------------------:|:-----------------------------------:|
-| property | string  |  property to store   |   value, href, checked, innerHTML   |
-| element  | Element | element to get value | Label, #1 of Search Results > Title |
-|   key    | string  |  key to store value  |                                     |
+|  param   |  type  |     description      |               example               |
+|:--------:|:------:|:--------------------:|:-----------------------------------:|
+| property | string |  property to store   |   value, href, checked, innerHTML   |
+|  alias   | string | element to get value | Label, #1 of Search Results > Title |
+|   key    | string |  key to store value  |                                     |
 
 
 example:
@@ -291,15 +197,15 @@ example:
     When I save '$prop' property of 'Checkbox' as 'checked'
 ```
 ---
-### I save {text} attribute of {element} as {string}
+### I save {string} attribute of {string} as {string}
 
 Save attribute of element to memory
 
-|   param   |  type   |     description      |               example               |
-|:---------:|:-------:|:--------------------:|:-----------------------------------:|
-| attribute | string  |  attribute to store  |            href, checked            |
-|  element  | Element | element to get value | Label, #1 of Search Results > Title |
-|    key    | string  |  key to store value  |                                     |
+|   param   |  type  |     description      |               example               |
+|:---------:|:------:|:--------------------:|:-----------------------------------:|
+| attribute | string |  attribute to store  |            href, checked            |
+|   alias   | string | element to get value | Label, #1 of Search Results > Title |
+|    key    | string |  key to store value  |                                     |
 
 example:
 ```gherkin
@@ -307,14 +213,14 @@ example:
     When I save '$prop' attribute of 'Link' as 'linkHref'
 ```
 ---
-### I save number of elements in {element} collection as {string}
+### I save number of elements in {string} collection as {string}
 
 Save number of elements in collection to memory
 
-|   param    |     type     |       description       |                example                |
-|:----------:|:------------:|:-----------------------:|:-------------------------------------:|
-| collection | ElementArray | collection to get value |            Search Results             |
-|    key     |    string    |   key to store value    |                                       |
+|   param    |  type  |       description       |    example     |
+|:----------:|:------:|:-----------------------:|:--------------:|
+| collection | string | collection to get value | Search Results |
+|    key     | string |   key to store value    |                |
 example:
 ```gherkin
     When I save number of elements in 'Search Results' as 'numberOfSearchResults'
@@ -323,32 +229,83 @@ example:
 ## Wait Steps
 
 ---
-### I wait until {element} {conditionWait} {text}
+### I wait until {string} {wdioConditionWait} {string}
 
-Verify that text of element satisfies condition
+Wait for element condition
 
-|   param    |  type   |    description     |
-|:----------:|:-------:|:------------------:|
-|  element   | Element |  element to clear  |
-| validation | string  |  validation type   |
-|   value    | string  |  expected result   |
+|   param    |  type  |   description   |
+|:----------:|:------:|:---------------:|
+|   alias    | string |     element     |
+| validation | string | validation type |
 
 example:
 ```gherkin
-   Then I expect text of '#1 of Search Results' to be equal 'google'
+    When I wait until 'Header' to be visible
+    When I wait until 'Loading' not to be present
+    When I wait until 'Search Bar > Submit Button' to be clickable
 ```
 ---
-### I expect text of {element} element {validation} {text}
+### I wait until text of {string} element {wdioValueWait} {string}
 
-Verify that text of element satisfies condition
+Wait for element text condition
 
-|   param    |  type   |    description     |
-|:----------:|:-------:|:------------------:|
-|  element   | Element |  element to clear  |
-| validation | string  |  validation type   |
-|   value    | string  |  expected result   |
+| param |  type  |   description   |
+|:-----:|:------:|:---------------:|
+| alias | string |     element     |
+| wait  | string | validation type |
+| value | string | expected result |
 
 example:
 ```gherkin
-   Then I expect text of '#1 of Search Results' to be equal 'google'
+    When I wait until text of 'Header' to be equal 'Javascript'
+    When I wait until text of 'Header' not to be equal 'Python'
+```
+---
+### I wait until number of elements in {string} collection {wdioValueWait} {string}
+
+Wait for collection length condition
+
+| param |  type  |   description   |
+|:-----:|:------:|:---------------:|
+| alias | string |   collection    |
+| wait  | string | validation type |
+| value | string | expected result |
+
+example:
+```gherkin
+    When I wait until number of elements in 'Search Results' collection to be equal '50'
+    When I wait until number of elements in 'Search Results' collection to be above '49'
+    When I wait until number of elements in 'Search Results' collection to be below '51'
+```
+---
+### I wait until {string} property of {string} {wdioValueWait} {string}
+
+Wait for element property condition
+
+|  param   |  type  |   description   |
+|:--------:|:------:|:---------------:|
+| property | string |    property     |
+|  alias   | string |     element     |
+|   wait   | string | validation type |
+|  value   | string | expected result |
+
+example:
+```gherkin
+    When I wait until 'value' property of 'Search Input' to be equal 'Javascript'
+```
+---
+### I wait until {string} attribute of {string} {wdioValueWait} {string}
+
+Wait for element property condition
+
+|   param   |  type  |   description   |
+|:---------:|:------:|:---------------:|
+| attribute | string |    attribute    |
+|   alias   | string |     element     |
+|   wait    | string | validation type |
+|   value   | string | expected result |
+
+example:
+```gherkin
+    When I wait until 'href' attribute of 'Home Link' to be equal '/javascript'
 ```
