@@ -7,7 +7,7 @@ Framework provides the capability to transit variables between step and access t
 You can use special type {text} to transform string parameter to memory value
                                          
 ```javascript
-Then('{text} value should be 42', async function (value) {
+Then('{string} value should be 42', async function (value) {
     expect(await value).to.equal(42);
 })
 ```
