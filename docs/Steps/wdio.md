@@ -78,6 +78,146 @@ example:
 ```gherkin
    When I clear 'Search Input'
 ```
+---
+### I click {string} text in {string} collection
+
+Click on element with desired text in collection
+
+|    param     |  type  |  description  |
+|:------------:|:------:|:-------------:|
+| expectedText | string | text to click |
+|    alias     | string |  collection   |
+example:
+```gherkin
+   When I click 'google' text in 'Search Engines' collection
+```
+
+---
+### I switch to parent frame
+
+Switch to parent frame
+
+example:
+```gherkin
+   When I switch to parent frame
+```
+
+---
+### I switch to {int} frame
+
+Switch to frame by index
+
+| param |  type  |      description      |
+|:-----:|:------:|:---------------------:|
+| index | number | frame index to switch |
+example:
+```gherkin
+   When I click 'google' text in 'Search Engines' collection
+```
+
+---
+### I switch to {int} window
+
+Switch to window by index
+
+| param |  type  |      description       |
+|:-----:|:------:|:----------------------:|
+| index | number | window index to switch |
+example:
+```gherkin
+   When I switch to 2 window
+```
+
+---
+### I switch to {string} window
+
+Switch to window by matcher
+
+|  param  |  type  |          description          |
+|:-------:|:------:|:-----------------------------:|
+| matcher | string | window matcher (url or title) |
+example:
+```gherkin
+   When I switch to 'google.com' window
+```
+
+---
+### I refresh page
+
+Refresh page
+
+example:
+```gherkin
+   When I refresh page
+```
+
+---
+### I press {string} key
+
+Press key
+
+| param |  type  | description  |
+|:-----:|:------:|:------------:|
+|  key  | string | key to press |
+example:
+```gherkin
+   When I press 'Enter' key
+```
+
+---
+### I hover over {string}
+
+Hover over element
+
+| param |  type  |      description      |
+|:-----:|:------:|:---------------------:|
+| alias | string | element to hover over |
+example:
+```gherkin
+   When I hover over 'Google Button'
+```
+
+---
+### I select {string} option from {string} dropdown
+
+Select option with certain text from select element
+
+| param  |  type  |   description    |
+|:------:|:------:|:----------------:|
+| option | string | option to select |
+| alias  | string | alias of select  |
+example:
+```gherkin
+    When I select '1900' option from 'Registration Form > Date Of Birth'
+    When I select '$dateOfBirth' option from 'Registration Form > Date Of Birth' dropdown
+```
+  
+---
+### I select {int}(st|nd|rd|th) option from {string} dropdown
+
+Select option with certain index from select element
+
+|    param    |  type  |        description        |
+|:-----------:|:------:|:-------------------------:|
+| optionIndex | number | index of option to select |
+|    alias    | string |      alias of select      |
+example:
+```gherkin
+    When I select 1 option from 'Registration Form > Date Of Birth' dropdown
+```
+
+---
+### I save screenshot as {string}
+
+Save page screenshot into memory
+
+| param |  type  |    description     |
+|:-----:|:------:|:------------------:|
+|  key  | string | key to store value |
+example:
+```gherkin
+    When I save screenshot as 'screenshot'
+```
 
 ## Validation Steps
 
@@ -308,4 +448,73 @@ Wait for element property condition
 example:
 ```gherkin
     When I wait until 'href' attribute of 'Home Link' to be equal '/javascript'
+```
+
+## Cookie Steps
+
+---
+### I set {string} cookie as {string}
+
+Set cookie
+
+| param  |  type  | description  |
+|:------:|:------:|:------------:|
+| cookie | string | cookie name  |
+| value  | string | value to set |
+
+example:
+```gherkin
+    When I set 'userID' cookie 'user1'
+    When I set 'userID' cookie '$userIdCookie'
+```
+   
+---
+### I save value of {string} cookie as {string}
+
+Save cookie value to memory
+
+| param  |  type  | description |
+|:------:|:------:|:-----------:|
+| cookie | string | cookie name |
+|  key   | string | memory key  |
+
+example:
+```gherkin
+    When I save value of 'auth' cookie as 'authCookie'
+```
+
+## Local/Session Storage Steps
+
+---
+### I set {string} {word} storage value as {string}
+
+Set value of local/session storage
+
+|    param    |  type  |              description               |
+|:-----------:|:------:|:--------------------------------------:|
+| storageKey  | string | local/session storage key to set value |
+| storageType |  word  |    storage type (local or session)     |
+|    value    | string |              value to set              |
+
+example:
+```gherkin
+    When I set 'username' local storage value as 'user1'
+    When I set '$sessionStorageKey' session storage value as '$sessionStorageValue'
+```
+
+---
+### I save value of {string} {word} storage as {string}
+
+Set value of local/session storage
+
+|    param    |  type  |              description               |
+|:-----------:|:------:|:--------------------------------------:|
+| storageKey  | string | local/session storage key to set value |
+| storageType |  word  |    storage type (local or session)     |
+|     key     | string |               memory key               |
+
+example:
+```gherkin
+    When I save value of 'username' local storage as 'localStorageValue'
+    When I save value of '$sessionStorageKey' session storage value as 'sessionStorageValue'
 ```
