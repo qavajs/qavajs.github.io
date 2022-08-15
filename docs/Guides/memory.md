@@ -4,14 +4,7 @@ sidebar_position: 1
 # Memory
 Framework provides the capability to transit variables between step and access them from gherkin definitions
 
-You can use special type {text} to transform string parameter to memory value
-                                         
-```javascript
-Then('{string} value should be 42', async function (value) {
-    expect(await value).to.equal(42);
-})
-```
-or read value directly from memory object
+Memory value can be set and read from memory object
 ```javascript
 const memory = require('@qavajs/memory');
 
