@@ -32,7 +32,7 @@ Send request to the endpoint
 |   key   | string | key that should be used for saving response |
 example:
 ```gherkin
-   When I send "GET" request to "$BASE_API_URL" with headers "$headers" and save response as "response"
+When I send "GET" request to "$BASE_API_URL" with headers "$headers" and save response as "response"
 ```
 ---
 ### I send {string} request to {landing-url}{headers} with qs {string} and save response as {string}
@@ -48,7 +48,7 @@ Send request to the endpoint with query string
 |   key   | string | key that should be used for saving response |
 example:
 ```gherkin
-   When I send "GET" request to "https://www.some_service.com/some_endpoint" with qs "?category=HR&name=test" and save response as "response"
+When I send "GET" request to "https://www.some_service.com/some_endpoint" with qs "?category=HR&name=test" and save response as "response"
 ```
 ---
 ### I send {string} request to {landing-url}{headers} with Body {json} and save response as {string}
@@ -64,7 +64,7 @@ Send request with body
 |     key     | string | key that should be used for saving response |
 example:
 ```gherkin
-   When I send "POST" request to "$BASE_API_URL" with Body "test_data_file.json" and save response as "response"
+When I send "POST" request to "$BASE_API_URL" with Body "test_data_file.json" and save response as "response"
 ```
 ---
 ### I send {string} request to {landing-url}{headers} with qs {string} and Body {json} and save response as {string}
@@ -81,7 +81,7 @@ Send request with body and query string
 |     key     | string | key that should be used for saving response |
 example:
 ```gherkin
-   When I send "PUT" request to "https://www.some_service.com/some_endpoint/" with qs "?category=HR&name=test" and Body "test_data_file.json" and save response as "response"
+When I send "PUT" request to "https://www.some_service.com/some_endpoint/" with qs "?category=HR&name=test" and Body "test_data_file.json" and save response as "response"
 ```
 ---
 ### I send {string} request and save response as {string} to {landing-url}{headers} with Body:
@@ -97,7 +97,7 @@ Send request with body that given as part of Cucumber step
 |     key     | string | key that should be used for saving response |
 example:
 ```gherkin
-   When I send "POST" request and save response as "response" to "$BASE_API_URL" with Body:
+When I send "POST" request and save response as "response" to "$BASE_API_URL" with Body:
    """
    {
       "title": "Test Post Request with Body passed as string"
@@ -119,7 +119,7 @@ Verify response status code
 | statusCode  |  string  |    expected status code    |
 example:
 ```gherkin
-    Then Response "$response" Status Code equals to "200"
+Then Response "$response" Status Code equals to "200"
 ```
 
 ---
@@ -133,7 +133,7 @@ Verify that response contains needed properties
 | dataTable | Object | data table with all properties |
 example:
 ```gherkin
-    Then Response "$response.payload.data.items" contains:
+Then Response "$response.payload.data.items" contains:
       | _id               |
       | appId             |
       | serviceCategory   |
@@ -167,7 +167,7 @@ Verify that response array size is equal to|less than|greater than given number
 
 example:
 ```gherkin
-    Then Response "$response.payload.data.items" size to be above "0"
+Then Response "$response.payload.data.items" size to be above "0"
 ```
 ---
 ### I verify response {string} {apiValidation} {string}
@@ -182,5 +182,5 @@ Execute any jsonPath query against response and verify result is equal to expect
 
 example:
 ```gherkin
-    Then I verify response "$response.payload.data.items[0].title" equals to "TEST"
+Then I verify response "$response.payload.data.items[0].title" equals to "TEST"
 ```

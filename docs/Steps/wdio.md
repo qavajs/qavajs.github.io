@@ -39,7 +39,7 @@ Opens provided url
 |  url  | string | url to navigate |
 example:
 ```gherkin
-   When I open 'https://google.com' url
+When I open 'https://google.com' url
 ```
 ---
 ### I type {string} to {string}
@@ -52,7 +52,7 @@ Type text to element
 | value | string |  value to type  |
 example:
 ```gherkin
-   When I type 'wikipedia' to 'Google Input'
+When I type 'wikipedia' to 'Google Input'
 ```
 ---
 ### I click {string}
@@ -64,7 +64,7 @@ Click element
 | alias | string | element to click |
 example:
 ```gherkin
-   When I click 'Google Button'
+When I click 'Google Button'
 ```
 ---
 ### I clear {string}
@@ -76,7 +76,7 @@ Clear element
 | alias | string | element to clear |
 example:
 ```gherkin
-   When I clear 'Search Input'
+When I clear 'Search Input'
 ```
 ---
 ### I click {string} text in {string} collection
@@ -89,7 +89,7 @@ Click on element with desired text in collection
 |    alias     | string |  collection   |
 example:
 ```gherkin
-   When I click 'google' text in 'Search Engines' collection
+When I click 'google' text in 'Search Engines' collection
 ```
 
 ---
@@ -99,7 +99,7 @@ Switch to parent frame
 
 example:
 ```gherkin
-   When I switch to parent frame
+When I switch to parent frame
 ```
 
 ---
@@ -112,7 +112,7 @@ Switch to frame by index
 | index | number | frame index to switch |
 example:
 ```gherkin
-   When I click 'google' text in 'Search Engines' collection
+When I click 'google' text in 'Search Engines' collection
 ```
 
 ---
@@ -125,7 +125,7 @@ Switch to window by index
 | index | number | window index to switch |
 example:
 ```gherkin
-   When I switch to 2 window
+When I switch to 2 window
 ```
 
 ---
@@ -138,7 +138,7 @@ Switch to window by matcher
 | matcher | string | window matcher (url or title) |
 example:
 ```gherkin
-   When I switch to 'google.com' window
+When I switch to 'google.com' window
 ```
 
 ---
@@ -148,7 +148,7 @@ Refresh page
 
 example:
 ```gherkin
-   When I refresh page
+When I refresh page
 ```
 
 ---
@@ -161,7 +161,7 @@ Press key
 |  key  | string | key to press |
 example:
 ```gherkin
-   When I press 'Enter' key
+When I press 'Enter' key
 ```
 
 ---
@@ -174,7 +174,7 @@ Hover over element
 | alias | string | element to hover over |
 example:
 ```gherkin
-   When I hover over 'Google Button'
+When I hover over 'Google Button'
 ```
 
 ---
@@ -188,8 +188,8 @@ Select option with certain text from select element
 | alias  | string | alias of select  |
 example:
 ```gherkin
-    When I select '1900' option from 'Registration Form > Date Of Birth'
-    When I select '$dateOfBirth' option from 'Registration Form > Date Of Birth' dropdown
+When I select '1900' option from 'Registration Form > Date Of Birth'
+When I select '$dateOfBirth' option from 'Registration Form > Date Of Birth' dropdown
 ```
   
 ---
@@ -203,7 +203,7 @@ Select option with certain index from select element
 |    alias    | string |      alias of select      |
 example:
 ```gherkin
-    When I select 1 option from 'Registration Form > Date Of Birth' dropdown
+When I select 1 option from 'Registration Form > Date Of Birth' dropdown
 ```
 
 ---
@@ -216,7 +216,7 @@ Save page screenshot into memory
 |  key  | string | key to store value |
 example:
 ```gherkin
-    When I save screenshot as 'screenshot'
+When I save screenshot as 'screenshot'
 ```
 
 ## Validation Steps
@@ -232,9 +232,9 @@ Verify that element satisfies certain condition
 | conditionWait | string | function to wait condition | to be visible, not to be present |
 example:
 ```gherkin
-    Then I expect 'Header' to be visible
-    Then I expect 'Loading' not to be present
-    Then I expect 'Search Bar > Submit Button' to be clickable
+Then I expect 'Header' to be visible
+Then I expect 'Loading' not to be present
+Then I expect 'Search Bar > Submit Button' to be clickable
 ```
 
 ---
@@ -249,9 +249,9 @@ Verify that number of element in collection satisfies condition
 | expectedValue | string |        expected value         |                                       |
 example:
 ```gherkin
-    Then I expect number of elements in 'Search Results' collection to be equal '50'
-    Then I expect number of elements in 'Search Results' collection to be above '49'
-    Then I expect number of elements in 'Search Results' collection to be below '51'
+Then I expect number of elements in 'Search Results' collection to be equal '50'
+Then I expect number of elements in 'Search Results' collection to be above '49'
+Then I expect number of elements in 'Search Results' collection to be below '51'
 ```
 
 ---
@@ -283,8 +283,8 @@ Verify that property of element satisfies condition
 
 example:
 ```gherkin
-    Then I expect 'value' property of 'Search Input' to be equal 'text'
-    Then I expect 'innerHTML' property of 'Label' to contain '<b>'
+Then I expect 'value' property of 'Search Input' to be equal 'text'
+Then I expect 'innerHTML' property of 'Label' to contain '<b>'
 ```
 ---
 ### I expect {string} attribute of {string} {wdioValidation} {string}
@@ -300,7 +300,89 @@ Verify that attribute of element satisfies condition
 
 example:
 ```gherkin
-    Then I expect 'href' attribute of 'Home Link' to contain '/home''
+Then I expect 'href' attribute of 'Home Link' to contain '/home'
+```
+
+---
+### I expect current url {wdioValidation} {string}
+
+Verify that current url satisfies condition
+
+|     param     |  type  |        description         |                example                |
+|:-------------:|:------:|:--------------------------:|:-------------------------------------:|
+|  validation   | string |      validation type       | to be equal, to contain, not to match |
+| expectedValue | string |      expected result       |                                       |
+
+example:
+```gherkin
+Then I expect current url contains 'wikipedia'
+Then I expect current url equals 'https://wikipedia.org'
+```
+
+---
+### I expect page title {wdioValidation} {string}
+
+Verify that page title satisfies condition
+
+|     param     |  type  |        description         |                example                |
+|:-------------:|:------:|:--------------------------:|:-------------------------------------:|
+|  validation   | string |      validation type       | to be equal, to contain, not to match |
+| expectedValue | string |      expected result       |                                       |
+
+example:
+```gherkin
+Then I expect page title equals 'Wikipedia'
+```
+
+---
+### I expect text of every element in {string} collection {wdioValidation} {string}
+
+Verify that all texts in collection satisfy condition
+
+|     param     |  type  |     description     |                example                |
+|:-------------:|:------:|:-------------------:|:-------------------------------------:|
+|     alias     | string | alias of collection |            Search Results             |
+|  validation   | string |   validation type   | to be equal, to contain, not to match |
+| expectedValue | string |   expected result   |                                       |
+
+example:
+```gherkin
+Then I expect text of every element in 'Search Results' collection equals to 'google'
+Then I expect text of every element in 'Search Results' collection does not contain 'yandex'
+```
+
+---
+### I expect {string} attribute of every element in {string} collection {wdioValidation} {string}
+
+Verify that all particular attributes in collection satisfy condition
+
+|     param     |  type  |     description     |                example                |
+|:-------------:|:------:|:-------------------:|:-------------------------------------:|
+|   attribute   | string |  attribute to get   |             href, checked             |
+|     alias     | string | alias of collection |            Search Results             |
+|  validation   | string |   validation type   | to be equal, to contain, not to match |
+| expectedValue | string |   expected result   |                                       |
+
+example:
+```gherkin
+Then I expect 'href' attribute of every element in 'Search Results' collection to contain 'google'
+```
+
+---
+### I expect {string} property of every element in {string} collection {wdioValidation} {string}
+
+Verify that all particular properties in collection satisfy condition
+
+|     param     |  type  |     description     |                example                |
+|:-------------:|:------:|:-------------------:|:-------------------------------------:|
+|   attribute   | string |  attribute to get   |             href, checked             |
+|     alias     | string | alias of collection |            Search Results             |
+|  validation   | string |   validation type   | to be equal, to contain, not to match |
+| expectedValue | string |   expected result   |                                       |
+
+example:
+```gherkin
+Then I expect 'href' property of every element in 'Search Results' collection to contain 'google'
 ```
 
 ## Memory Steps
@@ -317,7 +399,7 @@ Save text of element to memory
 
 example:
 ```gherkin
-   When I save text of '#1 of Search Results' as 'firstSearchResult'
+When I save text of '#1 of Search Results' as 'firstSearchResult'
 ```
 ---
 ### I save {string} property of {string} as {string}
@@ -333,8 +415,8 @@ Save property of element to memory
 
 example:
 ```gherkin
-    When I save 'checked' property of 'Checkbox' as 'checked'
-    When I save '$prop' property of 'Checkbox' as 'checked'
+When I save 'checked' property of 'Checkbox' as 'checked'
+When I save '$prop' property of 'Checkbox' as 'checked'
 ```
 ---
 ### I save {string} attribute of {string} as {string}
@@ -349,8 +431,8 @@ Save attribute of element to memory
 
 example:
 ```gherkin
-    When I save 'href' attribute of 'Link' as 'linkHref'
-    When I save '$prop' attribute of 'Link' as 'linkHref'
+When I save 'href' attribute of 'Link' as 'linkHref'
+When I save '$prop' attribute of 'Link' as 'linkHref'
 ```
 ---
 ### I save number of elements in {string} collection as {string}
@@ -363,7 +445,77 @@ Save number of elements in collection to memory
 |    key     | string |   key to store value    |                |
 example:
 ```gherkin
-    When I save number of elements in 'Search Results' as 'numberOfSearchResults'
+When I save number of elements in 'Search Results' as 'numberOfSearchResults'
+```
+
+---
+### I save text of every element of {string} collection as {string}
+
+Save array of texts of collection to memory
+
+| param |  type  |       description       |    example     |
+|:-----:|:------:|:-----------------------:|:--------------:|
+| alias | string | collection to get value | Search Results |
+|  key  | string |   key to store value    |                |
+example:
+```gherkin
+When I save text of every element of 'Search Results' collection as 'searchResults'
+```
+
+---
+### I save {string} attribute of every element of {string} collection as {string}
+
+Save array of attributes of collection to memory
+
+|   param   |  type  |       description       |    example     |
+|:---------:|:------:|:-----------------------:|:--------------:|
+| attribute | string | attribute to get value  | checked, href  |
+|   alias   | string | collection to get value | Search Results |
+|    key    | string |   key to store value    |                |
+example:
+```gherkin
+When I save 'checked' attribute of every element of 'Search > Checkboxes' collection as 'checkboxes'
+```
+
+---
+### I save {string} property of every element of {string} collection as {string}
+
+Save array of properties of collection to memory
+
+|  param   |  type  |       description       |    example     |
+|:--------:|:------:|:-----------------------:|:--------------:|
+| property | string |  property to get value  |      href      |
+|  alias   | string | collection to get value | Search Results |
+|   key    | string |   key to store value    |                |
+example:
+```gherkin
+When I save 'href' property of every element of 'Search Results' collection as 'hrefs'
+```
+
+---
+### I save current url as {string}
+
+Save current url to memory
+
+|  param   |  type  |       description       |    example     |
+|:--------:|:------:|:-----------------------:|:--------------:|
+|   key    | string |   key to store value    |                |
+example:
+```gherkin
+When I save current url as 'currentUrl'
+```
+ 
+---
+### I save page title as {string}
+
+Save current page title to memory
+
+|  param   |  type  |       description       |    example     |
+|:--------:|:------:|:-----------------------:|:--------------:|
+|   key    | string |   key to store value    |                |
+example:
+```gherkin
+When I save page title as 'currentTitle'
 ```
 
 ## Wait Steps
@@ -380,9 +532,9 @@ Wait for element condition
 
 example:
 ```gherkin
-    When I wait until 'Header' to be visible
-    When I wait until 'Loading' not to be present
-    When I wait until 'Search Bar > Submit Button' to be clickable
+When I wait until 'Header' to be visible
+When I wait until 'Loading' not to be present
+When I wait until 'Search Bar > Submit Button' to be clickable
 ```
 ---
 ### I wait until text of {string} element {wdioValueWait} {string}
@@ -397,8 +549,8 @@ Wait for element text condition
 
 example:
 ```gherkin
-    When I wait until text of 'Header' to be equal 'Javascript'
-    When I wait until text of 'Header' not to be equal 'Python'
+When I wait until text of 'Header' to be equal 'Javascript'
+When I wait until text of 'Header' not to be equal 'Python'
 ```
 ---
 ### I wait until number of elements in {string} collection {wdioValueWait} {string}
@@ -413,9 +565,9 @@ Wait for collection length condition
 
 example:
 ```gherkin
-    When I wait until number of elements in 'Search Results' collection to be equal '50'
-    When I wait until number of elements in 'Search Results' collection to be above '49'
-    When I wait until number of elements in 'Search Results' collection to be below '51'
+When I wait until number of elements in 'Search Results' collection to be equal '50'
+When I wait until number of elements in 'Search Results' collection to be above '49'
+When I wait until number of elements in 'Search Results' collection to be below '51'
 ```
 ---
 ### I wait until {string} property of {string} {wdioValueWait} {string}
@@ -431,7 +583,7 @@ Wait for element property condition
 
 example:
 ```gherkin
-    When I wait until 'value' property of 'Search Input' to be equal 'Javascript'
+When I wait until 'value' property of 'Search Input' to be equal 'Javascript'
 ```
 ---
 ### I wait until {string} attribute of {string} {wdioValueWait} {string}
@@ -447,7 +599,7 @@ Wait for element property condition
 
 example:
 ```gherkin
-    When I wait until 'href' attribute of 'Home Link' to be equal '/javascript'
+When I wait until 'href' attribute of 'Home Link' to be equal '/javascript'
 ```
 
 ## Cookie Steps
@@ -464,8 +616,8 @@ Set cookie
 
 example:
 ```gherkin
-    When I set 'userID' cookie 'user1'
-    When I set 'userID' cookie '$userIdCookie'
+When I set 'userID' cookie 'user1'
+When I set 'userID' cookie '$userIdCookie'
 ```
    
 ---
@@ -480,7 +632,7 @@ Save cookie value to memory
 
 example:
 ```gherkin
-    When I save value of 'auth' cookie as 'authCookie'
+When I save value of 'auth' cookie as 'authCookie'
 ```
 
 ## Local/Session Storage Steps
@@ -498,8 +650,8 @@ Set value of local/session storage
 
 example:
 ```gherkin
-    When I set 'username' local storage value as 'user1'
-    When I set '$sessionStorageKey' session storage value as '$sessionStorageValue'
+When I set 'username' local storage value as 'user1'
+When I set '$sessionStorageKey' session storage value as '$sessionStorageValue'
 ```
 
 ---
@@ -515,6 +667,6 @@ Set value of local/session storage
 
 example:
 ```gherkin
-    When I save value of 'username' local storage as 'localStorageValue'
-    When I save value of '$sessionStorageKey' session storage value as 'sessionStorageValue'
+When I save value of 'username' local storage as 'localStorageValue'
+When I save value of '$sessionStorageKey' session storage value as 'sessionStorageValue'
 ```
