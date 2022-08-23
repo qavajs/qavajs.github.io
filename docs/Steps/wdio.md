@@ -12,7 +12,7 @@ const App = require('./page_object');
 module.exports = {
     default: {
         require: [
-            '@qavajs/steps-wdio'
+            'node_modules/@qavajs/steps-wdio'
         ],
         browser: {
             timeout: {
