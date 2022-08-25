@@ -3,14 +3,7 @@ sidebar_position: 2
 ---
 
 # Page Object
-Framework provides capability to transform string value to corresponding page object via
-{element} type
-```javascript
-When('click {element}', async function(element) {
-    await (await element).click();
-});
-```
-or directly call getElement method from po object that resolves plain-english selector and return webdriverIO element or array of webdriverIO element.
+Framework provides capability to call getElement method from po object that resolves plain-english selector and return webdriverIO element or array of webdriverIO element.
 ```javascript
 const { po } = require('@qavajs/po');
 
@@ -29,7 +22,7 @@ Framework provides capability to get single element from collection by index (#i
 
 ## Create page object
 
-Framework provides two methods $ and $$ that allow registering elements and collections.
+There are two methods $ and $$ that allow registering elements and collections.
 An element can be defined in form of webdriverIO selector or as an instance of the component class.
 
 Each not top-level component should have selector element in form of webdriverIO selector.

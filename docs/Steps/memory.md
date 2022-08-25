@@ -11,7 +11,7 @@ Steps to work with memory module
 module.exports = {
     default: {
         require: [
-            '@qavajs/steps-memory'
+            'node_modules/@qavajs/steps-memory'
         ],
         
     }
