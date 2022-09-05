@@ -35,3 +35,9 @@ module.exports = {
 };
 
 ```
+## String interpolation
+Module also provides capability to use string interpolation in your Gherkin scenarios
+```gherkin
+When I save '42' to memory as 'variable'
+Then I expect text of 'Answer' to equal 'answer is {$variable}' #expected value will be 'answer is 42'
+```
