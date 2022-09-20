@@ -23,3 +23,12 @@ and select modules to install. The system will generate config file based on you
 default config is cucumber.js
 
 default profile is default
+
+### Config file
+Config file extends Cucumber [config file](https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md#options):
+
+| Name             | Type     | Description                                                                       | Default |
+|------------------|----------|-----------------------------------------------------------------------------------|---------|
+| `defaultTimeout` | `number` | default timeout for step definitions                                              | 10000   |
+| `services`       | `[]`     | list of services to run before/after tests (setup/teardown selenium, appium etc.) | []      |
+| `memory`         | `object` | instance of memory object with loaded constants and computed                      | {}      |

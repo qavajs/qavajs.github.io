@@ -28,6 +28,46 @@ module.exports = {
 }
 ```
 
+## Config
+
+wdio steps provide a couple of additional configuration properties
+
+| Name         | Type     | Description                                                                    | Default |
+|--------------|----------|--------------------------------------------------------------------------------|---------|
+| `browser`    | `object` | object describing wdio config                                                  | `{}`    |
+| `pageObject` | `object` | instance of page object definitions  [(page object)](../Guides/page-object.md) | `{}`    |
+| `screenshot` | `string` | screenshot strategy (beforeStep, afterStep, onFail)                            |         |
+
+## Parameter types
+### wdioConditionWait 
+condition of element to wait (can be nagated with _not_) 
+- to be visible
+- to be present
+- to be invisible
+- to be enabled
+- to be disabled
+
+### wdioValueWait
+condition of value to wait (can be nagated with _not_)
+- to be equal
+- to contain
+- to be above
+- to be below
+
+### wdioValidation
+validation of values (can be nagated with _not_)
+- to be equal
+- to be strictly equal
+- to be deeply equal
+- to have member
+- to be match
+- to contain
+- to be above
+- to be below
+- to be greater than
+- to be less than
+- to have type
+
 ## Action Steps
 
 ### I open {string} url
@@ -537,7 +577,7 @@ When I wait until 'Loading' not to be present
 When I wait until 'Search Bar > Submit Button' to be clickable
 ```
 ---
-### I wait until text of {string} element {wdioValueWait} {string}
+### I wait until text of {string} {wdioValueWait} {string}
 
 Wait for element text condition
 
