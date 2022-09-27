@@ -152,7 +152,20 @@ Switch to frame by index
 | index | number | frame index to switch |
 example:
 ```gherkin
-When I click 'google' text in 'Search Engines' collection
+When I switch to 2 frame
+```
+
+---
+### I switch to {string} frame
+
+Switch to frame by page object alias
+
+| param |  type  |       description        |
+|:-----:|:------:|:------------------------:|
+| alias | string | Iframe page object alias |
+example:
+```gherkin
+When I switch to 'Checkout Iframe' frame
 ```
 
 ---
@@ -307,7 +320,8 @@ Verify that text of element satisfies condition
 
 example:
 ```gherkin
-   Then I expect text of '#1 of Search Results' to be equal 'google'
+Then I expect text of '#1 of Search Results' to be equal 'google'
+Then I expect text of '#1 of Search Results' to be equal '$firstResult'
 ```
 ---
 ### I expect {string} property of {string} {wdioValidation} {string}
@@ -325,6 +339,7 @@ example:
 ```gherkin
 Then I expect 'value' property of 'Search Input' to be equal 'text'
 Then I expect 'innerHTML' property of 'Label' to contain '<b>'
+Then I expect 'value' property of 'Search Input' to be equal '$inputText'
 ```
 ---
 ### I expect {string} attribute of {string} {wdioValidation} {string}
@@ -341,6 +356,7 @@ Verify that attribute of element satisfies condition
 example:
 ```gherkin
 Then I expect 'href' attribute of 'Home Link' to contain '/home'
+Then I expect 'href' attribute of 'Home Link' to be equal '$url'
 ```
 
 ---
