@@ -20,6 +20,7 @@ Then(/^value '(.+)' should be equal to '(.+)'$/, async function (variable1, vari
 
 ```gherkin
 When save variable as 'variable'
+# previously saved variable can be accessed via $identifier
 Then value of '$variable' should be equal to '42'
 ```
 
