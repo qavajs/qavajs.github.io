@@ -726,3 +726,67 @@ example:
 When I save value of 'username' local storage as 'localStorageValue'
 When I save value of '$sessionStorageKey' session storage value as 'sessionStorageValue'
 ```
+
+## Mobile Steps
+
+---
+### I tap {string}
+Support: Android, iOS
+
+Tap element
+
+| param |  type  |  description   |
+|:-----:|:------:|:--------------:|
+| alias | string | element to tap |
+example:
+```gherkin
+When I tap 'Google Button'
+```
+
+---
+### I shake device
+Support: Android, iOS
+
+Shake device
+
+example:
+```gherkin
+When I shake device
+```
+          
+---
+### I perform touch action: [DataTable]
+Support: Android, iOS
+
+Perform touch action
+
+- press and move to accept x and y percentages of current viewport
+- wait accepts milliseconds
+- release doesn't accept any params
+
+|    param     |   type    |                                       description                                        |
+|:------------:|:---------:|:----------------------------------------------------------------------------------------:|
+| actionsTable | DataTable | data table of actions and params (see https://webdriver.io/docs/api/appium#touchperform) |
+
+example:
+```gherkin
+When I perform touch action:
+  | press   | 90, 80 |
+  | wait    | 200    |
+  | moveTo  | 10, 80 |
+  | release |        |
+```
+
+---
+### I perform touch action {string}
+Support: Android, iOS
+
+Perform touch action
+
+|    param     |  type  |                                                   description                                                   |
+|:------------:|:------:|:---------------------------------------------------------------------------------------------------------------:|
+| actionsAlias | string | memory alias that resolves into array of action objects (see https://webdriver.io/docs/api/appium#touchperform) |
+example:
+```gherkin
+When I perform touch action '$actions'
+```
