@@ -3,7 +3,7 @@ sidebar_position: 2
 ---
 
 # Page Object
-Framework provides capability to call getElement method from po object that resolves plain-english selector and return webdriverIO element or array of webdriverIO element.
+Framework provides capability to call getElement method from po object that resolves plain-english selector and return element or array of elements.
 ```javascript
 const { po } = require('@qavajs/po');
 
@@ -23,14 +23,13 @@ Framework provides capability to get single element from collection by index (#i
 ## Create page object
 
 There are two methods $ and $$ that allow registering elements and collections.
-An element can be defined in form of webdriverIO selector or as an instance of the component class.
+An element can be defined as supported selector or as an instance of the component class.
 
-Each not top-level component should have selector element in form of webdriverIO selector.
+Each not top-level component should have selector property or be inherited from Component class and accepted selector in constructor.
 ```javascript
-const { $, $$ } = require('@qavajs/po');
+const { $, $$, Component } = require('@qavajs/po');
 
-class MultipleComponent {
-    selector = '.list-components li';
+class MultipleComponent extends Component {
     ChildItem = $('div');
 }
 
@@ -43,8 +42,24 @@ class App {
     SingleElement = $('.single-element');
     List = $$('.list li');
     SingleComponent = $(new SingleComponent());
-    MultipleComponents = $$(new MultipleComponent());
+    MultipleComponents = $$(new MultipleComponent('.list-components li'));
 }
 
 module.exports = new App();
+```
+
+## Working with collection
+Collection elements can be accessed using prefixes
+
+**By index:** `#{index} of Collection` (access 1st element in collection)
+```gherkin
+When I click '#1 of Collection'
+```
+**By partial text:** `#{text} in Collection` (access first element which text contains {text})
+```gherkin
+When I click '#some partial text in Collection'
+```
+**By exact text:** `@{text} in Collection` (access first element which text exactly match {text})
+```gherkin
+When I click '@some exact text in Collection'
 ```
