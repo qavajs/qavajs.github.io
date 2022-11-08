@@ -501,7 +501,7 @@ Save number of elements in collection to memory
 |    key     | string |   key to store value    |                |
 example:
 ```gherkin
-When I save number of elements in 'Search Results' as 'numberOfSearchResults'
+When I save number of elements in 'Search Results' collection as 'numberOfSearchResults'
 ```
 
 ---
