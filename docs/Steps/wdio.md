@@ -4,9 +4,9 @@ sidebar_position: 1
 
 # @qavajs/steps-wdio
 Step library to work with webdriverio using DSL page object
-
+## Installation
 `npm install @qavajs/steps-wdio`
-
+## Config
 ```javascript
 const App = require('./page_object');
 module.exports = {
@@ -28,8 +28,6 @@ module.exports = {
 }
 ```
 
-## Config
-
 wdio steps provide a couple of additional configuration properties
 
 | Name         | Type     | Description                                                                    | Default |
@@ -38,9 +36,9 @@ wdio steps provide a couple of additional configuration properties
 | `pageObject` | `object` | instance of page object definitions  [(page object)](../Guides/page-object.md) | `{}`    |
 | `screenshot` | `string` | screenshot strategy (beforeStep, afterStep, onFail)                            |         |
 
-## Parameter types
+## Parameter Types
 ### wdioConditionWait 
-condition of element to wait (can be nagated with _not_) 
+condition of element to wait (can be negated with _not_) 
 - to be visible
 - to be present
 - to be invisible
@@ -48,14 +46,14 @@ condition of element to wait (can be nagated with _not_)
 - to be disabled
 
 ### wdioValueWait
-condition of value to wait (can be nagated with _not_)
+condition of value to wait (can be negated with _not_)
 - to be equal
 - to contain
 - to be above
 - to be below
 
 ### wdioValidation
-validation of values (can be nagated with _not_)
+validation of values (can be negated with _not_)
 - to be equal
 - to be strictly equal
 - to be deeply equal

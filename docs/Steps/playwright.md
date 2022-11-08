@@ -4,9 +4,9 @@ sidebar_position: 2
 
 # @qavajs/steps-playwright
 Step library to work with playwright using DSL page object
-
+## Installation
 `npm install @qavajs/steps-playwright`
-
+## Config
 ```javascript
 const App = require('./page_object');
 module.exports = {
@@ -28,8 +28,6 @@ module.exports = {
 }
 ```
 
-## Config
-
 playwright steps provide a couple of additional configuration properties
 
 | Name         | Type     | Description                                                                    | Default |
@@ -38,22 +36,22 @@ playwright steps provide a couple of additional configuration properties
 | `pageObject` | `object` | instance of page object definitions  [(page object)](../Guides/page-object.md) | `{}`    |
 | `screenshot` | `string` | screenshot strategy (beforeStep, afterStep, onFail)                            |         |
 
-## Parameter types
+## Parameter Types
 ### playwrightConditionWait 
-condition of element to wait (can be nagated with _not_) 
+condition of element to wait (can be negated with _not_) 
 - to be visible
 - to be present
 - to be invisible
 
 ### playwrightValueWait
-condition of value to wait (can be nagated with _not_)
+condition of value to wait (can be negated with _not_)
 - to be equal
 - to contain
 - to be above
 - to be below
 
 ### playwrightValidation
-validation of values (can be nagated with _not_)
+validation of values (can be negated with _not_)
 - to be equal
 - to be strictly equal
 - to be deeply equal

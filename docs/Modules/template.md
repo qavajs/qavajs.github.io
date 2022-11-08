@@ -4,9 +4,23 @@ sidebar_position: 1
 
 # @qavajs/template
 Module that allow to define step definitions on Gherkin language.
-
+## Installation
 `npm install @qavajs/template`
-
+## Config
+To use templates their location need to be passed to templates property of config file and library need to be listed
+in require
+```javascript
+module.exports = {
+    default: {
+        require: [],
+        requireModule: [
+            '@qavajs/template'
+        ],
+        templates: ['templates/*.feature'] // glob patter to features with templates
+    }
+}
+````
+## Usage
 ```gherkin
 Feature: Templates
 
@@ -48,17 +62,3 @@ Feature: Auth
     When I login as 'admin' with 'admin' password
     Then I expect 'Header' to be visible
 ```
-
-To use templates their location need to be passed to templates property of config file and library need to be listed
-in require
-```javascript
-module.exports = {
-    default: {
-        require: [],
-        requireModule: [
-            '@qavajs/template'
-        ],
-        templates: ['templates/*.feature']
-    }
-}
-````
