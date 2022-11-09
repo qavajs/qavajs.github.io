@@ -6,12 +6,11 @@ sidebar_position: 3
 
 xunit compatible formatter for cucumber framework
 
-### Installation
-To install formatter run
-
+## Installation
 `npm install @qavajs/xunit-formatter`
 
-and add to formatter section in config file
+## Config
+To use formatter add formatter section in config file
 
 ```javascript
 module.exports = {

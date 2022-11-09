@@ -4,16 +4,15 @@ sidebar_position: 4
 
 # @qavajs/steps-memory
 Steps to work with memory module
-
+## Installation
 `npm install @qavajs/steps-memory`
-
+## Config
 ```javascript
 module.exports = {
     default: {
         require: [
             'node_modules/@qavajs/steps-memory'
-        ],
-        
+        ]
     }
 }
 ```
