@@ -44,6 +44,7 @@ condition of element to wait (can be negated with _not_)
 - to be invisible
 - to be enabled
 - to be disabled
+- to be in viewport
 
 ### wdioValueWait
 condition of value to wait (can be negated with _not_)
@@ -268,6 +269,19 @@ Save page screenshot into memory
 example:
 ```gherkin
 When I save screenshot as 'screenshot'
+```
+
+---
+### I scroll to {string}
+
+Scroll to element
+
+| param |  type  |   description    |
+|:-----:|:------:|:----------------:|
+| alias | string | alias of element |
+example:
+```gherkin
+When I scroll to 'Element'
 ```
 
 ## Validation Steps
