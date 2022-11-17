@@ -415,7 +415,7 @@ Verify that all texts in collection satisfy condition
 
 example:
 ```gherkin
-Then I expect text of every element in 'Search Results' collection equals to 'google'
+Then I expect text of every element in 'Search Results' collection to be equal 'google'
 Then I expect text of every element in 'Search Results' collection does not contain 'yandex'
 ```
 
