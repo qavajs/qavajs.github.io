@@ -453,6 +453,23 @@ example:
 Then I expect 'href' property of every element in 'Search Results' collection to contain 'google'
 ```
 
+### I expect {string} css property of {string} {wdioValidation} {string}
+
+Verify that css property of element satisfies condition
+
+|     param     |  type  |        description         |                example                |
+|:-------------:|:------:|:--------------------------:|:-------------------------------------:|
+|   property    | string |  property check condition  |           color, font-size            |
+|     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
+|  validation   | string |      validation type       | to be equal, to contain, not to match |
+| expectedValue | string |      expected result       |                                       |
+
+example:
+```gherkin
+Then I expect 'color' css property of 'Search Input' to be equal 'rgb(42, 42, 42)'
+Then I expect 'font-family' css property of 'Label' to contain 'Fira'
+```
+
 ## Memory Steps
  
 ---
@@ -584,6 +601,23 @@ Save current page title to memory
 example:
 ```gherkin
 When I save page title as 'currentTitle'
+```
+
+### I save {string} css property of {string} as {string}
+
+Save css property of element to memory
+
+|  param   |  type  |     description      |               example               |
+|:--------:|:------:|:--------------------:|:-----------------------------------:|
+| property | string |  property to store   |     background-color, font-size     |
+|  alias   | string | element to get value | Label, #1 of Search Results > Title |
+|   key    | string |  key to store value  |                                     |
+
+
+example:
+```gherkin
+When I save 'color' css property of 'Checkbox' as 'checkboxColor'
+When I save '$propertyName' property of 'Checkbox' as 'checkboxColor'
 ```
 
 ## Wait Steps
