@@ -28,6 +28,28 @@ module.exports = {
 }
 ```
 
+## Connect to playwright server
+In order to connect to playwright server pass _wsEndpoint_ property in capabilities object
+```typescript
+{
+    capabilities: {
+        browserName: 'chromium',
+        wsEndpoint: 'ws://127.0.0.1:60291/2bd48ce272de2b543e4c8c533f664b83'    
+    }
+}
+```
+
+## Connect to cdp endpoint
+In order to connect to CDP endpoint pass _cdpEndpoint_ property in capabilities object
+```typescript
+{
+    capabilities: {
+        browserName: 'chromium',
+        cdpEndpoint: 'http://localhost:9222/'    
+    }
+}
+```
+
 playwright steps provide a couple of additional configuration properties
 
 | Name         | Type     | Description                                                                    | Default |
@@ -686,4 +708,37 @@ Wait for element property condition
 example:
 ```gherkin
 When I wait until 'href' attribute of 'Home Link' to be equal '/javascript'
+```
+
+ 
+---
+### I wait until current url {wdioValueWait} {string}
+
+Wait for url condition
+
+| param |  type  |      description       |
+|:-----:|:------:|:----------------------:|
+| wait  | string |    validation type     |
+| value | string | expected value to wait |
+
+example:
+```gherkin
+When I wait until current url to be equal 'https://qavajs.github.io/'
+When I wait until current url not to contain 'cypress'
+```
+
+---
+### I wait until page title {wdioValueWait} {string}
+
+Wait for title condition
+
+| param |  type  |      description       |
+|:-----:|:------:|:----------------------:|
+| wait  | string |    validation type     |
+| value | string | expected value to wait |
+
+example:
+```gherkin
+When I wait until page title to be equal 'qavajs'
+When I wait until page title not to contain 'cypress'
 ```
