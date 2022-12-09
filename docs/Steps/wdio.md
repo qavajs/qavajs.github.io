@@ -17,7 +17,9 @@ module.exports = {
         browser: {
             timeout: {
                 present: 10000,
-                visible: 20000    
+                visible: 20000,
+                page: 10000,
+                implicit: 0 //wdio implicit wait for element
             },
             capabilities: {
                 browserName: 'chrome'
@@ -702,6 +704,38 @@ Wait for element property condition
 example:
 ```gherkin
 When I wait until 'href' attribute of 'Home Link' to be equal '/javascript'
+```
+ 
+---
+### I wait until current url {wdioValueWait} {string}
+
+Wait for url condition
+
+| param |  type  |      description       |
+|:-----:|:------:|:----------------------:|
+| wait  | string |    validation type     |
+| value | string | expected value to wait |
+
+example:
+```gherkin
+When I wait until current url to be equal 'https://qavajs.github.io/'
+When I wait until current url not to contain 'cypress'
+```
+
+---
+### I wait until page title {wdioValueWait} {string}
+
+Wait for title condition
+
+| param |  type  |      description       |
+|:-----:|:------:|:----------------------:|
+| wait  | string |    validation type     |
+| value | string | expected value to wait |
+
+example:
+```gherkin
+When I wait until page title to be equal 'qavajs'
+When I wait until page title not to contain 'cypress'
 ```
 
 ## Cookie Steps
