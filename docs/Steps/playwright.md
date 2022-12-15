@@ -413,6 +413,8 @@ Then I expect page title equals 'Wikipedia'
 
 Verify that all texts in collection satisfy condition
 
+Note: step passes in case of empty collection
+
 |     param     |  type  |     description     |                example                |
 |:-------------:|:------:|:-------------------:|:-------------------------------------:|
 |     alias     | string | alias of collection |            Search Results             |
@@ -430,6 +432,8 @@ Then I expect text of every element in 'Search Results' collection does not cont
 
 Verify that all particular attributes in collection satisfy condition
 
+Note: step passes in case of empty collection
+
 |     param     |  type  |     description     |                example                |
 |:-------------:|:------:|:-------------------:|:-------------------------------------:|
 |   attribute   | string |  attribute to get   |             href, checked             |
@@ -446,6 +450,8 @@ Then I expect 'href' attribute of every element in 'Search Results' collection t
 ### I expect {string} property of every element in {string} collection {playwrightValidation} {string}
 
 Verify that all particular properties in collection satisfy condition
+
+Note: step passes in case of empty collection
 
 |     param     |  type  |     description     |                example                |
 |:-------------:|:------:|:-------------------:|:-------------------------------------:|
@@ -741,4 +747,70 @@ example:
 ```gherkin
 When I wait until page title to be equal 'qavajs'
 When I wait until page title not to contain 'cypress'
+```
+
+## Execute Steps
+
+---
+### I execute {string} function
+
+Execute client function
+
+|    param    |  type  |          description           |
+|:-----------:|:------:|:------------------------------:|
+| functionKey | string | function memory key to execute |
+
+example:
+```gherkin
+When I execute '$fn' function # fn is function reference
+When I execute 'window.scrollBy(0, 100)' function
+```
+
+---
+### I execute {string} function and save result as {string}
+
+Execute client function and save result into memory
+
+|    param    |  type  |          description           |
+|:-----------:|:------:|:------------------------------:|
+| functionKey | string | function memory key to execute |
+|  memoryKey  | string |    memory key to save value    |
+
+example:
+```gherkin
+When I execute '$fn' function and save result as 'result' # fn is function reference
+When I execute 'window.scrollY' function and save result as 'scroll'
+```
+
+---
+### I execute {string} function on {string}
+
+Execute client function on certain element
+
+|    param    |  type  |          description           |
+|:-----------:|:------:|:------------------------------:|
+| functionKey | string | function memory key to execute |
+|    alias    | string |      target element alias      |
+
+example:
+```gherkin
+When I execute '$fn' function on 'Component > Element' # fn is function reference
+When I execute 'arguments[0].scrollIntoView()' function on 'Component > Element'
+```
+
+---
+### I execute {string} function on {string} and save result as {string}
+
+Execute client function on certain element
+
+|    param    |  type  |          description           |
+|:-----------:|:------:|:------------------------------:|
+| functionKey | string | function memory key to execute |
+|  memoryKey  | string |    memory key to save value    |
+|    alias    | string |      target element alias      |
+
+example:
+```gherkin
+When I execute '$fn' function on 'Component > Element' and save result as 'innerText' # fn is function reference
+When I execute 'arguments[0].innerText' function on 'Component > Element' and save result as 'innerText'
 ```
