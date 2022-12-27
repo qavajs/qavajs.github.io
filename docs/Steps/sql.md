@@ -14,7 +14,7 @@ const { MySQLClient } = require('@qavajs/clients/steps-sql');
 module.exports = {
     default: {
         require: [
-            '@qavajs/steps-sql'
+            'node_modules/@qavajs/steps-sql'
         ],
         // provide map contains client that implemennts DBClient interface
         // if only one client exist it can be defined as default property

@@ -942,3 +942,100 @@ example:
 When I execute '$fn' function on 'Component > Element' and save result as 'innerText' # fn is function reference
 When I execute 'arguments[0].innerText' function on 'Component > Element' and save result as 'innerText'
 ```
+
+## Mock Steps
+
+---
+### I create mock for {string} as {string}
+
+Create mock instance
+
+|    param    |  type  |            description            |
+|:-----------:|:------:|:---------------------------------:|
+| urlTemplate | string |  minimatch url template to mock   |
+|  memoryKey  | string | memory key to store mock instance |
+
+example:
+```gherkin
+When I create mock for '/yourservice/**' as 'mock1'
+When I create mock for '$mockUrlTemplate' as 'mock1'
+```
+
+---
+### I set {string} mock to respond {string} with: [multiline]
+
+Add mocking rule to respond with desired status code and payload
+
+|   param    |  type  |           description           |
+|:----------:|:------:|:-------------------------------:|
+|  mockKey   | string | memory key to get mock instance |
+| statusCode | string |           status code           |
+|    body    | string |          response body          |
+
+example:
+```gherkin
+When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+And I set '$myServiceMock' mock to respond '200' with:
+"""
+{
+    "status": "success"
+}
+"""
+```
+
+---
+### I set {string} mock to respond {string} with {string}
+
+Add mocking rule to respond with desired status code and payload
+
+|   param    |  type  |           description           |
+|:----------:|:------:|:-------------------------------:|
+|  mockKey   | string | memory key to get mock instance |
+| statusCode | string |           status code           |
+|    body    | string |          response body          |
+
+example:
+```gherkin
+When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+And I set '$myServiceMock' mock to respond '200' with '$response'
+```
+
+---
+### I set {string} mock to abort with {string} reason
+
+Add mocking rule to abort request with certain reason
+
+|  param  |  type  |                        description                         |
+|:-------:|:------:|:----------------------------------------------------------:|
+| mockKey | string |              memory key to get mock instance               |
+| reason  | string | reason string see https://webdriver.io/docs/api/mock/abort |
+
+example:
+```gherkin
+When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+And I set '$myServiceMock' mock to abort with 'Failed' reason
+```
+
+---
+### I restore {string} mock
+
+Restore mock
+
+|  param  |  type  |                        description                         |
+|:-------:|:------:|:----------------------------------------------------------:|
+| mockKey | string |              memory key to get mock instance               |
+
+example:
+```gherkin
+When I restore '$myServiceMock'
+```
+
+---
+### I restore all mocks
+
+Restore all mocks
+
+example:
+```gherkin
+When I restore all mocks
+```

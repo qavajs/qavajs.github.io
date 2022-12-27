@@ -13,7 +13,7 @@ Step library to work with file system
 module.exports = {
     default: {
         require: [
-            '@qavajs/steps-files'
+            'node_modules/@qavajs/steps-files'
         ],
         // add fileTimeout property in case you need to customize built-in interval and timeout
         fileTimeout: {
