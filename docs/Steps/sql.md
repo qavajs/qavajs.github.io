@@ -8,7 +8,7 @@ Step library to work with relational databases
 ## Installation
 `npm install @qavajs/steps-sql`
 
-## Configuration
+## Config
 ```javascript
 const { MySQLClient } = require('@qavajs/clients/steps-sql');
 module.exports = {
