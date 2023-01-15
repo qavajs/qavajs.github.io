@@ -108,6 +108,30 @@ example:
 When I click 'Google Button'
 ```
 ---
+### I double click {string}
+
+Double click element
+
+| param |  type  |   description    |
+|:-----:|:------:|:----------------:|
+| alias | string | element to click |
+example:
+```gherkin
+When I double click 'Input Field'
+```
+---
+### I right click {string}
+
+Right click element
+
+| param |  type  |   description    |
+|:-----:|:------:|:----------------:|
+| alias | string | element to click |
+example:
+```gherkin
+When I right click 'User Icon'
+```
+---
 ### I clear {string}
 
 Clear element
@@ -219,6 +243,22 @@ When I press 'Enter' key
 ```
 
 ---
+### I press {string} key {int} time(s)
+
+Press button given number of times
+
+| param |  type  | description     |
+|:-----:|:------:|:---------------:|
+|  key  | string | key to press    |
+|  key  | number | number of times |
+
+example:
+```gherkin
+I press 'Enter' key 5 times // for selenium
+I press '$Enter' key 4 times // for devtools $Enter is memory value String.fromCharCode(13)
+```
+
+---
 ### I hover over {string}
 
 Hover over element
@@ -258,6 +298,19 @@ Select option with certain index from select element
 example:
 ```gherkin
 When I select 1 option from 'Registration Form > Date Of Birth' dropdown
+```
+
+---
+### I wait {int} ms
+
+Wait for a specified number of milliseconds
+
+| param |  type  | description  |
+|:-----:|:------:|:------------:|
+|  ms   | number | milliseconds |
+example:
+```gherkin
+When I wait 1000 ms
 ```
 
 ---
