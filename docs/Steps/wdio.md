@@ -313,18 +313,6 @@ example:
 When I wait 1000 ms
 ```
 
----
-### I save screenshot as {string}
-
-Save page screenshot into memory
-
-| param |  type  |    description     |
-|:-----:|:------:|:------------------:|
-|  key  | string | key to store value |
-example:
-```gherkin
-When I save screenshot as 'screenshot'
-```
 
 ---
 ### I scroll to {string}
@@ -664,6 +652,20 @@ example:
 When I save page title as 'currentTitle'
 ```
 
+---
+### I save screenshot as {string}
+
+Save page screenshot into memory
+
+| param |  type  |    description     |
+|:-----:|:------:|:------------------:|
+|  key  | string | key to store value |
+example:
+```gherkin
+When I save screenshot as 'screenshot'
+```
+
+---
 ### I save {string} css property of {string} as {string}
 
 Save css property of element to memory
