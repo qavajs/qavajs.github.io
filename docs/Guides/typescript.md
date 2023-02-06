@@ -8,12 +8,11 @@ Typescript is supported out of the box via ts-node library
 
 and then
 
-`npx ts-node qavajs run --config config.ts --profile profile`
+`npx ts-node --esm node_modules/@qavajs/cli/bin/qavajs.js run --config config.ts --profile profile`
 
 config.ts also can be defined using ECMA modules
 
 ```typescript
-
 export default {
     parallel: 1,
     defaultTimeout: 30000,

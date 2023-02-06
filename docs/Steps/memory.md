@@ -31,8 +31,8 @@ Verify that value from memory satisfies validation against other value
 
 example:
 ```gherkin
-Then I expect '$value' equals to '$anotherValue'
-Then I expect '$value' does not contain '56'
+Then I expect '$value' to equal '$anotherValue'
+Then I expect '$value' not to contain '56'
 ```
 
 ---
