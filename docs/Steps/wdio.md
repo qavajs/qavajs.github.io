@@ -301,6 +301,20 @@ When I select 1 option from 'Registration Form > Date Of Birth' dropdown
 ```
 
 ---
+### I click {wdioBrowserButton} button
+
+Click browser button
+
+| param  |  type  |          description           |
+|:------:|:------:|:------------------------------:|
+| button | string | browser button (back, forward) |
+example:
+```gherkin
+When I click back button
+When I click forward button
+```
+
+---
 ### I wait {int} ms
 
 Wait for a specified number of milliseconds
