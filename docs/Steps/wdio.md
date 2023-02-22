@@ -247,10 +247,10 @@ When I press 'Enter' key
 
 Press button given number of times
 
-| param |  type  | description     |
-|:-----:|:------:|:---------------:|
-|  key  | string | key to press    |
-|  key  | number | number of times |
+| param  |  type  |   description   |
+|:------:|:------:|:---------------:|
+|  key   | string |  key to press   |
+| number | number | number of times |
 
 example:
 ```gherkin
@@ -315,20 +315,6 @@ When I click forward button
 ```
 
 ---
-### I wait {int} ms
-
-Wait for a specified number of milliseconds
-
-| param |  type  | description  |
-|:-----:|:------:|:------------:|
-|  ms   | number | milliseconds |
-example:
-```gherkin
-When I wait 1000 ms
-```
-
-
----
 ### I scroll to {string}
 
 Scroll to element
@@ -339,6 +325,36 @@ Scroll to element
 example:
 ```gherkin
 When I scroll to 'Element'
+```
+
+### I accept alert
+
+Accepts an alert
+
+```gherkin
+When I accept alert
+```
+
+### I dismiss alert
+
+Dismisses an alert
+
+```gherkin
+When I dismiss alert
+```
+_________________________
+### I type {string} to alert
+
+Type a text to alert
+
+| param |  type  |  description  |
+|:-----:|:------:|:-------------:|
+| value | string | value to type |
+
+```gherkin
+When I type 'Alerts are' to alert
+When I type 'not a good practice' to alert
+When I type 'nowadays' to alert
 ```
 
 ## Validation Steps
@@ -533,6 +549,22 @@ Then I expect 'color' css property of 'Search Input' to be equal 'rgb(42, 42, 42
 Then I expect 'font-family' css property of 'Label' to contain 'Fira'
 ```
 
+### I expect text of alert {wdioValidation} {string}
+
+Verify that text of an alert meets expectation
+
+|     param     |  type  |         description          |                example                |
+|:-------------:|:------:|:----------------------------:|:-------------------------------------:|
+|  validation   | string | function to verify condition | to be equal, to be above, to be below |
+| expectedValue | string |       expected result        |                                       |
+
+example:
+```gherkin
+Then I expect text of alert does not contain 'coffee'
+Then I expect text of alert does not contain 'hello world'
+Then I expect text of alert does not contain 'Are you sure you want to leave this page?'
+```
+
 ## Memory Steps
  
 ---
@@ -700,6 +732,20 @@ When I save '$propertyName' property of 'Checkbox' as 'checkboxColor'
 ## Wait Steps
 
 ---
+### I wait {int} ms
+
+Wait for a specified number of milliseconds
+
+| param |  type  | description  |
+|:-----:|:------:|:------------:|
+|  ms   | number | milliseconds |
+
+example:
+```gherkin
+When I wait 1000 ms
+```
+
+---
 ### I wait until {string} {wdioConditionWait} {string}
 
 Wait for element condition
@@ -811,6 +857,15 @@ example:
 ```gherkin
 When I wait until page title to be equal 'qavajs'
 When I wait until page title not to contain 'cypress'
+```
+
+---
+### I wait for alert
+Wait until alert to pop up
+
+example:
+```gherkin
+When I wait for alert
 ```
 
 ## Cookie Steps
