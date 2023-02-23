@@ -236,6 +236,22 @@ When I press 'Enter' key
 ```
 
 ---
+### I press {string} key {int} time(s)
+
+Press button given number of times
+
+| param  |  type  |   description   |
+|:------:|:------:|:---------------:|
+|  key   | string |  key to press   |
+| number | number | number of times |
+
+example:
+```gherkin
+I press 'Enter' key 5 times
+I press 'Space' key 4 times
+```
+
+---
 ### I hover over {string}
 
 Hover over element
@@ -288,6 +304,39 @@ Save page screenshot into memory
 example:
 ```gherkin
 When I save screenshot as 'screenshot'
+```
+
+---
+### I accept alert
+
+Accepts an alert
+
+```gherkin
+When I accept alert
+```
+
+---
+### I dismiss alert
+
+Dismisses an alert
+
+```gherkin
+When I dismiss alert
+```
+
+---
+### I type {string} to alert
+
+Type a text to alert
+
+| param |  type  |  description  |
+|:-----:|:------:|:-------------:|
+| value | string | value to type |
+
+```gherkin
+When I type 'Alerts are' to alert
+When I type 'not a good practice' to alert
+When I type 'nowadays' to alert
 ```
 
 ## Validation Steps
@@ -480,6 +529,23 @@ example:
 ```gherkin
 Then I expect 'color' css property of 'Search Input' to be equal 'rgb(42, 42, 42)'
 Then I expect 'font-family' css property of 'Label' to contain 'Fira'
+```
+
+---
+### I expect text of alert {playwrightValidation} {string}
+
+Verify that text of an alert meets expectation
+
+|     param     |  type  |         description          |                example                |
+|:-------------:|:------:|:----------------------------:|:-------------------------------------:|
+|  validation   | string | function to verify condition | to be equal, to be above, to be below |
+| expectedValue | string |       expected result        |                                       |
+
+example:
+```gherkin
+Then I expect text of alert does not contain 'coffee'
+Then I expect text of alert does not contain 'hello world'
+Then I expect text of alert does not contain 'Are you sure you want to leave this page?'
 ```
 
 ## Memory Steps
