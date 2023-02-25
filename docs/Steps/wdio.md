@@ -68,19 +68,6 @@ validation of values (can be negated with _not_)
 - to be greater than
 - to be less than
 - to have type
-### wdioValidation
-validation of values (can be negated with _not_)
-- to be equal
-- to be strictly equal
-- to be deeply equal
-- to have member
-- to be match
-- to contain
-- to be above
-- to be below
-- to be greater than
-- to be less than
-- to have type
 
 ### wdioTimeout
 optional timeout that can be passed to wait steps _(timeout: x)_, where x timeout in milliseconds
