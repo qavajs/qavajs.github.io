@@ -69,6 +69,9 @@ validation of values (can be negated with _not_)
 - to be less than
 - to have type
 
+### wdioTimeout
+optional timeout that can be passed to wait steps _(timeout: x)_, where x timeout in milliseconds
+
 ## Action Steps
 
 ### I open {string} url
@@ -746,117 +749,131 @@ When I wait 1000 ms
 ```
 
 ---
-### I wait until {string} {wdioConditionWait} {string}
+### I wait until {string} {wdioConditionWait} {string}{wdioTimeout}
 
 Wait for element condition
 
-|   param    |  type  |   description   |
-|:----------:|:------:|:---------------:|
-|   alias    | string |     element     |
-| validation | string | validation type |
-
+|   param    |       type        |       description       |
+|:----------:|:-----------------:|:-----------------------:|
+|   alias    |      string       |         element         |
+| validation |      string       |     validation type     |
+|  timeout   | number (optional) | timeout in milliseconds |
 example:
 ```gherkin
 When I wait until 'Header' to be visible
 When I wait until 'Loading' not to be present
 When I wait until 'Search Bar > Submit Button' to be clickable
+When I wait until 'Search Bar > Submit Button' to be clickable (timeout: 3000)
 ```
 ---
-### I wait until text of {string} {wdioValueWait} {string}
+### I wait until text of {string} {wdioValueWait} {string}{wdioTimeout}
 
 Wait for element text condition
 
-| param |  type  |   description   |
-|:-----:|:------:|:---------------:|
-| alias | string |     element     |
-| wait  | string | validation type |
-| value | string | expected result |
+|  param  |       type        |       description       |
+|:-------:|:-----------------:|:-----------------------:|
+|  alias  |      string       |         element         |
+|  wait   |      string       |     validation type     |
+|  value  |      string       |     expected result     |
+| timeout | number (optional) | timeout in milliseconds |
+
 
 example:
 ```gherkin
 When I wait until text of 'Header' to be equal 'Javascript'
 When I wait until text of 'Header' not to be equal 'Python'
+When I wait until text of 'Header' to be equal 'Javascript' (timeout: 3000)
 ```
 ---
-### I wait until number of elements in {string} collection {wdioValueWait} {string}
+### I wait until number of elements in {string} collection {wdioValueWait} {string}{wdioTimeout}
 
 Wait for collection length condition
 
-| param |  type  |   description   |
-|:-----:|:------:|:---------------:|
-| alias | string |   collection    |
-| wait  | string | validation type |
-| value | string | expected result |
+|  param  |       type        |       description       |
+|:-------:|:-----------------:|:-----------------------:|
+|  alias  |      string       |       collection        |
+|  wait   |      string       |     validation type     |
+|  value  |      string       |     expected result     |
+| timeout | number (optional) | timeout in milliseconds |
 
 example:
 ```gherkin
 When I wait until number of elements in 'Search Results' collection to be equal '50'
 When I wait until number of elements in 'Search Results' collection to be above '49'
 When I wait until number of elements in 'Search Results' collection to be below '51'
+When I wait until number of elements in 'Search Results' collection to be below '51' (timeout: 3000)
 ```
 ---
-### I wait until {string} property of {string} {wdioValueWait} {string}
+### I wait until {string} property of {string} {wdioValueWait} {string}{wdioTimeout}
 
 Wait for element property condition
 
-|  param   |  type  |   description   |
-|:--------:|:------:|:---------------:|
-| property | string |    property     |
-|  alias   | string |     element     |
-|   wait   | string | validation type |
-|  value   | string | expected result |
+|  param   |       type        |       description       |
+|:--------:|:-----------------:|:-----------------------:|
+| property |      string       |        property         |
+|  alias   |      string       |         element         |
+|   wait   |      string       |     validation type     |
+|  value   |      string       |     expected result     |
+| timeout  | number (optional) | timeout in milliseconds |
 
 example:
 ```gherkin
 When I wait until 'value' property of 'Search Input' to be equal 'Javascript'
+When I wait until 'value' property of 'Search Input' to be equal 'Javascript' (timeout: 3000)
 ```
 ---
-### I wait until {string} attribute of {string} {wdioValueWait} {string}
+### I wait until {string} attribute of {string} {wdioValueWait} {string}{wdioTimeout}
 
 Wait for element property condition
 
-|   param   |  type  |   description   |
-|:---------:|:------:|:---------------:|
-| attribute | string |    attribute    |
-|   alias   | string |     element     |
-|   wait    | string | validation type |
-|   value   | string | expected result |
+|   param   |       type        |       description       |
+|:---------:|:-----------------:|:-----------------------:|
+| attribute |      string       |        attribute        |
+|   alias   |      string       |         element         |
+|   wait    |      string       |     validation type     |
+|   value   |      string       |     expected result     |
+|  timeout  | number (optional) | timeout in milliseconds |
 
 example:
 ```gherkin
 When I wait until 'href' attribute of 'Home Link' to be equal '/javascript'
+When I wait until 'href' attribute of 'Home Link' to be equal '/javascript' (timeout: 3000)
 ```
  
 ---
-### I wait until current url {wdioValueWait} {string}
+### I wait until current url {wdioValueWait} {string}{wdioTimeout}
 
 Wait for url condition
 
-| param |  type  |      description       |
-|:-----:|:------:|:----------------------:|
-| wait  | string |    validation type     |
-| value | string | expected value to wait |
+|  param  |       type        |       description       |
+|:-------:|:-----------------:|:-----------------------:|
+|  wait   |      string       |     validation type     |
+|  value  |      string       | expected value to wait  |
+| timeout | number (optional) | timeout in milliseconds |
 
 example:
 ```gherkin
 When I wait until current url to be equal 'https://qavajs.github.io/'
 When I wait until current url not to contain 'cypress'
+When I wait until current url to be equal 'https://qavajs.github.io/' (timeout: 3000)
 ```
 
 ---
-### I wait until page title {wdioValueWait} {string}
+### I wait until page title {wdioValueWait} {string}{wdioTimeout}
 
 Wait for title condition
 
-| param |  type  |      description       |
-|:-----:|:------:|:----------------------:|
-| wait  | string |    validation type     |
-| value | string | expected value to wait |
+|  param  |       type        |       description       |
+|:-------:|:-----------------:|:-----------------------:|
+|  wait   |      string       |     validation type     |
+|  value  |      string       | expected value to wait  |
+| timeout | number (optional) | timeout in milliseconds |
 
 example:
 ```gherkin
 When I wait until page title to be equal 'qavajs'
 When I wait until page title not to contain 'cypress'
+When I wait until page title to be equal 'qavajs' (timeout: 3000)
 ```
 
 ---
