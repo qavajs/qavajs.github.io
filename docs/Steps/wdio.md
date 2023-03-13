@@ -18,6 +18,7 @@ module.exports = {
             timeout: {
                 present: 10000,
                 visible: 20000,
+                clickable: 15000,
                 page: 10000,
                 implicit: 0 //wdio implicit wait for element
             },
@@ -99,40 +100,48 @@ example:
 When I type 'wikipedia' to 'Google Input'
 ```
 ---
-### I click {string}
+### I click {string}( ){wdioDisableActionabilityCheck}
 
 Click element
 
-| param |  type  |   description    |
-|:-----:|:------:|:----------------:|
-| alias | string | element to click |
+|    param     |        type        |        description         |
+|:------------:|:------------------:|:--------------------------:|
+|    alias     |       string       |      element to click      |
+| disable wait | (optional) boolean | disable actionability wait |
+
 example:
 ```gherkin
 When I click 'Google Button'
+When I click 'Google Button' (disable actionability wait)
 ```
 ---
-### I double click {string}
+### I double click {string}( ){wdioDisableActionabilityCheck}
 
 Double click element
 
-| param |  type  |   description    |
-|:-----:|:------:|:----------------:|
-| alias | string | element to click |
+|    param     |        type        |        description         |
+|:------------:|:------------------:|:--------------------------:|
+|    alias     |       string       |      element to click      |
+| disable wait | (optional) boolean | disable actionability wait |
+
 example:
 ```gherkin
 When I double click 'Input Field'
+When I double click 'Input Field' (disable actionability wait)
 ```
 ---
-### I right click {string}
+### I right click {string}( ){wdioDisableActionabilityCheck}
 
 Right click element
 
-| param |  type  |   description    |
-|:-----:|:------:|:----------------:|
-| alias | string | element to click |
+|    param     |        type        |        description         |
+|:------------:|:------------------:|:--------------------------:|
+|    alias     |       string       |      element to click      |
+| disable wait | (optional) boolean | disable actionability wait |
 example:
 ```gherkin
 When I right click 'User Icon'
+When I right click 'User Icon' (disable actionability wait) 
 ```
 ---
 ### I clear {string}
@@ -749,7 +758,7 @@ When I wait 1000 ms
 ```
 
 ---
-### I wait until {string} {wdioConditionWait} {string}{wdioTimeout}
+### I wait until {string} {wdioConditionWait} {string}( ){wdioTimeout}
 
 Wait for element condition
 
@@ -766,7 +775,7 @@ When I wait until 'Search Bar > Submit Button' to be clickable
 When I wait until 'Search Bar > Submit Button' to be clickable (timeout: 3000)
 ```
 ---
-### I wait until text of {string} {wdioValueWait} {string}{wdioTimeout}
+### I wait until text of {string} {wdioValueWait} {string}( ){wdioTimeout}
 
 Wait for element text condition
 
@@ -785,7 +794,7 @@ When I wait until text of 'Header' not to be equal 'Python'
 When I wait until text of 'Header' to be equal 'Javascript' (timeout: 3000)
 ```
 ---
-### I wait until number of elements in {string} collection {wdioValueWait} {string}{wdioTimeout}
+### I wait until number of elements in {string} collection {wdioValueWait} {string}( ){wdioTimeout}
 
 Wait for collection length condition
 
@@ -804,7 +813,7 @@ When I wait until number of elements in 'Search Results' collection to be below 
 When I wait until number of elements in 'Search Results' collection to be below '51' (timeout: 3000)
 ```
 ---
-### I wait until {string} property of {string} {wdioValueWait} {string}{wdioTimeout}
+### I wait until {string} property of {string} {wdioValueWait} {string}( ){wdioTimeout}
 
 Wait for element property condition
 
@@ -822,7 +831,7 @@ When I wait until 'value' property of 'Search Input' to be equal 'Javascript'
 When I wait until 'value' property of 'Search Input' to be equal 'Javascript' (timeout: 3000)
 ```
 ---
-### I wait until {string} attribute of {string} {wdioValueWait} {string}{wdioTimeout}
+### I wait until {string} attribute of {string} {wdioValueWait} {string}( ){wdioTimeout}
 
 Wait for element property condition
 
@@ -841,7 +850,7 @@ When I wait until 'href' attribute of 'Home Link' to be equal '/javascript' (tim
 ```
  
 ---
-### I wait until current url {wdioValueWait} {string}{wdioTimeout}
+### I wait until current url {wdioValueWait} {string}( ){wdioTimeout}
 
 Wait for url condition
 
@@ -859,7 +868,7 @@ When I wait until current url to be equal 'https://qavajs.github.io/' (timeout: 
 ```
 
 ---
-### I wait until page title {wdioValueWait} {string}{wdioTimeout}
+### I wait until page title {wdioValueWait} {string}( ){wdioTimeout}
 
 Wait for title condition
 
