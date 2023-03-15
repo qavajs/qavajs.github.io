@@ -704,7 +704,7 @@ When I save '$propertyName' property of 'Checkbox' as 'checkboxColor'
 ## Wait Steps
 
 ---
-### I wait until {string} {playwrightConditionWait} {string}{playwrightTimeout}
+### I wait until {string} {playwrightConditionWait} {string}( ){playwrightTimeout}
 
 Wait for element condition
 
@@ -722,7 +722,7 @@ When I wait until 'Search Bar > Submit Button' to be clickable
 When I wait until 'Header' to be visible (timeout: 3000)
 ```
 ---
-### I wait until text of {string} {playwrightValueWait} {string}{playwrightTimeout}
+### I wait until text of {string} {playwrightValueWait} {string}( ){playwrightTimeout}
 
 Wait for element text condition
 
@@ -740,7 +740,7 @@ When I wait until text of 'Header' not to be equal 'Python'
 When I wait until text of 'Header' to be equal 'Javascript' (timeout: 3000)
 ```
 ---
-### I wait until number of elements in {string} collection {playwrightValueWait} {string}{playwrightTimeout}
+### I wait until number of elements in {string} collection {playwrightValueWait} {string}( ){playwrightTimeout}
 
 Wait for collection length condition
 
@@ -759,7 +759,7 @@ When I wait until number of elements in 'Search Results' collection to be below 
 When I wait until number of elements in 'Search Results' collection to be below '51' (timeout: 3000)
 ```
 ---
-### I wait until {string} property of {string} {playwrightValueWait} {string}{playwrightTimeout}
+### I wait until {string} property of {string} {playwrightValueWait} {string}( ){playwrightTimeout}
 
 Wait for element property condition
 
@@ -777,7 +777,7 @@ When I wait until 'value' property of 'Search Input' to be equal 'Javascript'
 When I wait until 'value' property of 'Search Input' to be equal 'Javascript' (timeout: 3000)
 ```
 ---
-### I wait until {string} attribute of {string} {playwrightValueWait} {string}{playwrightTimeout}
+### I wait until {string} attribute of {string} {playwrightValueWait} {string}( ){playwrightTimeout}
 
 Wait for element property condition
 
@@ -796,7 +796,7 @@ When I wait until 'href' attribute of 'Home Link' to be equal '/javascript' (tim
 ```
 
 ---
-### I wait until current url {playwrightValueWait} {string}{playwrightTimeout}
+### I wait until current url {playwrightValueWait} {string}( ){playwrightTimeout}
 
 Wait for url condition
 
@@ -814,7 +814,7 @@ When I wait until current url to be equal 'https://qavajs.github.io/' (timeout: 
 ```
 
 ---
-### I wait until page title {playwrightValueWait} {string}{playwrightTimeout}
+### I wait until page title {playwrightValueWait} {string}( ){playwrightTimeout}
 
 Wait for title condition
 
