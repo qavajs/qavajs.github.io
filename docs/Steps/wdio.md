@@ -327,6 +327,20 @@ When I click forward button
 ```
 
 ---
+### I upload {string} file to {string}
+
+Provide file url to upload input
+
+| param |  type  |      description       |
+|:-----:|:------:|:----------------------:|
+| alias | string | element to upload file |
+| value | string |       file path        |
+example:
+```gherkin
+When I upload '/folder/file.txt' to 'File Input'
+```
+
+---
 ### I scroll to {string}
 
 Scroll to element
