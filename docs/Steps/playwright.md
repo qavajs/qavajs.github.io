@@ -12,7 +12,7 @@ const App = require('./page_object');
 module.exports = {
     default: {
         require: [
-            'node_modules/@qavajs/steps-playwright'
+            'node_modules/@qavajs/steps-playwright/index.js'
         ],
         browser: {
             timeout: {
