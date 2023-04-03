@@ -12,7 +12,7 @@ const App = require('./page_object');
 module.exports = {
     default: {
         require: [
-            'node_modules/@qavajs/steps-wdio'
+            'node_modules/@qavajs/steps-wdio/index.js'
         ],
         browser: {
             timeout: {
@@ -337,7 +337,7 @@ Provide file url to upload input
 | value | string |       file path        |
 example:
 ```gherkin
-When I upload '/folder/file.txt' to 'File Input'
+When I upload '/folder/file.txt' file to 'File Input'
 ```
 
 ---

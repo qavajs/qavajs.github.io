@@ -12,7 +12,7 @@ This is a package to get basic API cucumber steps.
 module.exports = {
     default: {
         require: [
-            'node_modules/@qavajs/steps-api'
+            'node_modules/@qavajs/steps-api/index.js'
         ]
     }
 }
@@ -104,6 +104,21 @@ When I send "POST" request and save response as "response" to "$BASE_API_URL" wi
       "title": "Test Post Request with Body passed as string"
    }
    """
+```
+
+### I parse {string} body as {bodyParsingType}
+MANDATORY STEP THAT SHOULD BE USED AFTER SENDING REQUEST
+Parsing body in needed way and adds payload property to response
+
+|  param   |  type  |      description       |
+|:--------:|:------:|:----------------------:|
+| response | string | response key in memory |
+|   type   | string |    type of payload     |
+
+example:
+```gherkin
+When I parse '$response' body as 'json'
+Then I expect '$response.payload.foo' to equal 'bar'
 ```
 
 ## Validation Steps
