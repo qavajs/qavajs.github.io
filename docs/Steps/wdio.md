@@ -337,7 +337,7 @@ Provide file url to upload input
 | value | string |       file path        |
 example:
 ```gherkin
-When I upload '/folder/file.txt' to 'File Input'
+When I upload '/folder/file.txt' file to 'File Input'
 ```
 
 ---
