@@ -1203,3 +1203,52 @@ example:
 ```gherkin
 When I restore all mocks
 ```
+
+## Network Intercept Steps
+
+---
+### I create interception for {string} as {string}
+
+Create interception for url
+
+|   param   |  type  |             description             |
+|:---------:|:------:|:-----------------------------------:|
+| predicate | string | url or predicate function to listen |
+|    key    | string |      key to save interception       |
+
+example:
+```gherkin
+When I create interception for '**/api/qavajs' as 'interception'
+```
+
+---
+### I wait for {string} response
+
+Wait for interception event
+
+|    param     |  type  |           description            |
+|:------------:|:------:|:--------------------------------:|
+| interception | string | memory key of interception event |
+
+example:
+```gherkin
+When I create interception for '**/api/qavajs' as 'interception'
+And I wait for '$interception' response
+```
+
+---
+### I save {string} response as {string}
+
+Wait for interception event and save response to memory
+
+|    param     |  type  |            description            |
+|:------------:|:------:|:---------------------------------:|
+| interception | string | memory key of interception event  |
+|     key      | string | key to save interception response |
+
+example:
+```gherkin
+When I create interception for '**/api/qavajs' as 'interception'
+When I save '$interception' response as 'response' # response will be instance of Response object
+And I expect '$response.statusCode' to equal '200'
+```

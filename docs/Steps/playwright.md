@@ -1007,3 +1007,122 @@ example:
 ```gherkin
 When I restore all mocks
 ```
+
+## Cookie Steps
+
+---
+### I set {string} cookie as {string}
+
+Set cookie
+
+| param  |  type  | description  |
+|:------:|:------:|:------------:|
+| cookie | string | cookie name  |
+| value  | string | value to set |
+
+example:
+```gherkin
+When I set 'userID' cookie 'user1'
+When I set 'userID' cookie '$userIdCookie'
+```
+   
+---
+### I save value of {string} cookie as {string}
+
+Save cookie value to memory
+
+| param  |  type  | description |
+|:------:|:------:|:-----------:|
+| cookie | string | cookie name |
+|  key   | string | memory key  |
+
+example:
+```gherkin
+When I save value of 'auth' cookie as 'authCookie'
+```
+
+## Local/Session Storage Steps
+
+---
+### I set {string} {word} storage value as {string}
+
+Set value of local/session storage
+
+|    param    |  type  |              description               |
+|:-----------:|:------:|:--------------------------------------:|
+| storageKey  | string | local/session storage key to set value |
+| storageType |  word  |    storage type (local or session)     |
+|    value    | string |              value to set              |
+
+example:
+```gherkin
+When I set 'username' local storage value as 'user1'
+When I set '$sessionStorageKey' session storage value as '$sessionStorageValue'
+```
+
+---
+### I save value of {string} {word} storage as {string}
+
+Set value of local/session storage
+
+|    param    |  type  |              description               |
+|:-----------:|:------:|:--------------------------------------:|
+| storageKey  | string | local/session storage key to set value |
+| storageType |  word  |    storage type (local or session)     |
+|     key     | string |               memory key               |
+
+example:
+```gherkin
+When I save value of 'username' local storage as 'localStorageValue'
+When I save value of '$sessionStorageKey' session storage value as 'sessionStorageValue'
+```
+
+## Network Intercept Steps
+
+---
+### I create interception for {string} as {string}
+
+Create interception for url or predicate function
+
+|   param   |  type  |             description             |
+|:---------:|:------:|:-----------------------------------:|
+| predicate | string | url or predicate function to listen |
+|    key    | string |      key to save interception       |
+
+example:
+```gherkin
+When I create interception for '**/api/qavajs' as 'interception'
+When I create interception for '$condition' as 'intercept' # where condition is function that wait for particular event https://playwright.dev/docs/network#network-events
+```
+
+---
+### I wait for {string} response
+
+Wait for interception event
+
+|    param     |  type  |           description            |
+|:------------:|:------:|:--------------------------------:|
+| interception | string | memory key of interception event |
+
+example:
+```gherkin
+When I create interception for '**/api/qavajs' as 'interception'
+And I wait for '$interception' response
+```
+
+---
+### I save {string} response as {string}
+
+Wait for interception event and save response to memory
+
+|    param     |  type  |            description            |
+|:------------:|:------:|:---------------------------------:|
+| interception | string | memory key of interception event  |
+|     key      | string | key to save interception response |
+
+example:
+```gherkin
+When I create interception for '**/api/qavajs' as 'interception'
+And I save '$interception' response as 'response' # response will be instance of Response object https://playwright.dev/docs/api/class-response
+And I expect '$response.status()' to equal '200'
+```
