@@ -30,11 +30,15 @@ module.exports = {
 
 ## Connect to playwright server
 In order to connect to playwright server pass _wsEndpoint_ property in capabilities object
-```typescript
-{
-    capabilities: {
-        browserName: 'chromium',
-        wsEndpoint: 'ws://127.0.0.1:60291/2bd48ce272de2b543e4c8c533f664b83'    
+```javascript
+module.exports = {
+    default: {
+        browser: {
+            capabilities: {
+                browserName: 'chromium',
+                wsEndpoint: 'ws://127.0.0.1:60291/2bd48ce272de2b543e4c8c533f664b83'
+            }
+        },
     }
 }
 ```
@@ -42,10 +46,14 @@ In order to connect to playwright server pass _wsEndpoint_ property in capabilit
 ## Connect to cdp endpoint
 In order to connect to CDP endpoint pass _cdpEndpoint_ property in capabilities object
 ```typescript
-{
-    capabilities: {
-        browserName: 'chromium',
-        cdpEndpoint: 'http://localhost:9222/'    
+module.exports = {
+    default: {
+        browser: {
+            capabilities: {
+                browserName: 'chromium',
+                cdpEndpoint: 'http://localhost:9222/'
+            }
+        },
     }
 }
 ```
@@ -64,21 +72,23 @@ condition of element to wait (can be negated with _not_)
 - to be visible
 - to be present
 - to be invisible
+- to be in viewport
 
 ### playwrightValueWait
 condition of value to wait (can be negated with _not_)
-- to be equal
+- to equal
 - to contain
 - to be above
 - to be below
+- to match
 
 ### playwrightValidation
 validation of values (can be negated with _not_)
-- to be equal
-- to be strictly equal
-- to be deeply equal
+- to equal
+- to strictly equal
+- to deeply equal
 - to have member
-- to be match
+- to match
 - to contain
 - to be above
 - to be below

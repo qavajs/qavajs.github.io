@@ -51,18 +51,18 @@ condition of element to wait (can be negated with _not_)
 
 ### wdioValueWait
 condition of value to wait (can be negated with _not_)
-- to be equal
+- to equal
 - to contain
 - to be above
 - to be below
 
 ### wdioValidation
 validation of values (can be negated with _not_)
-- to be equal
-- to be strictly equal
-- to be deeply equal
+- to equal
+- to strictly equal
+- to deeply equal
 - to have member
-- to be match
+- to match
 - to contain
 - to be above
 - to be below
