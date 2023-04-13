@@ -154,3 +154,19 @@ When I save key-value pairs to memory as 'key':
     | someOtherKey | $valueFromMemory |
 Then I expect '$object.someKey' to equal '42'
 ```
+
+---
+### I expect {string} array to be sorted by {string}
+
+Verify that array is sorted by provided comparator provided as reference to function
+https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#description
+
+|   param    |  type  |              description               |
+|:----------:|:------:|:--------------------------------------:|
+|    arr     | string |          memory key of array           |
+| comparator | string | memory key of sort comparator function |
+
+example:
+```gherkin
+When I expect '$arr' array to be sorted by '$ascending'
+```
