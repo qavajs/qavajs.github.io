@@ -8,9 +8,9 @@ Step library to work with relational databases
 ## Installation
 `npm install @qavajs/steps-sql`
 
-## Config
+## Configuration
 ```javascript
-const { MySQLClient } = require('@qavajs/clients/steps-sql');
+const { MySQLClient, PgClient } = require('@qavajs/steps-sql/clients');
 module.exports = {
     default: {
         require: [
@@ -26,17 +26,24 @@ module.exports = {
                 user: 'username',
                 password: 'password'
             }),
-            aurora: new MySQLClient({
+            pg: new PgClient({
                 host: 'http://127.0.0.1',
-                port: 3306,
+                port: 3307,
                 database: 'qavajsdb2',
-                user: 'username',
+                username: 'username',
                 password: 'password'
             }),
         }
     }
 }
 ```
+
+## Implemented Clients
+
+| client      | description                                                                |
+|-------------|----------------------------------------------------------------------------|
+| MySQLClient | MySQL client. Works on top of https://www.npmjs.com/package/mysql2/v/2.3.3 |
+| PgClient    | PostgreSQL client. Works on top of https://www.npmjs.com/package/pg        |
 
 ## Default DB Steps
 ---

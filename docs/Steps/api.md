@@ -3,7 +3,7 @@ sidebar_position: 3
 ---
 
 # @qavajs/steps-api
-This is a package to get basic API cucumber steps.
+Step library to work with API
 
 ## Installation
 `npm install @qavajs/steps-api`
