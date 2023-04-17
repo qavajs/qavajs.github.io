@@ -365,6 +365,33 @@ example:
 ```gherkin
 When I upload '/folder/file.txt' file to 'File Input'
 ```
+ 
+---
+### I scroll by {string}
+
+Scroll by offset
+
+| param  |  type  |          description           |
+|:------:|:------:|:------------------------------:|
+| offset | string | offset string in 'x, y' format |
+example:
+```gherkin
+When I scroll by '0, 100'
+```
+
+---
+### I scroll by {string} in {string}
+
+Scroll by offset in element
+
+| param  |  type  |          description           |
+|:------:|:------:|:------------------------------:|
+| offset | string | offset string in 'x, y' format |
+| alias  | string |        alias of element        |
+example:
+```gherkin
+When I scroll by '0, 100' in 'Overflow Container'
+```
 
 ## Validation Steps
 
