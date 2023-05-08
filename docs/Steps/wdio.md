@@ -379,7 +379,7 @@ example:
 ```gherkin
 When I scroll by '0, 100' in 'Overflow Container'
 ```
-
+_________________________
 ### I accept alert
 
 Accepts an alert
@@ -387,7 +387,7 @@ Accepts an alert
 ```gherkin
 When I accept alert
 ```
-
+_________________________
 ### I dismiss alert
 
 Dismisses an alert
@@ -408,6 +408,24 @@ Type a text to alert
 When I type 'Alerts are' to alert
 When I type 'not a good practice' to alert
 When I type 'nowadays' to alert
+```
+
+_________________________
+### I define {string} as {string} {wdioPoType}
+
+Register selector as page object
+
+|    param    |  type  |                description                |
+|:-----------:|:------:|:-----------------------------------------:|
+| selectorKey | string |           selector to register            |
+|  aliasKey   | string |             alias of element              |
+|   poType    | string | type of page object (element, collection) |
+example:
+```gherkin
+When I define '#someId' as 'My Button' element
+And I click 'My Button'
+When I define 'li.selected' as 'Selected Items' collection
+And I expect number of element in 'Selected Items' collection to equal '3'
 ```
 
 ## Validation Steps

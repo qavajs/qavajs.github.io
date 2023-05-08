@@ -393,6 +393,24 @@ example:
 When I scroll by '0, 100' in 'Overflow Container'
 ```
 
+_________________________
+### I define {string} as {string} {playwrightPoType}
+
+Register selector as page object
+
+|    param    |  type  |                description                |
+|:-----------:|:------:|:-----------------------------------------:|
+| selectorKey | string |           selector to register            |
+|  aliasKey   | string |             alias of element              |
+|   poType    | string | type of page object (element, collection) |
+example:
+```gherkin
+When I define '#someId' as 'My Button' element
+And I click 'My Button'
+When I define 'li.selected' as 'Selected Items' collection
+And I expect number of element in 'Selected Items' collection to equal '3'
+```
+
 ## Validation Steps
 
 ---
