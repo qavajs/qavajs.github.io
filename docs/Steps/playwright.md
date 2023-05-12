@@ -393,6 +393,20 @@ example:
 When I scroll by '0, 100' in 'Overflow Container'
 ```
 
+-------------------------
+### I drag and drop {string} in {string}
+
+Drag&Drop one element to another
+
+|    param     |  type  |   description   |
+|:------------:|:------:|:---------------:|
+| elementAlias | string | element to drop |
+| targetAlias  | string |     target      |
+example:
+```gherkin
+When I drag and drop 'Bishop' to 'E4'
+```
+
 _________________________
 ### I define {string} as {string} {playwrightPoType}
 
