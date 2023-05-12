@@ -409,6 +409,20 @@ When I type 'Alerts are' to alert
 When I type 'not a good practice' to alert
 When I type 'nowadays' to alert
 ```
+    
+-------------------------
+### I drag and drop {string} in {string}
+
+Drag&Drop one element to another
+
+|    param     |  type  |   description   |
+|:------------:|:------:|:---------------:|
+| elementAlias | string | element to drop |
+| targetAlias  | string |     target      |
+example:
+```gherkin
+When I drag and drop 'Bishop' to 'E4'
+```
 
 _________________________
 ### I define {string} as {string} {wdioPoType}
