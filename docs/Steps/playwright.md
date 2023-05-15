@@ -1011,7 +1011,7 @@ Add mocking rule to respond with desired status code and payload
 
 example:
 ```gherkin
-When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+When I create mock for '/yourservice/**' as 'myServiceMock'
 And I set '$myServiceMock' mock to respond '200' with:
 """
 {
@@ -1033,7 +1033,7 @@ Add mocking rule to respond with desired status code and payload
 
 example:
 ```gherkin
-When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+When I create mock for '/yourservice/**' as 'myServiceMock'
 And I set '$myServiceMock' mock to respond '200' with '$response'
 ```
 
@@ -1049,7 +1049,7 @@ Add mocking rule to abort request with certain reason
 
 example:
 ```gherkin
-When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+When I create mock for '/yourservice/**' as 'myServiceMock'
 And I set '$myServiceMock' mock to abort with 'Failed' reason
 ```
 
