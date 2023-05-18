@@ -226,6 +226,19 @@ When I switch to 'google.com' window
 ```
 
 ---
+### I switch to {string} window
+
+Switch to window by matcher
+
+|  param  |  type  |          description          |
+|:-------:|:------:|:-----------------------------:|
+| matcher | string | window matcher (url or title) |
+example:
+```gherkin
+When I switch to 'google.com' window
+```
+
+---
 ### I refresh page
 
 Refresh page
