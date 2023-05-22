@@ -99,6 +99,17 @@ validation of values (can be negated with _not_)
 ### playwrightTimeout
 optional timeout that can be passed to wait steps _(timeout: x)_, where x timeout in milliseconds
 
+## Global variables
+@qavajs/steps-playwright exposes following global variables
+
+| variable   | type                                        | description                                  |
+|------------|---------------------------------------------|----------------------------------------------|
+| `browser`  | `Browser`                                   | browser instance                             |
+| `driver`   | `Browser`                                   | browser instance (alias for browser)         |
+| `context`  | `BrowserContext`                            | current browser context                      |
+| `page`     | `Page`                                      | current context page                         |
+| `contexts` | `{ [contextName: string]: BrowserContext }` | map of opened contexts in multi browser mode |
+
 ## Action Steps
 
 ### I open {string} url
