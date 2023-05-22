@@ -99,6 +99,17 @@ validation of values (can be negated with _not_)
 ### playwrightTimeout
 optional timeout that can be passed to wait steps _(timeout: x)_, where x timeout in milliseconds
 
+## Global variables
+@qavajs/steps-playwright exposes following global variables
+
+| variable   | type                                        | description                                  |
+|------------|---------------------------------------------|----------------------------------------------|
+| `browser`  | `Browser`                                   | browser instance                             |
+| `driver`   | `Browser`                                   | browser instance (alias for browser)         |
+| `context`  | `BrowserContext`                            | current browser context                      |
+| `page`     | `Page`                                      | current context page                         |
+| `contexts` | `{ [contextName: string]: BrowserContext }` | map of opened contexts in multi browser mode |
+
 ## Action Steps
 
 ### I open {string} url
@@ -223,6 +234,29 @@ Switch to window by matcher
 example:
 ```gherkin
 When I switch to 'google.com' window
+```
+
+---
+### I switch to {string} window
+
+Switch to window by matcher
+
+|  param  |  type  |          description          |
+|:-------:|:------:|:-----------------------------:|
+| matcher | string | window matcher (url or title) |
+example:
+```gherkin
+When I switch to 'google.com' window
+```
+ 
+---
+### I open new tab
+
+Open new browser tab
+
+example:
+```gherkin
+When I open new tab
 ```
 
 ---
@@ -1194,4 +1228,50 @@ example:
 When I create interception for '**/api/qavajs' as 'interception'
 And I save '$interception' response as 'response' # response will be instance of Response object https://playwright.dev/docs/api/class-response
 And I expect '$response.status()' to equal '200'
+```
+
+## Multi-browser Steps
+
+---
+### I open new browser context as {string}
+
+Open new browser context
+
+|       param        |  type  |     description      |
+|:------------------:|:------:|:--------------------:|
+| browserContextName | string | browser context name |
+
+example:
+```gherkin
+When I open new browser context as 'browser2'
+```
+
+---
+### I switch to {string} browser context
+
+Switch to other browser context by name
+
+|       param        |  type  |     description      |
+|:------------------:|:------:|:--------------------:|
+| browserContextName | string | browser context name |
+
+example:
+```gherkin
+When I open new browser context as 'browser2'
+And I switch to 'browser2' browser context
+And I switch to 'default' browser context
+```
+
+---
+### I close {string} browser context
+
+Close browser context
+
+|       param        |  type  |     description      |
+|:------------------:|:------:|:--------------------:|
+| browserContextName | string | browser context name |
+
+example:
+```gherkin
+When I close to 'browser2' browser context
 ```
