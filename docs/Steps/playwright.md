@@ -237,6 +237,16 @@ example:
 ```gherkin
 When I switch to 'google.com' window
 ```
+ 
+---
+### I open new tab
+
+Open new browser tab
+
+example:
+```gherkin
+When I open new tab
+```
 
 ---
 ### I refresh page
@@ -1207,4 +1217,50 @@ example:
 When I create interception for '**/api/qavajs' as 'interception'
 And I save '$interception' response as 'response' # response will be instance of Response object https://playwright.dev/docs/api/class-response
 And I expect '$response.status()' to equal '200'
+```
+
+## Multi-browser Steps
+
+---
+### I open new browser context as {string}
+
+Open new browser context
+
+|       param        |  type  |     description      |
+|:------------------:|:------:|:--------------------:|
+| browserContextName | string | browser context name |
+
+example:
+```gherkin
+When I open new browser context as 'browser2'
+```
+
+---
+### I switch to {string} browser context
+
+Switch to other browser context by name
+
+|       param        |  type  |     description      |
+|:------------------:|:------:|:--------------------:|
+| browserContextName | string | browser context name |
+
+example:
+```gherkin
+When I open new browser context as 'browser2'
+And I switch to 'browser2' browser context
+And I switch to 'default' browser context
+```
+
+---
+### I close {string} browser context
+
+Close browser context
+
+|       param        |  type  |     description      |
+|:------------------:|:------:|:--------------------:|
+| browserContextName | string | browser context name |
+
+example:
+```gherkin
+When I close to 'browser2' browser context
 ```

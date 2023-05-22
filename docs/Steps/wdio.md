@@ -230,6 +230,16 @@ example:
 ```gherkin
 When I switch to 'google.com' window
 ```
+   
+---
+### I open new tab
+
+Open new browser tab
+
+example:
+```gherkin
+When I open new tab
+```
 
 ---
 ### I refresh page
@@ -1310,4 +1320,50 @@ example:
 When I create interception for '**/api/qavajs' as 'interception'
 When I save '$interception' response as 'response' # response will be instance of Response object
 And I expect '$response.statusCode' to equal '200'
+```
+
+## Multi-browser Steps
+
+---
+### I open new browser as {string}
+
+Open new browser
+
+|    param    |  type  | description  |
+|:-----------:|:------:|:------------:|
+| browserName | string | browser name |
+
+example:
+```gherkin
+When I open new browser as 'browser2'
+```
+
+---
+### I switch to {string} browser
+
+Switch to other browser by name
+
+|    param    |  type  | description  |
+|:-----------:|:------:|:------------:|
+| browserName | string | browser name |
+
+example:
+```gherkin
+When I open new browser as 'browser2'
+And I switch to 'browser2' browser
+And I switch to 'default' browser
+```
+
+---
+### I close {string} browser
+
+Close browser
+
+|    param    |  type  | description  |
+|:-----------:|:------:|:------------:|
+| browserName | string | browser name |
+
+example:
+```gherkin
+When I close to 'browser2' browser
 ```
