@@ -8,17 +8,15 @@ Typescript is supported out of the box via ts-node library
 
 and then
 
-`npx ts-node --esm node_modules/@qavajs/cli/bin/qavajs.js run --config config.ts --profile profile`
-
-config.ts also can be defined using ECMA modules
+`npx ts-node node_modules/@qavajs/cli/bin/qavajs.js run --config config.ts --profile profile`
 
 ```typescript
 export default {
     parallel: 1,
     defaultTimeout: 30000,
     require: [
-        'node_modules/@qavajs/steps-wdio',
-        'node_modules/@qavajs/steps-memory',
+        'node_modules/@qavajs/steps-wdio/index.js',
+        'node_modules/@qavajs/steps-memory/index.js',
         'step_definition/*.ts'
     ],
     paths: [

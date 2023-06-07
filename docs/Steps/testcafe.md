@@ -1,26 +1,24 @@
 ---
-sidebar_position: 1
+sidebar_position: 9
 ---
 
-# @qavajs/steps-wdio
-Step library to work with webdriverio using DSL page object
+# @qavajs/steps-testcafe
+Step library to work with TestCage using DSL page object
 ## Installation
-`npm install @qavajs/steps-wdio`
+`npm install @qavajs/steps-testcafe`
 ## Config
 ```javascript
 const App = require('./page_object');
 module.exports = {
     default: {
         require: [
-            'node_modules/@qavajs/steps-wdio/index.js'
+            'node_modules/@qavajs/steps-testcafe/index.js'
         ],
         browser: {
             timeout: {
                 present: 10000,
                 visible: 20000,
-                clickable: 15000,
                 page: 10000,
-                implicit: 0 //wdio implicit wait for element
             },
             capabilities: {
                 browserName: 'chrome'
@@ -31,32 +29,29 @@ module.exports = {
 }
 ```
 
-wdio steps provide a couple of additional configuration properties
+testcafe steps provide a couple of additional configuration properties
 
 | Name         | Type     | Description                                                                    | Default |
 |--------------|----------|--------------------------------------------------------------------------------|---------|
-| `browser`    | `object` | object describing wdio config                                                  | `{}`    |
+| `browser`    | `object` | object describing testcafe config                                              | `{}`    |
 | `pageObject` | `object` | instance of page object definitions  [(page object)](../Guides/page-object.md) | `{}`    |
 | `screenshot` | `string` | screenshot strategy (beforeStep, afterStep, onFail)                            |         |
 
 ## Parameter Types
-### wdioConditionWait 
+### testcafeConditionWait 
 condition of element to wait (can be negated with _not_) 
 - to be visible
 - to be present
 - to be invisible
-- to be enabled
-- to be disabled
-- to be in viewport
 
-### wdioValueWait
+### testcafeValueWait
 condition of value to wait (can be negated with _not_)
 - to equal
 - to contain
 - to be above
 - to be below
 
-### wdioValidation
+### testcafeValidation
 validation of values (can be negated with _not_)
 - to equal
 - to strictly equal
@@ -70,23 +65,15 @@ validation of values (can be negated with _not_)
 - to be less than
 - to have type
 
-### wdioTimeout
+### testcafeTimeout
 optional timeout that can be passed to wait steps _(timeout: x)_, where x timeout in milliseconds
-
-### wdioMouseButton
-mouse button to interact
-- left
-- right
-- middle
 
 ## Global variables
 @qavajs/steps-playwright exposes following global variables
 
-| variable   | type                                 | description                                  |
-|------------|--------------------------------------|----------------------------------------------|
-| `browser`  | `Browser`                            | browser instance                             |
-| `driver`   | `Browser`                            | browser instance (alias for browser)         |
-| `browsers` | `{ [browserName: string]: Browser }` | map of opened browsers in multi browser mode |
+| variable   | type                                 | description                          |
+|------------|--------------------------------------|--------------------------------------|
+| `t`        | `TestController`                     | instance of TestCafe Test Controller |
 
 ## Action Steps
 
@@ -115,22 +102,20 @@ example:
 When I type 'wikipedia' to 'Google Input'
 ```
 ---
-### I click {string}( ){wdioDisableActionabilityCheck}
+### I click {string}
 
 Click element
 
 |    param     |        type        |        description         |
 |:------------:|:------------------:|:--------------------------:|
 |    alias     |       string       |      element to click      |
-| disable wait | (optional) boolean | disable actionability wait |
 
 example:
 ```gherkin
 When I click 'Google Button'
-When I click 'Google Button' (disable actionability wait)
 ```
 ---
-### I double click {string}( ){wdioDisableActionabilityCheck}
+### I double click {string}
 
 Double click element
 
@@ -142,10 +127,9 @@ Double click element
 example:
 ```gherkin
 When I double click 'Input Field'
-When I double click 'Input Field' (disable actionability wait)
 ```
 ---
-### I right click {string}( ){wdioDisableActionabilityCheck}
+### I right click {string}
 
 Right click element
 
@@ -155,8 +139,7 @@ Right click element
 | disable wait | (optional) boolean | disable actionability wait |
 example:
 ```gherkin
-When I right click 'User Icon'
-When I right click 'User Icon' (disable actionability wait) 
+When I right click 'User Icon' 
 ```
 ---
 ### I clear {string}
@@ -338,7 +321,7 @@ When I select 1 option from 'Registration Form > Date Of Birth' dropdown
 ```
 
 ---
-### I click {wdioBrowserButton} button
+### I click {testcafeBrowserButton} button
 
 Click browser button
 
@@ -405,52 +388,38 @@ example:
 When I scroll by '0, 100' in 'Overflow Container'
 ```
 _________________________
-### I accept alert
+### I will accept alert
 
-Accepts an alert
-
-```gherkin
-When I accept alert
-```
-_________________________
-### I dismiss alert
-
-Dismisses an alert
+Accepts any alert
 
 ```gherkin
-When I dismiss alert
+When I will accept alert
 ```
 _________________________
-### I type {string} to alert
+### I will dismiss alert
 
-Type a text to alert
+Dismisses any alert
+
+```gherkin
+When I will dismiss alert
+```
+_________________________
+### I will type {string} to alert
+
+Type a text to any alert
 
 | param |  type  |  description  |
 |:-----:|:------:|:-------------:|
 | value | string | value to type |
 
 ```gherkin
-When I type 'Alerts are' to alert
-When I type 'not a good practice' to alert
-When I type 'nowadays' to alert
-```
-    
--------------------------
-### I drag and drop {string} in {string}
-
-Drag&Drop one element to another
-
-|    param     |  type  |   description   |
-|:------------:|:------:|:---------------:|
-| elementAlias | string | element to drop |
-| targetAlias  | string |     target      |
-example:
-```gherkin
-When I drag and drop 'Bishop' to 'E4'
+When I will type 'Alerts are' to alert
+When I will type 'not a good practice' to alert
+When I will type 'nowadays' to alert
 ```
 
 _________________________
-### I define {string} as {string} {wdioPoType}
+### I define {string} as {string} {testcafePoType}
 
 Register selector as page object
 
@@ -467,88 +436,10 @@ When I define 'li.selected' as 'Selected Items' collection
 And I expect number of element in 'Selected Items' collection to equal '3'
 ```
 
--------------------------
-### I press {wdioMouseButton} mouse button
-
-Press mouse button
-
-| param  |  type  |              description              |
-|:------:|:------:|:-------------------------------------:|
-| button | string | button to press (left, right, middle) |
-example:
-```gherkin
-When I press left mouse button
-```
-
--------------------------
-### I release {wdioMouseButton} mouse button
-
-Release mouse button
-
-| param  |  type  |               description               |
-|:------:|:------:|:---------------------------------------:|
-| button | string | button to release (left, right, middle) |
-example:
-```gherkin
-When I release left mouse button
-```
-
--------------------------
-### I move mouse to {string}
-
-Move mouse to coordinates
-
-|    param    |  type  |       description        |
-|:-----------:|:------:|:------------------------:|
-| coordinates | string | x, y coordinates to move |
-example:
-```gherkin
-When I move mouse to '10, 15'
-```
-
--------------------------
-### I scroll mouse wheel by {string}
-
-Scroll mouse wheel by x, y offset
-
-|    param    |  type  |      description      |
-|:-----------:|:------:|:---------------------:|
-| coordinates | string | x, y offset to scroll |
-example:
-```gherkin
-When I scroll mouse wheel by '0, 15'
-```
-
--------------------------
-### I hold down {string} key
-
-Press and hold keyboard key
-
-| param |  type  | description  |
-|:-----:|:------:|:------------:|
-|  key  | string | key to press |
-example:
-```gherkin
-When I hold down 'Q' key
-```
-
--------------------------
-### I release {string} key
-
-Release keyboard key
-
-| param |  type  |  description   |
-|:-----:|:------:|:--------------:|
-|  key  | string | key to release |
-example:
-```gherkin
-When I release 'Q' key
-```
-
 ## Validation Steps
 
 ---
-### I expect {string} {wdioConditionWait}
+### I expect {string} {testcafeConditionWait}
 
 Verify that element satisfies certain condition
 
@@ -560,11 +451,10 @@ example:
 ```gherkin
 Then I expect 'Header' to be visible
 Then I expect 'Loading' not to be present
-Then I expect 'Search Bar > Submit Button' to be clickable
 ```
 
 ---
-### I expect number of elements in {string} collection {wdioValidation} {string}
+### I expect number of elements in {string} collection {testcafeValidation} {string}
 
 Verify that number of element in collection satisfies condition
 
@@ -581,7 +471,7 @@ Then I expect number of elements in 'Search Results' collection to be below '51'
 ```
 
 ---
-### I expect text of {string} {wdioValidation} {string}
+### I expect text of {string} {testcafeValidation} {string}
 
 Verify that text of element satisfies condition
 
@@ -597,7 +487,7 @@ Then I expect text of '#1 of Search Results' to be equal 'google'
 Then I expect text of '#1 of Search Results' to be equal '$firstResult'
 ```
 ---
-### I expect {string} property of {string} {wdioValidation} {string}
+### I expect {string} property of {string} {testcafeValidation} {string}
 
 Verify that property of element satisfies condition
 
@@ -615,7 +505,7 @@ Then I expect 'innerHTML' property of 'Label' to contain '<b>'
 Then I expect 'value' property of 'Search Input' to be equal '$inputText'
 ```
 ---
-### I expect {string} attribute of {string} {wdioValidation} {string}
+### I expect {string} attribute of {string} {testcafeValidation} {string}
 
 Verify that attribute of element satisfies condition
 
@@ -633,7 +523,7 @@ Then I expect 'href' attribute of 'Home Link' to be equal '$url'
 ```
 
 ---
-### I expect current url {wdioValidation} {string}
+### I expect current url {testcafeValidation} {string}
 
 Verify that current url satisfies condition
 
@@ -649,7 +539,7 @@ Then I expect current url equals 'https://wikipedia.org'
 ```
 
 ---
-### I expect page title {wdioValidation} {string}
+### I expect page title {testcafeValidation} {string}
 
 Verify that page title satisfies condition
 
@@ -664,7 +554,7 @@ Then I expect page title equals 'Wikipedia'
 ```
 
 ---
-### I expect text of every element in {string} collection {wdioValidation} {string}
+### I expect text of every element in {string} collection {testcafeValidation} {string}
 
 Verify that all texts in collection satisfy condition
 
@@ -683,7 +573,7 @@ Then I expect text of every element in 'Search Results' collection does not cont
 ```
 
 ---
-### I expect {string} attribute of every element in {string} collection {wdioValidation} {string}
+### I expect {string} attribute of every element in {string} collection {testcafeValidation} {string}
 
 Verify that all particular attributes in collection satisfy condition
 
@@ -702,7 +592,7 @@ Then I expect 'href' attribute of every element in 'Search Results' collection t
 ```
 
 ---
-### I expect {string} property of every element in {string} collection {wdioValidation} {string}
+### I expect {string} property of every element in {string} collection {testcafeValidation} {string}
 
 Verify that all particular properties in collection satisfy condition
 
@@ -720,7 +610,7 @@ example:
 Then I expect 'href' property of every element in 'Search Results' collection to contain 'google'
 ```
 
-### I expect {string} css property of {string} {wdioValidation} {string}
+### I expect {string} css property of {string} {testcafeValidation} {string}
 
 Verify that css property of element satisfies condition
 
@@ -737,7 +627,7 @@ Then I expect 'color' css property of 'Search Input' to be equal 'rgb(42, 42, 42
 Then I expect 'font-family' css property of 'Label' to contain 'Fira'
 ```
 
-### I expect text of alert {wdioValidation} {string}
+### I expect text of alert {testcafeValidation} {string}
 
 Verify that text of an alert meets expectation
 
@@ -934,7 +824,7 @@ When I wait 1000 ms
 ```
 
 ---
-### I wait until {string} {wdioConditionWait} {string}( ){wdioTimeout}
+### I wait until {string} {testcafeConditionWait} {string}( ){testcafeTimeout}
 
 Wait for element condition
 
@@ -951,7 +841,7 @@ When I wait until 'Search Bar > Submit Button' to be clickable
 When I wait until 'Search Bar > Submit Button' to be clickable (timeout: 3000)
 ```
 ---
-### I wait until text of {string} {wdioValueWait} {string}( ){wdioTimeout}
+### I wait until text of {string} {testcafeValueWait} {string}( ){testcafeTimeout}
 
 Wait for element text condition
 
@@ -970,7 +860,7 @@ When I wait until text of 'Header' not to be equal 'Python'
 When I wait until text of 'Header' to be equal 'Javascript' (timeout: 3000)
 ```
 ---
-### I wait until number of elements in {string} collection {wdioValueWait} {string}( ){wdioTimeout}
+### I wait until number of elements in {string} collection {testcafeValueWait} {string}( ){testcafeTimeout}
 
 Wait for collection length condition
 
@@ -989,7 +879,7 @@ When I wait until number of elements in 'Search Results' collection to be below 
 When I wait until number of elements in 'Search Results' collection to be below '51' (timeout: 3000)
 ```
 ---
-### I wait until {string} property of {string} {wdioValueWait} {string}( ){wdioTimeout}
+### I wait until {string} property of {string} {testcafeValueWait} {string}( ){testcafeTimeout}
 
 Wait for element property condition
 
@@ -1007,7 +897,7 @@ When I wait until 'value' property of 'Search Input' to be equal 'Javascript'
 When I wait until 'value' property of 'Search Input' to be equal 'Javascript' (timeout: 3000)
 ```
 ---
-### I wait until {string} attribute of {string} {wdioValueWait} {string}( ){wdioTimeout}
+### I wait until {string} attribute of {string} {testcafeValueWait} {string}( ){testcafeTimeout}
 
 Wait for element property condition
 
@@ -1026,7 +916,7 @@ When I wait until 'href' attribute of 'Home Link' to be equal '/javascript' (tim
 ```
  
 ---
-### I wait until current url {wdioValueWait} {string}( ){wdioTimeout}
+### I wait until current url {testcafeValueWait} {string}( ){testcafeTimeout}
 
 Wait for url condition
 
@@ -1044,7 +934,7 @@ When I wait until current url to be equal 'https://qavajs.github.io/' (timeout: 
 ```
 
 ---
-### I wait until page title {wdioValueWait} {string}( ){wdioTimeout}
+### I wait until page title {testcafeValueWait} {string}( ){testcafeTimeout}
 
 Wait for title condition
 
@@ -1059,15 +949,6 @@ example:
 When I wait until page title to be equal 'qavajs'
 When I wait until page title not to contain 'cypress'
 When I wait until page title to be equal 'qavajs' (timeout: 3000)
-```
-
----
-### I wait for alert
-Wait until alert to pop up
-
-example:
-```gherkin
-When I wait for alert
 ```
 
 ## Cookie Steps
@@ -1137,70 +1018,6 @@ example:
 ```gherkin
 When I save value of 'username' local storage as 'localStorageValue'
 When I save value of '$sessionStorageKey' session storage value as 'sessionStorageValue'
-```
-
-## Mobile Steps
-
----
-### I tap {string}
-Support: Android, iOS
-
-Tap element
-
-| param |  type  |  description   |
-|:-----:|:------:|:--------------:|
-| alias | string | element to tap |
-example:
-```gherkin
-When I tap 'Google Button'
-```
-
----
-### I shake device
-Support: Android, iOS
-
-Shake device
-
-example:
-```gherkin
-When I shake device
-```
-          
----
-### I perform touch action: [DataTable]
-Support: Android, iOS
-
-Perform touch action
-
-- press and move to accept x and y percentages of current viewport
-- wait accepts milliseconds
-- release doesn't accept any params
-
-|    param     |   type    |                                       description                                        |
-|:------------:|:---------:|:----------------------------------------------------------------------------------------:|
-| actionsTable | DataTable | data table of actions and params (see https://webdriver.io/docs/api/appium#touchperform) |
-
-example:
-```gherkin
-When I perform touch action:
-  | press   | 90, 80 |
-  | wait    | 200    |
-  | moveTo  | 10, 80 |
-  | release |        |
-```
-
----
-### I perform touch action {string}
-Support: Android, iOS
-
-Perform touch action
-
-|    param     |  type  |                                                   description                                                   |
-|:------------:|:------:|:---------------------------------------------------------------------------------------------------------------:|
-| actionsAlias | string | memory alias that resolves into array of action objects (see https://webdriver.io/docs/api/appium#touchperform) |
-example:
-```gherkin
-When I perform touch action '$actions'
 ```
 
 ## Execute Steps
@@ -1413,50 +1230,4 @@ example:
 When I create interception for '**/api/qavajs' as 'interception'
 When I save '$interception' response as 'response' # response will be instance of Response object
 And I expect '$response.statusCode' to equal '200'
-```
-
-## Multi-browser Steps
-
----
-### I open new browser as {string}
-
-Open new browser
-
-|    param    |  type  | description  |
-|:-----------:|:------:|:------------:|
-| browserName | string | browser name |
-
-example:
-```gherkin
-When I open new browser as 'browser2'
-```
-
----
-### I switch to {string} browser
-
-Switch to other browser by name
-
-|    param    |  type  | description  |
-|:-----------:|:------:|:------------:|
-| browserName | string | browser name |
-
-example:
-```gherkin
-When I open new browser as 'browser2'
-And I switch to 'browser2' browser
-And I switch to 'default' browser
-```
-
----
-### I close {string} browser
-
-Close browser
-
-|    param    |  type  | description  |
-|:-----------:|:------:|:------------:|
-| browserName | string | browser name |
-
-example:
-```gherkin
-When I close to 'browser2' browser
 ```

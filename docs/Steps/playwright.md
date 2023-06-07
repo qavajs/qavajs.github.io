@@ -99,6 +99,12 @@ validation of values (can be negated with _not_)
 ### playwrightTimeout
 optional timeout that can be passed to wait steps _(timeout: x)_, where x timeout in milliseconds
 
+### playwrightMouseButton
+mouse button to interact
+- left
+- right
+- middle
+
 ## Global variables
 @qavajs/steps-playwright exposes following global variables
 
@@ -459,6 +465,84 @@ When I define 'li.selected' as 'Selected Items' collection
 And I expect number of element in 'Selected Items' collection to equal '3'
 ```
 
+-------------------------
+### I press {playwrightMouseButton} mouse button
+
+Press mouse button
+
+| param  |  type  |              description              |
+|:------:|:------:|:-------------------------------------:|
+| button | string | button to press (left, right, middle) |
+example:
+```gherkin
+When I press left mouse button
+```
+
+-------------------------
+### I release {playwrightMouseButton} mouse button
+
+Release mouse button
+
+| param  |  type  |               description               |
+|:------:|:------:|:---------------------------------------:|
+| button | string | button to release (left, right, middle) |
+example:
+```gherkin
+When I release left mouse button
+```
+
+-------------------------
+### I move mouse to {string}
+
+Move mouse to coordinates
+
+|    param    |  type  |       description        |
+|:-----------:|:------:|:------------------------:|
+| coordinates | string | x, y coordinates to move |
+example:
+```gherkin
+When I move mouse to '10, 15'
+```
+
+-------------------------
+### I scroll mouse wheel by {string}
+
+Scroll mouse wheel by x, y offset
+
+|    param    |  type  |      description      |
+|:-----------:|:------:|:---------------------:|
+| coordinates | string | x, y offset to scroll |
+example:
+```gherkin
+When I scroll mouse wheel by '0, 15'
+```
+
+-------------------------
+### I hold down {string} key
+
+Press and hold keyboard key
+
+| param |  type  | description  |
+|:-----:|:------:|:------------:|
+|  key  | string | key to press |
+example:
+```gherkin
+When I hold down 'Q' key
+```
+
+-------------------------
+### I release {string} key
+
+Release keyboard key
+
+| param |  type  |  description   |
+|:-----:|:------:|:--------------:|
+|  key  | string | key to release |
+example:
+```gherkin
+When I release 'Q' key
+```
+
 ## Validation Steps
 
 ---
@@ -474,7 +558,6 @@ example:
 ```gherkin
 Then I expect 'Header' to be visible
 Then I expect 'Loading' not to be present
-Then I expect 'Search Bar > Submit Button' to be clickable
 ```
 
 ---
@@ -835,7 +918,6 @@ example:
 ```gherkin
 When I wait until 'Header' to be visible
 When I wait until 'Loading' not to be present
-When I wait until 'Search Bar > Submit Button' to be clickable
 When I wait until 'Header' to be visible (timeout: 3000)
 ```
 ---
