@@ -27,6 +27,12 @@ An element can be defined as supported selector or as an instance of the compone
 
 Each not top-level component should have selector property or be inherited from Component class and accepted selector in constructor.
 ```javascript
+/**
+ *  import po depending to selected driver
+ *  wdio - @qavajs/po
+ *  playwright - @qavajs/po-playwright
+ *  testcafe - @qavajs/po-testcafe
+ */
 const { $, $$, Component } = require('@qavajs/po');
 
 class MultipleComponent extends Component {
@@ -63,3 +69,9 @@ When I click '#some partial text in Collection'
 ```gherkin
 When I click '@some exact text in Collection'
 ```
+
+**By regexp:** `/{regexp}/ in Collection` (access first element which text match {regexp} regexp)
+```gherkin
+When I click '/^some regexp$/ in Collection'
+```
+

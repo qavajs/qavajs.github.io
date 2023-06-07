@@ -19,7 +19,7 @@ module.exports = {
 ```
 ## Parameter Types
 
-## API Action Steps
+## Action Steps
 
 ### I send {string} request to {landingUrl}{headers} and save response as {string}
 

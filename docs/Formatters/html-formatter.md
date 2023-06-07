@@ -10,8 +10,9 @@ Single file HTML formatter for cucumber framework
 To install formatter run
 
 `npm install @qavajs/html-formatter`
-
-and add to formatter section in config file
+   
+## Config
+Add to formatter section in config file
 
 ```javascript
 module.exports = {

@@ -20,7 +20,7 @@ https://qavajs.github.io/
 ### Test execution
 JS `npx qavajs run --config <config> --profile <profile>`
 
-TS `npx ts-node --esm --project tsconfig.json node_modules/@qavajs/cli/bin/qavajs.js run --config config.ts`
+TS `npx ts-node --project tsconfig.json node_modules/@qavajs/cli/bin/qavajs.js run --config config.ts`
 
 default config is cucumber.js
 default profile is default

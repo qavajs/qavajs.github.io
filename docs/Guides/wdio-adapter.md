@@ -8,7 +8,7 @@ Service defintion may be string with module path or configuration tuple [moduleP
 
 simple use:
 ```javascript
-const { wdioService } = require('@qavajs/cli');
+const wdioService = require('@qavajs/wdio-service-adapter');
 
 module.exports = {
     default: {
@@ -21,7 +21,7 @@ module.exports = {
 
 use with params
 ```javascript
-const { wdioService } = require('@qavajs/cli');
+const wdioService = require('@qavajs/wdio-service-adapter');
 
 module.exports = {
     default: {
