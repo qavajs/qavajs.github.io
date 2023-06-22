@@ -142,7 +142,7 @@ Save file content to memory as pdf object with following properties:
 
 |    property    |  type  |            description            |
 |:--------------:|:------:|:---------------------------------:|
-| textMultiline  | string |  text of pdf in multiline format  |
+| textMultiLine  | string |  text of pdf in multiline format  |
 | textSingleLine | string | text of pdf in single-line format |
 |    metadata    | Object |           pdf metadata            |
 
@@ -156,5 +156,5 @@ example:
 When I save './folder/file.pdf' pdf file content as 'pdfContent'
 When I save '$filePath' pdf file content as 'pdfContent'
 # if you use @qavajs/memory package
-Then I expect '$pdfContent.textMultiline' to be equal 'expectedPdfContent'
+Then I expect '$pdfContent.textMultiLine' to be equal 'expectedPdfContent'
 ```

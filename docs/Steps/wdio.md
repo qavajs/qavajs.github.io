@@ -900,6 +900,21 @@ When I save screenshot as 'screenshot'
 ```
 
 ---
+### I save screenshot of {string} as {string}
+
+Save element screenshot into memory
+
+| param |  type  |        description        |
+|:-----:|:------:|:-------------------------:|
+|  key  | string |    key to store value     |
+| alias | string | element to get screenshot |
+
+example:
+```gherkin
+When I save screenshot of 'Element' as 'screenshot'
+```
+
+---
 ### I save {string} css property of {string} as {string}
 
 Save css property of element to memory
