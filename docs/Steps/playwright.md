@@ -659,6 +659,21 @@ example:
 ```gherkin
 Then I expect page title equals 'Wikipedia'
 ```
+---
+### I expect every element in {string} collection {playwrightConditionWait}
+
+Verify that all elements in collection satisfy condition
+
+|   param   |  type  |     description     |           example            |
+|:---------:|:------:|:-------------------:|:----------------------------:|
+|   alias   | string | alias of collection |        Search Results        |
+| condition | string |  condition to wait  | to be visible, to be present |
+
+example:
+```gherkin
+Then I expect every element in 'Header > Links' collection to be visible
+Then I expect every element in 'Loading Bars' collection not to be present
+```
 
 ---
 ### I expect text of every element in {string} collection {playwrightValidation} {string}

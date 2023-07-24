@@ -129,8 +129,8 @@ Save file content to memory as Excel object (https://www.npmjs.com/package/xlsx)
 | memoryKey | string | memory key  |  excelContent, value   |
 example:
 ```gherkin
-When I save './folder/file.txt' text file content as 'fileContent'
-When I save '$filePath' text file as 'fileContent'
+When I save './folder/file.txt' Excel file content as 'fileContent'
+When I save '$filePath' Excel file as 'fileContent'
 # if you use @qavajs/memory package
 Then I expect '$excelFile.Sheets.SheetName.A1.v' to be equal 'expectedValueOfCell'
 ```
