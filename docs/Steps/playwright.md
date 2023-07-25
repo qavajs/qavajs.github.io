@@ -58,7 +58,38 @@ module.exports = {
 }
 ```
 
-playwright steps provide a couple of additional configuration properties
+## Playwright traces
+@qavajs support capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
+```typescript
+export default {
+    //...
+    browser: {
+        trace: {
+            event: ['onFail'], // Events to save trace. Possible value onFail or AfterScenario 
+            dir: 'dirToStoreTraces', // Dir to store traces. Default is traces/
+            attach: true // Define if trace need to be attached to cucumber report. Default false
+        }
+    }
+}
+```
+
+## Video
+@qavajs support capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
+```typescript
+export default {
+    //...
+    browser: {
+        video: {
+            event: ['onFail'], // Events to save video. Possible value onFail or AfterScenario 
+            dir: 'dirToStoreVideo', // Dir to store video. Default is video/
+            size: { width: 640, height: 480 }, // Video resolution
+            attach: true // Define if trace need to be attached to cucumber report. Default false
+        }
+    }
+}
+```
+
+Playwright steps provide a couple of additional configuration properties
 
 | Name         | Type     | Description                                                                    | Default |
 |--------------|----------|--------------------------------------------------------------------------------|---------|
@@ -344,19 +375,6 @@ Select option with certain index from select element
 example:
 ```gherkin
 When I select 1 option from 'Registration Form > Date Of Birth' dropdown
-```
-
----
-### I save screenshot as {string}
-
-Save page screenshot into memory
-
-| param |  type  |    description     |
-|:-----:|:------:|:------------------:|
-|  key  | string | key to store value |
-example:
-```gherkin
-When I save screenshot as 'screenshot'
 ```
 
 ---
@@ -914,6 +932,34 @@ example:
 ```gherkin
 When I save 'color' css property of 'Checkbox' as 'checkboxColor'
 When I save '$propertyName' property of 'Checkbox' as 'checkboxColor'
+```
+     
+---
+### I save screenshot as {string}
+
+Save page screenshot into memory
+
+| param |  type  |    description     |
+|:-----:|:------:|:------------------:|
+|  key  | string | key to store value |
+example:
+```gherkin
+When I save screenshot as 'screenshot'
+```
+
+---
+### I save screenshot of {string} as {string}
+
+Save element screenshot into memory
+
+| param |  type  |        description        |
+|:-----:|:------:|:-------------------------:|
+|  key  | string |    key to store value     |
+| alias | string | element to get screenshot |
+
+example:
+```gherkin
+When I save screenshot of 'Element' as 'screenshot'
 ```
 
 ## Wait Steps
