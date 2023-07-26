@@ -131,7 +131,7 @@ example:
 ```gherkin
 When I save './folder/file.txt' Excel file content as 'fileContent'
 When I save '$filePath' Excel file as 'fileContent'
-# if you use @qavajs/memory package
+# if you use @qavajs/steps-memory package
 Then I expect '$excelFile.Sheets.SheetName.A1.v' to be equal 'expectedValueOfCell'
 ```
 
@@ -155,6 +155,49 @@ example:
 ```gherkin
 When I save './folder/file.pdf' pdf file content as 'pdfContent'
 When I save '$filePath' pdf file content as 'pdfContent'
-# if you use @qavajs/memory package
+# if you use @qavajs/steps-memory package
 Then I expect '$pdfContent.textMultiLine' to be equal 'expectedPdfContent'
+Then I expect '$pdfContent.textSingleLine' to be equal 'expectedPdfContent'
+```
+
+---
+### I save {string} Word file content as {string}
+
+Save file content to memory as word object with following properties:
+
+|    property    |  type  |                     description                     |
+|:--------------:|:------:|:---------------------------------------------------:|
+| textMultiLine  | string |      text of word document in multiline format      |
+| textSingleLine | string |     text of word document in single-line format     |
+
+|   param   |  type  |     description     |        example         |
+|:---------:|:------:|:-------------------:|:----------------------:|
+|   file    | string | file path or buffer | ./yourFolder/file.docx |
+| memoryKey | string |     memory key      |   wordContent, value   |
+
+example:
+```gherkin
+When I save './folder/file.docx' Word file content as 'wordContent'
+When I save '$filePath' Word file content as 'wordContent'
+When I save '$fileBuffer' Word file content as 'wordContent'
+# if you use @qavajs/steps-memory package
+Then I expect '$wordContent.textMultiLine' to be equal 'expectedPdfContent'
+Then I expect '$wordContent.textSingleLine' to be equal 'expectedPdfContent'
+```
+
+---
+### I save {string} csv file content as {string}
+
+Save file content to memory as csv object. First row will is considered as header.
+
+|   param   |  type  |     description     |        example        |
+|:---------:|:------:|:-------------------:|:---------------------:|
+|   file    | string | file path or buffer | ./yourFolder/file.csv |
+| memoryKey | string |     memory key      |   csvContent, value   |
+example:
+```gherkin
+When I save './folder/file.csv' csv file content as 'csvContent'
+When I save '$filePath' csv file as 'csvContent'
+# if you use @qavajs/steps-memory package
+Then I expect '$csvContent[0].columnName' to be equal 'expectedValue'
 ```
