@@ -15,7 +15,12 @@ To use formatter just add formatter section in config file
 ```javascript
 module.exports = {
     default: {
-        format: ['@qavajs/console-formatter']
+        format: ['@qavajs/console-formatter'],
+        formatOptions: {
+            console: {
+                showLogs: true //show cucumber logs
+            }
+        },
     }
 }
 ```
