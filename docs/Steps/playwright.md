@@ -438,6 +438,19 @@ When I scroll by '0, 100'
 ```
 
 ---
+### I scroll to {string}
+
+Scroll to element
+
+| param |  type  |   description    |
+|:-----:|:------:|:----------------:|
+| alias | string | alias of element |
+example:
+```gherkin
+When I scroll to 'Element'
+```
+
+---
 ### I scroll by {string} in {string}
 
 Scroll by offset in element
