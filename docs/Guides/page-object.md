@@ -75,3 +75,58 @@ When I click '@some exact text in Collection'
 When I click '/^some regexp$/ in Collection'
 ```
 
+## Ignore hierarchy
+In case if child element and parent component doesn't have hierarchy dependency
+it's possible to pass extra parameter _ignoreHierarchy_ parameter to start traverse from root
+
+```javascript
+class ComponentThatDescribesNotWellDesignedDOMTree {
+    selector = '.container';
+    //ignoreHierarchy will ignore component selector .container and start traverse from root
+    ChildItem = $('.child-item', { ignoreHierarchy: true }); 
+}
+```
+
+## Optional selector property
+If selector property is not provided for Component then parent element will be returned
+
+```javascript
+class ParentComponent {
+    selector = '.container';
+    ChildComponent = $(new ChildComponent()); 
+}
+
+class ChildComponent {
+    //Element will be searched in parent .container element
+    Element = $('.someElement');
+}
+```
+
+## Immediate option
+In order, you don't need to retry query for elements exists you can pass { immediate: true } option
+```javascript
+When('I wait {string} not to be present', async function (alias) {
+    const element = await po.getElement(alias, { immediate: true }); // in case if element not found dummy not existing element be returned
+    await element.waitForExist({ reverse: true });
+});
+```
+
+## Dynamic selectors
+In case you need to generate selector based on some data you can use dynamic selectors
+
+e.g
+```javascript
+const { Selector } = require('@qavajs/po');
+
+class Component {
+    selector = '.container';
+    Element = $(Selector((index => `div:nth-child(${index})`))); // function should return valid selector 
+}
+```
+
+Then you can pass parameter to this function from Gherkin file
+
+```gherkin
+When I click 'Component > Element (2)'
+```
+
