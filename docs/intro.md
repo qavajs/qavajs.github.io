@@ -20,7 +20,7 @@ https://qavajs.github.io/
 ### Test execution
 JS `npx qavajs run --config <config> --profile <profile>`
 
-TS `npx ts-node --esm --project tsconfig.json node_modules/@qavajs/cli/bin/qavajs.js run --config config.ts`
+TS `npx ts-node --project tsconfig.json node_modules/@qavajs/cli/bin/qavajs.js run --config config.ts`
 
 default config is cucumber.js
 default profile is default
@@ -33,3 +33,6 @@ Config file extends Cucumber [config file](https://github.com/cucumber/cucumber-
 | `defaultTimeout` | `number` | default timeout for step definitions                                              | 10000   |
 | `services`       | `[]`     | list of services to run before/after tests (setup/teardown selenium, appium etc.) | []      |
 | `memory`         | `object` | instance of memory object with loaded constants and computed                      | {}      |
+
+### VSCode Extension
+https://github.com/qavajs/vscode/releases

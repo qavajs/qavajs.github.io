@@ -40,5 +40,9 @@
   },
   "engines": {
     "node": ">=16.14"
-  }
+  },
+  "authors": [
+    "Alexandr Galichenko",
+    "Alexandr Legchilov"
+  ]
 }

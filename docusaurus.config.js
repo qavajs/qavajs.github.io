@@ -7,7 +7,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: '@qavajs',
-  tagline: 'All-in-one test automation framework',
+  tagline: 'Test Automation Framework',
   url: 'https://qavajs.github.io',
   baseUrl: '/',
   onBrokenLinks: 'throw',

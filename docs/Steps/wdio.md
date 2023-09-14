@@ -12,7 +12,7 @@ const App = require('./page_object');
 module.exports = {
     default: {
         require: [
-            'node_modules/@qavajs/steps-wdio'
+            'node_modules/@qavajs/steps-wdio/index.js'
         ],
         browser: {
             timeout: {
@@ -51,18 +51,18 @@ condition of element to wait (can be negated with _not_)
 
 ### wdioValueWait
 condition of value to wait (can be negated with _not_)
-- to be equal
+- to equal
 - to contain
 - to be above
 - to be below
 
 ### wdioValidation
 validation of values (can be negated with _not_)
-- to be equal
-- to be strictly equal
-- to be deeply equal
+- to equal
+- to strictly equal
+- to deeply equal
 - to have member
-- to be match
+- to match
 - to contain
 - to be above
 - to be below
@@ -72,6 +72,21 @@ validation of values (can be negated with _not_)
 
 ### wdioTimeout
 optional timeout that can be passed to wait steps _(timeout: x)_, where x timeout in milliseconds
+
+### wdioMouseButton
+mouse button to interact
+- left
+- right
+- middle
+
+## Global variables
+@qavajs/steps-playwright exposes following global variables
+
+| variable   | type                                 | description                                  |
+|------------|--------------------------------------|----------------------------------------------|
+| `browser`  | `Browser`                            | browser instance                             |
+| `driver`   | `Browser`                            | browser instance (alias for browser)         |
+| `browsers` | `{ [browserName: string]: Browser }` | map of opened browsers in multi browser mode |
 
 ## Action Steps
 
@@ -230,6 +245,16 @@ example:
 ```gherkin
 When I switch to 'google.com' window
 ```
+   
+---
+### I open new tab
+
+Open new browser tab
+
+example:
+```gherkin
+When I open new tab
+```
 
 ---
 ### I refresh page
@@ -327,6 +352,20 @@ When I click forward button
 ```
 
 ---
+### I upload {string} file to {string}
+
+Provide file url to upload input
+
+| param |  type  |      description       |
+|:-----:|:------:|:----------------------:|
+| alias | string | element to upload file |
+| value | string |       file path        |
+example:
+```gherkin
+When I upload '/folder/file.txt' file to 'File Input'
+```
+
+---
 ### I scroll to {string}
 
 Scroll to element
@@ -339,6 +378,33 @@ example:
 When I scroll to 'Element'
 ```
 
+---
+### I scroll by {string}
+
+Scroll by offset
+
+| param  |  type  |          description           |
+|:------:|:------:|:------------------------------:|
+| offset | string | offset string in 'x, y' format |
+example:
+```gherkin
+When I scroll by '0, 100'
+```
+
+---
+### I scroll by {string} in {string}
+
+Scroll by offset in element
+
+| param  |  type  |          description           |
+|:------:|:------:|:------------------------------:|
+| offset | string | offset string in 'x, y' format |
+| alias  | string |        alias of element        |
+example:
+```gherkin
+When I scroll by '0, 100' in 'Overflow Container'
+```
+_________________________
 ### I accept alert
 
 Accepts an alert
@@ -346,7 +412,7 @@ Accepts an alert
 ```gherkin
 When I accept alert
 ```
-
+_________________________
 ### I dismiss alert
 
 Dismisses an alert
@@ -367,6 +433,116 @@ Type a text to alert
 When I type 'Alerts are' to alert
 When I type 'not a good practice' to alert
 When I type 'nowadays' to alert
+```
+    
+-------------------------
+### I drag and drop {string} in {string}
+
+Drag&Drop one element to another
+
+|    param     |  type  |   description   |
+|:------------:|:------:|:---------------:|
+| elementAlias | string | element to drop |
+| targetAlias  | string |     target      |
+example:
+```gherkin
+When I drag and drop 'Bishop' to 'E4'
+```
+
+_________________________
+### I define {string} as {string} {wdioPoType}
+
+Register selector as page object
+
+|    param    |  type  |                description                |
+|:-----------:|:------:|:-----------------------------------------:|
+| selectorKey | string |           selector to register            |
+|  aliasKey   | string |             alias of element              |
+|   poType    | string | type of page object (element, collection) |
+example:
+```gherkin
+When I define '#someId' as 'My Button' element
+And I click 'My Button'
+When I define 'li.selected' as 'Selected Items' collection
+And I expect number of element in 'Selected Items' collection to equal '3'
+```
+
+-------------------------
+### I press {wdioMouseButton} mouse button
+
+Press mouse button
+
+| param  |  type  |              description              |
+|:------:|:------:|:-------------------------------------:|
+| button | string | button to press (left, right, middle) |
+example:
+```gherkin
+When I press left mouse button
+```
+
+-------------------------
+### I release {wdioMouseButton} mouse button
+
+Release mouse button
+
+| param  |  type  |               description               |
+|:------:|:------:|:---------------------------------------:|
+| button | string | button to release (left, right, middle) |
+example:
+```gherkin
+When I release left mouse button
+```
+
+-------------------------
+### I move mouse to {string}
+
+Move mouse to coordinates
+
+|    param    |  type  |       description        |
+|:-----------:|:------:|:------------------------:|
+| coordinates | string | x, y coordinates to move |
+example:
+```gherkin
+When I move mouse to '10, 15'
+```
+
+-------------------------
+### I scroll mouse wheel by {string}
+
+Scroll mouse wheel by x, y offset
+
+|    param    |  type  |      description      |
+|:-----------:|:------:|:---------------------:|
+| coordinates | string | x, y offset to scroll |
+example:
+```gherkin
+When I scroll mouse wheel by '0, 15'
+```
+
+-------------------------
+### I hold down {string} key
+
+Press and hold keyboard key
+
+| param |  type  | description  |
+|:-----:|:------:|:------------:|
+|  key  | string | key to press |
+example:
+```gherkin
+When I hold down 'Q' key
+```
+
+-------------------------
+### I release {string} key
+
+Release keyboard key
+
+| param |  type  |  description   |
+|:-----:|:------:|:--------------:|
+|  key  | string | key to release |
+example:
+```gherkin
+When I release 'Q' key
 ```
 
 ## Validation Steps
@@ -485,6 +661,22 @@ Verify that page title satisfies condition
 example:
 ```gherkin
 Then I expect page title equals 'Wikipedia'
+```
+
+---
+### I expect every element in {string} collection {wdioConditionWait}
+
+Verify that all elements in collection satisfy condition
+
+|   param   |  type  |     description     |           example            |
+|:---------:|:------:|:-------------------:|:----------------------------:|
+|   alias   | string | alias of collection |        Search Results        |
+| condition | string |  condition to wait  | to be visible, to be present |
+
+example:
+```gherkin
+Then I expect every element in 'Header > Links' collection to be visible
+Then I expect every element in 'Loading Bars' collection not to be present
 ```
 
 ---
@@ -721,6 +913,21 @@ Save page screenshot into memory
 example:
 ```gherkin
 When I save screenshot as 'screenshot'
+```
+
+---
+### I save screenshot of {string} as {string}
+
+Save element screenshot into memory
+
+| param |  type  |        description        |
+|:-----:|:------:|:-------------------------:|
+|  key  | string |    key to store value     |
+| alias | string | element to get screenshot |
+
+example:
+```gherkin
+When I save screenshot of 'Element' as 'screenshot'
 ```
 
 ---
@@ -1124,7 +1331,7 @@ Add mocking rule to respond with desired status code and payload
 
 example:
 ```gherkin
-When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+When I create mock for '/yourservice/**' as 'myServiceMock'
 And I set '$myServiceMock' mock to respond '200' with:
 """
 {
@@ -1146,7 +1353,7 @@ Add mocking rule to respond with desired status code and payload
 
 example:
 ```gherkin
-When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+When I create mock for '/yourservice/**' as 'myServiceMock'
 And I set '$myServiceMock' mock to respond '200' with '$response'
 ```
 
@@ -1162,7 +1369,7 @@ Add mocking rule to abort request with certain reason
 
 example:
 ```gherkin
-When I create mock for '/yourservice/**' with filter options as 'myServiceMock'
+When I create mock for '/yourservice/**' as 'myServiceMock'
 And I set '$myServiceMock' mock to abort with 'Failed' reason
 ```
 
@@ -1188,6 +1395,101 @@ Restore all mocks
 example:
 ```gherkin
 When I restore all mocks
+```
+
+## Network Intercept Steps
+
+---
+### I create interception for {string} as {string}
+
+Create interception for url
+
+|   param   |  type  |             description             |
+|:---------:|:------:|:-----------------------------------:|
+| predicate | string | url or predicate function to listen |
+|    key    | string |      key to save interception       |
+
+example:
+```gherkin
+When I create interception for '**/api/qavajs' as 'interception'
+```
+
+---
+### I wait for {string} response
+
+Wait for interception event
+
+|    param     |  type  |           description            |
+|:------------:|:------:|:--------------------------------:|
+| interception | string | memory key of interception event |
+
+example:
+```gherkin
+When I create interception for '**/api/qavajs' as 'interception'
+And I wait for '$interception' response
+```
+
+---
+### I save {string} response as {string}
+
+Wait for interception event and save response to memory
+
+|    param     |  type  |            description            |
+|:------------:|:------:|:---------------------------------:|
+| interception | string | memory key of interception event  |
+|     key      | string | key to save interception response |
+
+example:
+```gherkin
+When I create interception for '**/api/qavajs' as 'interception'
+When I save '$interception' response as 'response' # response will be instance of Response object
+And I expect '$response.statusCode' to equal '200'
+```
+
+## Multi-browser Steps
+
+---
+### I open new browser as {string}
+
+Open new browser
+
+|    param    |  type  | description  |
+|:-----------:|:------:|:------------:|
+| browserName | string | browser name |
+
+example:
+```gherkin
+When I open new browser as 'browser2'
+```
+
+---
+### I switch to {string} browser
+
+Switch to other browser by name
+
+|    param    |  type  | description  |
+|:-----------:|:------:|:------------:|
+| browserName | string | browser name |
+
+example:
+```gherkin
+When I open new browser as 'browser2'
+And I switch to 'browser2' browser
+And I switch to 'default' browser
+```
+
+---
+### I close {string} browser
+
+Close browser
+
+|    param    |  type  | description  |
+|:-----------:|:------:|:------------:|
+| browserName | string | browser name |
+
+example:
+```gherkin
+When I close to 'browser2' browser
 ```
 
 ---

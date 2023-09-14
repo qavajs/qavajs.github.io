@@ -15,32 +15,21 @@ module.exports = {
 
 ```
 # Distributing uniq user per thread
-The simplest way to assign uniq user is to use memory capabilities and environment variable produced by Cucumber.
+The simplest way to assign uniq user is to use memory capabilities and environment variable produced by Cucumber (or use util function - parallel).
 
 Here is example of memory file (by default it is memory/index.js):
 
 ```javascript
-const users = [
-    {
-        username: 'user1',
-        password: 'password1'
-    },
-    {
-        username: 'user2',
-        password: 'password2'
-    },
-    {
-        username: 'user3',
-        password: 'password3'
-    }
-]
+const { parallel } = require('@qavajs/memory/utils');
 
-const user = users[process.env.CUCUMBER_WORKER_ID ?? 0];
+class Memory {
+    user = parallel([
+        { username: 'user1', password: 'password' },
+        { username: 'user2', password: 'password' }
+    ]);
+}
 
-module.exports = {
-    username: user.username,
-    password: user.password
-};
+module.exports = Memory;
 ```
 
 Then values can be used in Gherkin scripts.
@@ -49,6 +38,15 @@ Then values can be used in Gherkin scripts.
 Feature: Parallel
   
   Scenario: Verify that user is able to login
-    When I type '$username' to 'Username Input'
-    And I type '$password' to 'Password Input'
+    When I type '$user.username' to 'Username Input'
+    And I type '$user.password' to 'Password Input'
+```
+
+### Test Sharding
+qavajs provides ability to shard your tests between different machines. To do so pass `--shard x/y` parameter in CLI,
+where x - current shard, y - total number of shards.
+
+```
+npx qavajs run --config config.js --shard 1/2
+npx qavajs run --config config.js --shard 2/2
 ```

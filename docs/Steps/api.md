@@ -3,7 +3,7 @@ sidebar_position: 3
 ---
 
 # @qavajs/steps-api
-This is a package to get basic API cucumber steps.
+Step library to work with API
 
 ## Installation
 `npm install @qavajs/steps-api`
@@ -12,14 +12,14 @@ This is a package to get basic API cucumber steps.
 module.exports = {
     default: {
         require: [
-            'node_modules/@qavajs/steps-api'
+            'node_modules/@qavajs/steps-api/index.js'
         ]
     }
 }
 ```
 ## Parameter Types
 
-## API Action Steps
+## Action Steps
 
 ### I send {string} request to {landingUrl}{headers} and save response as {string}
 
@@ -106,6 +106,21 @@ When I send "POST" request and save response as "response" to "$BASE_API_URL" wi
    """
 ```
 
+### I parse {string} body as {bodyParsingType}
+MANDATORY STEP THAT SHOULD BE USED AFTER SENDING REQUEST
+Parsing body in needed way and adds payload property to response
+
+|  param   |  type  |      description       |
+|:--------:|:------:|:----------------------:|
+| response | string | response key in memory |
+|   type   | string |    type of payload     |
+
+example:
+```gherkin
+When I parse '$response' body as 'json'
+Then I expect '$response.payload.foo' to equal 'bar'
+```
+
 ## Validation Steps
 
 ---
@@ -184,4 +199,123 @@ Execute any jsonPath query against response and verify result is equal to expect
 example:
 ```gherkin
 Then I verify response "$response.payload.data.items[0].title" equals to "TEST"
+```
+
+## Construction API Steps
+
+---
+### I create {string} request {string}
+
+Create request template and save it to memory
+
+| param  |  type  | description |
+|:------:|:------:|:-----------:|
+| method | string | API method  |
+
+example:
+```gherkin
+When I create 'GET' request 'request'
+```
+
+---
+### I add headers to {string}: [DataTable]
+
+Add data table of headers to request
+
+|      param       |   type    |        description         |
+|:----------------:|:---------:|:--------------------------:|
+|    requestKey    |  string   |   memory key of request    |
+| headersDataTable | DataTable | key value array of headers |
+
+example:
+```gherkin
+When I create 'GET' request 'request'
+And I add headers to '$request':
+    | Content-Type | application/json |
+```
+
+---
+### I add {string} headers to {string}
+
+Add headers to request
+
+|   param    |  type  |                   description                    |
+|:----------:|:------:|:------------------------------------------------:|
+| requestKey | string |              memory key of request               |
+| headersKey | string | memory key of headers that resolves to JS object |
+
+example:
+```gherkin
+When I create 'GET' request 'request'
+And I add '$headers' headers to '$request'
+```
+
+---
+### I add body to {string}: [Multiline]
+
+Add body to request as multiline parameter
+
+|   param    |  type  |      description      |
+|:----------:|:------:|:---------------------:|
+| requestKey | string | memory key of request |
+|    body    | string |         body          |
+
+example:
+```gherkin
+When I create 'GET' request 'request'
+And I add body to '$request':
+    """
+     {
+         "message": "qavajs"
+     }
+    """
+```
+
+---
+### I add {string} body to {string}
+
+Add body to request
+
+|   param    |  type  |      description      |
+|:----------:|:------:|:---------------------:|
+| requestKey | string | memory key of request |
+|    body    | string |         body          |
+
+example:
+```gherkin
+When I create 'GET' request 'request'
+And I add '$body' body to '$request'
+```
+
+---
+### I add {string} url to {string}
+
+Add url to request
+
+|   param    |  type  |      description      |
+|:----------:|:------:|:---------------------:|
+| requestKey | string | memory key of request |
+|    url     | string |          url          |
+
+example:
+```gherkin
+When I create 'GET' request 'request'
+And I add 'https://qavajs.github.io/' body to '$request'
+```
+
+---
+### I send {string} request and save response as {string}
+
+Send prepared request and save response
+
+|    param    |  type  |         description         |
+|:-----------:|:------:|:---------------------------:|
+| requestKey  | string |    memory key of request    |
+| responseKey | string | memory key to save response |
+
+example:
+```gherkin
+When I create 'GET' request 'request'
+And I add 'https://qavajs.github.io/' body to '$request'
+And I send '$request' and save response as 'response'
 ```
