@@ -1431,3 +1431,34 @@ example:
 ```gherkin
 When I close to 'browser2' browser context
 ```
+
+---
+### I set window size {string}
+
+Resize browser viewport
+
+|    param     |  type  |                  description                  |
+|:------------:|:------:|:---------------------------------------------:|
+| viewportSize | string | width and height in pixels separated by comma |
+
+example:
+
+```gherkin
+When I set window size '1440,900'
+```
+
+---
+### I click {string} coordinates in {string}
+
+Click a certain coordinate of an element
+
+|    param    |  type  |             description             |
+|:-----------:|:------:|:-----------------------------------:|
+| coordinates | string | comma separated x and y coordinates |
+|    alias    | string |          element to click           |
+
+example:
+
+```gherkin
+When I click '0,20' coordinates in 'Google Button'
+```
