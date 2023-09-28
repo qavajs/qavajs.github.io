@@ -574,6 +574,65 @@ example:
 When I release 'Q' key
 ```
 
+---
+### I click {wdioBrowserButton} button
+
+Click browser button
+
+| param  |  type  |          description           |
+|:------:|:------:|:------------------------------:|
+| button | string | browser button (back, forward) |
+example:
+```gherkin
+When I click back button
+When I click forward button
+```
+
+---
+### I upload {string} file by clicking {string} step by
+
+Provide file url to file chooser
+
+| param |  type  |            description            |
+|:-----:|:------:|:---------------------------------:|
+| file  | string |     file path or file handle      |
+| alias | string | element that invokes file chooser |
+example:
+```gherkin
+When I upload '/folder/file.txt' by clicking 'Upload Button'
+```
+
+---
+### I set window size {string}
+
+Resize browser viewport
+
+|    param     |  type  |                  description                  |
+|:------------:|:------:|:---------------------------------------------:|
+| viewportSize | string | width and height in pixels separated by comma |
+
+example:
+
+```gherkin
+When I set window size '1440,900'
+```
+
+---
+### I click {string} coordinates in {string}
+
+Click a certain coordinate of an element
+
+|    param    |  type  |             description             |
+|:-----------:|:------:|:-----------------------------------:|
+| coordinates | string | comma separated x and y coordinates |
+|    alias    | string |          element to click           |
+
+example:
+
+```gherkin
+When I click '0,20' coordinates in 'Google Button'
+```
+
 ## Validation Steps
 
 ---
@@ -973,6 +1032,23 @@ Save element screenshot into memory
 example:
 ```gherkin
 When I save screenshot of 'Element' as 'screenshot'
+```
+
+---
+### I save bounding rect of {string} as {string}
+
+Save bounding client rect to memory
+https://developer.mozilla.org/en-US/docs/Web/API/DOMRect
+
+| param |  type  |         description          |
+|:-----:|:------:|:----------------------------:|
+| alias | string | element to get bounding rect |
+|  key  | string |      key to store value      |
+
+example:
+```gherkin
+When I save bounding rect of 'Node' as 'boundingRect'
+Then I expect '$boundingRect.width' to equal '42'
 ```
 
 ## Wait Steps
@@ -1430,35 +1506,4 @@ Close browser context
 example:
 ```gherkin
 When I close to 'browser2' browser context
-```
-
----
-### I set window size {string}
-
-Resize browser viewport
-
-|    param     |  type  |                  description                  |
-|:------------:|:------:|:---------------------------------------------:|
-| viewportSize | string | width and height in pixels separated by comma |
-
-example:
-
-```gherkin
-When I set window size '1440,900'
-```
-
----
-### I click {string} coordinates in {string}
-
-Click a certain coordinate of an element
-
-|    param    |  type  |             description             |
-|:-----------:|:------:|:-----------------------------------:|
-| coordinates | string | comma separated x and y coordinates |
-|    alias    | string |          element to click           |
-
-example:
-
-```gherkin
-When I click '0,20' coordinates in 'Google Button'
 ```

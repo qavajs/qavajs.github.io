@@ -948,6 +948,23 @@ When I save 'color' css property of 'Checkbox' as 'checkboxColor'
 When I save '$propertyName' property of 'Checkbox' as 'checkboxColor'
 ```
 
+---
+### I save bounding rect of {string} as {string}
+
+Save bounding client rect to memory
+https://developer.mozilla.org/en-US/docs/Web/API/DOMRect
+
+| param |  type  |         description          |
+|:-----:|:------:|:----------------------------:|
+| alias | string | element to get bounding rect |
+|  key  | string |      key to store value      |
+
+example:
+```gherkin
+When I save bounding rect of 'Node' as 'boundingRect'
+Then I expect '$boundingRect.width' to equal '42'
+```
+
 ## Wait Steps
 
 ---
