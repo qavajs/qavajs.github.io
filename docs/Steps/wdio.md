@@ -255,6 +255,16 @@ example:
 ```gherkin
 When I open new tab
 ```
+ 
+---
+### I close current tab
+
+Close current browser tab
+
+example:
+```gherkin
+When I close current tab
+```
 
 ---
 ### I refresh page

@@ -12,7 +12,9 @@ Step library to test emails via gmail client
 ```javascript
 module.exports = {
     default: {
-        require: ['node_modules/@qavajs/steps-gmail/index.js'],
+        require: [
+            'node_modules/@qavajs/steps-gmail/index.js'
+        ],
         gmail: {
             timeout: 30000, // timeout to wait email delivery
             interval: 5000 // interval to check email delivery

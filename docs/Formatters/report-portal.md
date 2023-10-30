@@ -15,7 +15,7 @@ Add formatter to config.js
 module.exports = {
     default: {
         format: [
-            '@qavajs/format-report-portal'
+            ['@qavajs/format-report-portal', 'report/rp.out']
         ],
         formatOptions: {
             rpConfig: {

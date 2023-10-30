@@ -18,9 +18,7 @@ https://qavajs.github.io/
 `npx qavajs install` and select modules to install. The system will generate config file based on your answers.
 
 ### Test execution
-JS `npx qavajs run --config <config> --profile <profile>`
-
-TS `npx ts-node --project tsconfig.json node_modules/@qavajs/cli/bin/qavajs.js run --config config.ts`
+`npx qavajs run --config <config> --profile <profile>`
 
 default config is cucumber.js
 default profile is default

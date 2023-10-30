@@ -170,3 +170,9 @@ example:
 ```gherkin
 When I expect '$arr' array to be sorted by '$ascending'
 ```
+```javascript
+// memory/index.js
+class Memory {
+    ascending = (a, b) => a - b; //implementation of comparator function
+}
+```

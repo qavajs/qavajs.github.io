@@ -17,7 +17,9 @@ Add to format section in config file
 cloud configuration:
 ```javascript
 export default {
-    format: ['@qavajs/xray-formatter:report/xray.out'],
+    format: [
+        ['@qavajs/xray-formatter', 'report/xray.out']
+    ],
     formatOptions: {
         xray: {
             client_id: 'client_id', // generated client_id from xray cloud

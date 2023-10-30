@@ -45,7 +45,7 @@ module.exports = {
 
 ## Connect to cdp endpoint
 In order to connect to CDP endpoint pass _cdpEndpoint_ property in capabilities object
-```typescript
+```javascript
 module.exports = {
     default: {
         browser: {
@@ -61,13 +61,15 @@ module.exports = {
 ## Playwright traces
 @qavajs support capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
 ```typescript
-export default {
-    //...
-    browser: {
-        trace: {
-            event: ['onFail'], // Events to save trace. Possible value onFail or AfterScenario 
-            dir: 'dirToStoreTraces', // Dir to store traces. Default is traces/
-            attach: true // Define if trace need to be attached to cucumber report. Default false
+module.exports = {
+    default: {
+        //...
+        browser: {
+            trace: {
+                event: ['onFail'], // Events to save trace. Possible value onFail or AfterScenario 
+                dir: 'dirToStoreTraces', // Dir to store traces. Default is traces/
+                attach: true // Define if trace need to be attached to cucumber report. Default false
+            }
         }
     }
 }
@@ -76,14 +78,16 @@ export default {
 ## Video
 @qavajs support capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
 ```typescript
-export default {
-    //...
-    browser: {
-        video: {
-            event: ['onFail'], // Events to save video. Possible value onFail or AfterScenario 
-            dir: 'dirToStoreVideo', // Dir to store video. Default is video/
-            size: { width: 640, height: 480 }, // Video resolution
-            attach: true // Define if trace need to be attached to cucumber report. Default false
+module.exports = {
+    default: {
+        //...
+        browser: {
+            video: {
+                event: ['onFail'], // Events to save video. Possible value onFail or AfterScenario 
+                dir: 'dirToStoreVideo', // Dir to store video. Default is video/
+                size: {width: 640, height: 480}, // Video resolution
+                attach: true // Define if trace need to be attached to cucumber report. Default false
+            }
         }
     }
 }
@@ -294,6 +298,16 @@ Open new browser tab
 example:
 ```gherkin
 When I open new tab
+```
+
+---
+### I close current tab
+
+Close current browser tab
+
+example:
+```gherkin
+When I close current tab
 ```
 
 ---
