@@ -17,7 +17,9 @@ Add to formatter section in config file
 ```javascript
 module.exports = {
     default: {
-        format: ['@qavajs/html-formatter:report.html']
+        format: [
+            ['@qavajs/html-formatter', 'report.html']
+        ]
     }
 }
 ```

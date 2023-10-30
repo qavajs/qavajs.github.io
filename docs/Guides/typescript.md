@@ -4,12 +4,6 @@ sidebar_position: 5
 # Typescript
 Typescript is supported out of the box via ts-node library
 
-`npm install ts-node`
-
-and then
-
-`npx ts-node node_modules/@qavajs/cli/bin/qavajs.js run --config config.ts --profile profile`
-
 ```typescript
 export default {
     parallel: 1,

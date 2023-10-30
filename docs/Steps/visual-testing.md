@@ -3,7 +3,7 @@ sidebar_position: 10
 ---
 
 # @qavajs/steps-visual-testing
-Step library to perform visual testing
+Step library to perform visual testing using pixelmatch library
 
 ## Installation
 
@@ -14,7 +14,7 @@ Step library to perform visual testing
 module.exports = {
     default: {
         require: [
-            '@qavajs/steps-visual-testing'
+            '@qavajs/steps-visual-testing/index.js'
         ],
     }
 }

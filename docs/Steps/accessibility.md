@@ -14,8 +14,8 @@ Library can work on top of playwright and webdriverio drivers
 module.exports = {
     default: {
         require: [
-            'node_modules/@qavajs/steps-wdio', //corresponding driver library should be imported first
-            'node_modules/@qavajs/steps-accessibility'
+            'node_modules/@qavajs/steps-wdio/index.js', //corresponding driver library should be imported first
+            'node_modules/@qavajs/steps-accessibility/index.js'
         ],
         /**
          * Axe configuration to customize axe instance define axe property which is a function that accepts AxeBuilder instance
