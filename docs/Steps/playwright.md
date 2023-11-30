@@ -17,7 +17,10 @@ module.exports = {
         browser: {
             timeout: {
                 present: 10000,
-                visible: 20000    
+                visible: 20000,
+                page: 10000,
+                value: 5000, // expect value timeout
+                valueInterval: 500 //expect value interval  
             },
             capabilities: {
                 browserName: 'chromium'
@@ -99,7 +102,6 @@ Playwright steps provide a couple of additional configuration properties
 |--------------|----------|--------------------------------------------------------------------------------|---------|
 | `browser`    | `object` | object describing playwright config                                            | `{}`    |
 | `pageObject` | `object` | instance of page object definitions  [(page object)](../Guides/page-object.md) | `{}`    |
-| `screenshot` | `string` | screenshot strategy (beforeStep, afterStep, onFail)                            |         |
 
 ## Parameter Types
 ### playwrightConditionWait 
@@ -108,14 +110,6 @@ condition of element to wait (can be negated with _not_)
 - to be present
 - to be invisible
 - to be in viewport
-
-### playwrightValueWait
-condition of value to wait (can be negated with _not_)
-- to equal
-- to contain
-- to be above
-- to be below
-- to match
 
 ### playwrightValidation
 validation of values (can be negated with _not_)
@@ -143,13 +137,13 @@ mouse button to interact
 ## Global variables
 @qavajs/steps-playwright exposes following global variables
 
-| variable   | type                                        | description                                  |
-|------------|---------------------------------------------|----------------------------------------------|
-| `browser`  | `Browser`                                   | browser instance                             |
-| `driver`   | `Browser`                                   | browser instance (alias for browser)         |
-| `context`  | `BrowserContext`                            | current browser context                      |
-| `page`     | `Page`                                      | current context page                         |
-| `contexts` | `{ [contextName: string]: BrowserContext }` | map of opened contexts in multi browser mode |
+| variable         | type             | description                                                     |
+|------------------|------------------|-----------------------------------------------------------------|
+| `browser`        | `Browser`        | browser instance                                                |
+| `driver`         | `Browser`        | browser instance (alias for browser)                            |
+| `context`        | `BrowserContext` | current browser context                                         |
+| `page`           | `Page`           | current context page                                            |
+| `browserManager` | `BrowserManager` | manager for opened browsers, electron applications and contexts |
 
 ## Action Steps
 
@@ -1477,6 +1471,72 @@ And I expect '$response.status()' to equal '200'
 ```
 
 ## Multi-browser Steps
+
+---
+### I launch new driver as {string}
+
+Launch new driver (from provided config)
+
+|   param    |  type  | description |
+|:----------:|:------:|:-----------:|
+| driverName | string | driver name |
+
+example:
+```gherkin
+When I launch new driver as 'chrome'
+```
+ 
+---
+### I launch new driver as {string}: [Multiline]
+
+Launch new driver with provided config
+
+|   param    |   type   |   description   |
+|:----------:|:--------:|:---------------:|
+| driverName |  string  |   driver name   |
+|   config   | string   | prodied config  |
+
+example:
+```gherkin
+When I launch new driver as 'firefox':
+"""
+    {
+      "capabilities": {
+          "browserName": "firefox"
+      }
+    }
+"""
+```
+
+---
+### I switch to {string} driver
+
+Switch to driver
+
+|   param    |  type  | description |
+|:----------:|:------:|:-----------:|
+| driverName | string | driver name |
+
+example:
+```gherkin
+When I launch new driver as 'browser2'
+And I switch to 'browser2' driver
+And I switch to 'default' driver
+```
+
+---
+### I close {string} driver
+
+Close driver
+
+|   param    |  type  | description |
+|:----------:|:------:|:-----------:|
+| driverName | string | driver name |
+
+example:
+```gherkin
+When I close to 'browser2' driver
+```
 
 ---
 ### I open new browser context as {string}

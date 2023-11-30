@@ -300,7 +300,7 @@ Add url to request
 example:
 ```gherkin
 When I create 'GET' request 'request'
-And I add 'https://qavajs.github.io/' body to '$request'
+And I add 'https://qavajs.github.io/' url to '$request'
 ```
 
 ---
@@ -316,6 +316,6 @@ Send prepared request and save response
 example:
 ```gherkin
 When I create 'GET' request 'request'
-And I add 'https://qavajs.github.io/' body to '$request'
-And I send '$request' and save response as 'response'
+And I add 'https://qavajs.github.io/' url to '$request'
+And I send '$request' request and save response as 'response'
 ```

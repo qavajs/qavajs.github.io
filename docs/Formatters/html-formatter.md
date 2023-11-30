@@ -19,7 +19,15 @@ module.exports = {
     default: {
         format: [
             ['@qavajs/html-formatter', 'report.html']
-        ]
+        ],
+        formatOptions: {
+            htmlConfig: {
+                metadata: {
+                    'OS': 'macos',
+                    'OS Version': '13.1'
+                }
+            }
+        }
     }
 }
 ```
