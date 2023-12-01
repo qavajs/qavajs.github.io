@@ -21,14 +21,17 @@ module.exports = {
             rpConfig: {
                 enable: true,
                 debug: false,
-                token: 'your token',
+                apiKey: 'your token',
                 endpoint: 'https://your-rp-instance/api/v1',
                 description: 'Description',
                 tags: ['Tag'],
                 project: 'your project',
                 launch: 'your launch name',
                 mode: 'DEFAULT',
-                retry: 1 // number of retries to send result to report portal (default - 1)
+                retry: 1, // number of retries to send result to report portal (default - 1)
+                ignoreErrors: false, // ignore RP errors (default: false)
+                showLaunchURL: true, // log report portal launch link,
+                tagsAsAttributes: true // (default: false → tags go to description)
             },
         }
     }

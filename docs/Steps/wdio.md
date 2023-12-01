@@ -20,7 +20,10 @@ module.exports = {
                 visible: 20000,
                 clickable: 15000,
                 page: 10000,
-                implicit: 0 //wdio implicit wait for element
+                implicit: 0, //wdio implicit wait for element,
+                element: 2000 ,//timeout to element to be accesible,
+                value: 5000, // expect value timeout
+                valueInterval: 500 //expect value interval
             },
             capabilities: {
                 browserName: 'chrome'
@@ -37,7 +40,6 @@ wdio steps provide a couple of additional configuration properties
 |--------------|----------|--------------------------------------------------------------------------------|---------|
 | `browser`    | `object` | object describing wdio config                                                  | `{}`    |
 | `pageObject` | `object` | instance of page object definitions  [(page object)](../Guides/page-object.md) | `{}`    |
-| `screenshot` | `string` | screenshot strategy (beforeStep, afterStep, onFail)                            |         |
 
 ## Parameter Types
 ### wdioConditionWait 
@@ -48,13 +50,6 @@ condition of element to wait (can be negated with _not_)
 - to be enabled
 - to be disabled
 - to be in viewport
-
-### wdioValueWait
-condition of value to wait (can be negated with _not_)
-- to equal
-- to contain
-- to be above
-- to be below
 
 ### wdioValidation
 validation of values (can be negated with _not_)
@@ -82,11 +77,11 @@ mouse button to interact
 ## Global variables
 @qavajs/steps-playwright exposes following global variables
 
-| variable   | type                                 | description                                  |
-|------------|--------------------------------------|----------------------------------------------|
-| `browser`  | `Browser`                            | browser instance                             |
-| `driver`   | `Browser`                            | browser instance (alias for browser)         |
-| `browsers` | `{ [browserName: string]: Browser }` | map of opened browsers in multi browser mode |
+| variable         | type             | description                          |
+|------------------|------------------|--------------------------------------|
+| `browser`        | `Browser`        | browser instance                     |
+| `driver`         | `Browser`        | browser instance (alias for browser) |
+| `browserManager` | `BrowserManager` | manager for opened browsers          |
 
 ## Action Steps
 
@@ -1009,7 +1004,7 @@ When I wait until 'Search Bar > Submit Button' to be clickable
 When I wait until 'Search Bar > Submit Button' to be clickable (timeout: 3000)
 ```
 ---
-### I wait until text of {string} {wdioValueWait} {string}( ){wdioTimeout}
+### I wait until text of {string} {wdioValidation} {string}( ){wdioTimeout}
 
 Wait for element text condition
 
@@ -1028,7 +1023,7 @@ When I wait until text of 'Header' not to be equal 'Python'
 When I wait until text of 'Header' to be equal 'Javascript' (timeout: 3000)
 ```
 ---
-### I wait until number of elements in {string} collection {wdioValueWait} {string}( ){wdioTimeout}
+### I wait until number of elements in {string} collection {wdioValidation} {string}( ){wdioTimeout}
 
 Wait for collection length condition
 
@@ -1047,7 +1042,7 @@ When I wait until number of elements in 'Search Results' collection to be below 
 When I wait until number of elements in 'Search Results' collection to be below '51' (timeout: 3000)
 ```
 ---
-### I wait until {string} property of {string} {wdioValueWait} {string}( ){wdioTimeout}
+### I wait until {string} property of {string} {wdioValidation} {string}( ){wdioTimeout}
 
 Wait for element property condition
 
@@ -1065,7 +1060,7 @@ When I wait until 'value' property of 'Search Input' to be equal 'Javascript'
 When I wait until 'value' property of 'Search Input' to be equal 'Javascript' (timeout: 3000)
 ```
 ---
-### I wait until {string} attribute of {string} {wdioValueWait} {string}( ){wdioTimeout}
+### I wait until {string} attribute of {string} {wdioValidation} {string}( ){wdioTimeout}
 
 Wait for element property condition
 
@@ -1084,7 +1079,7 @@ When I wait until 'href' attribute of 'Home Link' to be equal '/javascript' (tim
 ```
  
 ---
-### I wait until current url {wdioValueWait} {string}( ){wdioTimeout}
+### I wait until current url {wdioValidation} {string}( ){wdioTimeout}
 
 Wait for url condition
 
@@ -1102,7 +1097,7 @@ When I wait until current url to be equal 'https://qavajs.github.io/' (timeout: 
 ```
 
 ---
-### I wait until page title {wdioValueWait} {string}( ){wdioTimeout}
+### I wait until page title {wdioValidation} {string}( ){wdioTimeout}
 
 Wait for title condition
 
