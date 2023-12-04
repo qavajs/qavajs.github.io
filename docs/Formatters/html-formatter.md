@@ -7,8 +7,6 @@ sidebar_position: 4
 Single file HTML formatter for cucumber framework
 
 ## Installation
-To install formatter run
-
 `npm install @qavajs/html-formatter`
    
 ## Config

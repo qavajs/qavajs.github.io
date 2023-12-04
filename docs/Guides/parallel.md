@@ -6,13 +6,11 @@ sidebar_position: 3
 Framework support parallel execution out of the box. 
 Number of parallel threads can be set in config file (by default it is config.js)
 ```javascript
-
 module.exports = {
     default: {
         parallel: 6
     }
 }
-
 ```
 # Distributing uniq user per thread
 The simplest way to assign uniq user is to use memory capabilities and environment variable produced by Cucumber (or use util function - parallel).

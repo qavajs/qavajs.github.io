@@ -21,7 +21,7 @@ module.exports = {
 
 ## Action Steps
 
-### I send {string} request to {landingUrl}{headers} and save response as {string}
+### I send \{string} request to \{landingUrl}\{headers} and save response as \{string}
 
 Send request to the endpoint
 
@@ -36,7 +36,7 @@ example:
 When I send "GET" request to "$BASE_API_URL" with headers "$headers" and save response as "response"
 ```
 ---
-### I send {string} request to {landingUrl}{headers} with qs {string} and save response as {string}
+### I send \{string} request to \{landingUrl}\{headers} with qs \{string} and save response as \{string}
 
 Send request to the endpoint with query string
 
@@ -52,7 +52,7 @@ example:
 When I send "GET" request to "https://www.some_service.com/some_endpoint" with qs "?category=HR&name=test" and save response as "response"
 ```
 ---
-### I send {string} request to {landingUrl}{headers} with Body {json} and save response as {string}
+### I send \{string} request to \{landingUrl}\{headers} with Body \{json} and save response as \{string}
 
 Send request with body
 
@@ -68,7 +68,7 @@ example:
 When I send "POST" request to "$BASE_API_URL" with Body "test_data_file.json" and save response as "response"
 ```
 ---
-### I send {string} request to {landingUrl}{headers} with qs {string} and Body {json} and save response as {string}
+### I send \{string} request to \{landingUrl}\{headers} with qs \{string} and Body \{json} and save response as \{string}
 
 Send request with body and query string
 
@@ -85,7 +85,7 @@ example:
 When I send "PUT" request to "https://www.some_service.com/some_endpoint/" with qs "?category=HR&name=test" and Body "test_data_file.json" and save response as "response"
 ```
 ---
-### I send {string} request and save response as {string} to {landingUrl}{headers} with Body:
+### I send \{string} request and save response as \{string} to \{landingUrl}\{headers} with Body:
 
 Send request with body that given as part of Cucumber step
 
@@ -106,7 +106,7 @@ When I send "POST" request and save response as "response" to "$BASE_API_URL" wi
    """
 ```
 
-### I parse {string} body as {bodyParsingType}
+### I parse \{string} body as \{bodyParsingType}
 MANDATORY STEP THAT SHOULD BE USED AFTER SENDING REQUEST
 Parsing body in needed way and adds payload property to response
 
@@ -124,7 +124,7 @@ Then I expect '$response.payload.foo' to equal 'bar'
 ## Validation Steps
 
 ---
-### Response {string} Status Code {apiValidation} {string}
+### Response \{string} Status Code \{apiValidation} \{string}
 
 Verify response status code
 
@@ -139,7 +139,7 @@ Then Response "$response" Status Code equals to "200"
 ```
 
 ---
-### Response {string} contains:
+### Response \{string} contains:
 
 Verify that response contains needed properties
 
@@ -156,7 +156,7 @@ Then Response "$response.payload.data.items" contains:
 ```
 
 ---
-### Response {string} {apiValidation} {string}
+### Response \{string} \{apiValidation} \{string}
 
 Verifying that response model has necessary type
 
@@ -171,7 +171,7 @@ example:
    Then Response "$response.payload.data.items" equals to "array"
 ```
 ---
-### Response {string} size {apiValidation} {string}
+### Response \{string} size \{apiValidation} \{string}
 
 Verify that response array size is equal to|less than|greater than given number
 
@@ -186,7 +186,7 @@ example:
 Then Response "$response.payload.data.items" size to be above "0"
 ```
 ---
-### I verify response {string} {apiValidation} {string}
+### I verify response \{string} \{apiValidation} \{string}
 
 Execute any jsonPath query against response and verify result is equal to expected value
 
@@ -204,7 +204,7 @@ Then I verify response "$response.payload.data.items[0].title" equals to "TEST"
 ## Construction API Steps
 
 ---
-### I create {string} request {string}
+### I create \{string} request \{string}
 
 Create request template and save it to memory
 
@@ -218,7 +218,7 @@ When I create 'GET' request 'request'
 ```
 
 ---
-### I add headers to {string}: [DataTable]
+### I add headers to \{string}: [DataTable]
 
 Add data table of headers to request
 
@@ -235,7 +235,7 @@ And I add headers to '$request':
 ```
 
 ---
-### I add {string} headers to {string}
+### I add \{string} headers to \{string}
 
 Add headers to request
 
@@ -251,7 +251,7 @@ And I add '$headers' headers to '$request'
 ```
 
 ---
-### I add body to {string}: [Multiline]
+### I add body to \{string}: [Multiline]
 
 Add body to request as multiline parameter
 
@@ -272,7 +272,7 @@ And I add body to '$request':
 ```
 
 ---
-### I add {string} body to {string}
+### I add \{string} body to \{string}
 
 Add body to request
 
@@ -288,7 +288,7 @@ And I add '$body' body to '$request'
 ```
 
 ---
-### I add {string} url to {string}
+### I add \{string} url to \{string}
 
 Add url to request
 
@@ -304,7 +304,7 @@ And I add 'https://qavajs.github.io/' url to '$request'
 ```
 
 ---
-### I send {string} request and save response as {string}
+### I send \{string} request and save response as \{string}
 
 Send prepared request and save response
 

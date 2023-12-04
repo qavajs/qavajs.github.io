@@ -42,7 +42,7 @@ validation of values (can be negated with _not_)
 
 ## Wait Steps
 ---
-### I wait until file matching {string} regexp appears in {string}
+### I wait until file matching \{string} regexp appears in \{string}
 
 Wait until file matching regexp appear in directory
 
@@ -57,7 +57,7 @@ When I wait until file matching '$fileRegexp' regexp appears in '$folder'
 ```
 
 ---
-### I wait until {string} file appears
+### I wait until \{string} file appears
 
 Wait until file appear
 
@@ -72,7 +72,7 @@ When I wait until '$filePath' file appears
 
 ## Validation Steps
 ---
-### I expect {string} text file content {fileValidation} {string}
+### I expect \{string} text file content \{fileValidation} \{string}
 
 Verify that text file content satisfy validation
 
@@ -89,7 +89,7 @@ When I expect '$filePath' text file content to contain '$content'
 
 ## Memory Steps
 ---
-### I save {string} file content as {string}
+### I save \{string} file content as \{string}
 
 Save file content to memory as buffer
 
@@ -104,7 +104,7 @@ When I save '$filePath' file content as 'fileContent'
 ```
 
 ---
-### I save {string} text file content as {string}
+### I save \{string} text file content as \{string}
 
 Save file content to memory as text (utf-8)
 
@@ -119,7 +119,7 @@ When I save '$filePath' text file as 'fileContent'
 ```
 
 ---
-### I save {string} Excel file content as {string}
+### I save \{string} Excel file content as \{string}
 
 Save file content to memory as Excel object (https://www.npmjs.com/package/xlsx)
 
@@ -136,7 +136,7 @@ Then I expect '$excelFile.Sheets.SheetName.A1.v' to be equal 'expectedValueOfCel
 ```
 
 ---
-### I save {string} pdf file content as {string}
+### I save \{string} pdf file content as \{string}
 
 Save file content to memory as pdf object with following properties:
 
@@ -161,7 +161,7 @@ Then I expect '$pdfContent.textSingleLine' to be equal 'expectedPdfContent'
 ```
 
 ---
-### I save {string} Word file content as {string}
+### I save \{string} Word file content as \{string}
 
 Save file content to memory as word object with following properties:
 
@@ -186,7 +186,7 @@ Then I expect '$wordContent.textSingleLine' to be equal 'expectedPdfContent'
 ```
 
 ---
-### I save {string} csv file content as {string}
+### I save \{string} csv file content as \{string}
 
 Save file content to memory as csv object. First row will is considered as header.
 

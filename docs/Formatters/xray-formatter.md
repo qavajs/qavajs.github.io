@@ -7,8 +7,6 @@ sidebar_position: 5
 Jira Xray formatter for cucumber framework
 
 ## Installation
-To install formatter run
-
 `npm install @qavajs/xray-formatter`
       
 ## Config

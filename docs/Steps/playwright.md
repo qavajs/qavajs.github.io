@@ -147,7 +147,7 @@ mouse button to interact
 
 ## Action Steps
 
-### I open {string} url
+### I open \{string} url
 
 Opens provided url
 
@@ -159,7 +159,7 @@ example:
 When I open 'https://google.com' url
 ```
 ---
-### I type {string} to {string}
+### I type \{string} to \{string}
 
 Type text to element
 
@@ -172,7 +172,7 @@ example:
 When I type 'wikipedia' to 'Google Input'
 ```
 ---
-### I click {string}
+### I click \{string}
 
 Click element
 
@@ -184,7 +184,7 @@ example:
 When I click 'Google Button'
 ```
 ---
-### I clear {string}
+### I clear \{string}
 
 Clear element
 
@@ -196,7 +196,7 @@ example:
 When I clear 'Search Input'
 ```
 ---
-### I click {string} text in {string} collection
+### I click \{string} text in \{string} collection
 
 Click on element with desired text in collection
 
@@ -220,7 +220,7 @@ When I switch to parent frame
 ```
 
 ---
-### I switch to {int} frame
+### I switch to \{int} frame
 
 Switch to frame by index
 
@@ -233,7 +233,7 @@ When I switch to 2 frame
 ```
 
 ---
-### I switch to {string} frame
+### I switch to \{string} frame
 
 Switch to frame by page object alias
 
@@ -246,7 +246,7 @@ When I switch to 'Checkout Iframe' frame
 ```
 
 ---
-### I switch to {int} window
+### I switch to \{int} window
 
 Switch to window by index
 
@@ -259,7 +259,7 @@ When I switch to 2 window
 ```
 
 ---
-### I switch to {string} window
+### I switch to \{string} window
 
 Switch to window by matcher
 
@@ -272,7 +272,7 @@ When I switch to 'google.com' window
 ```
 
 ---
-### I switch to {string} window
+### I switch to \{string} window
 
 Switch to window by matcher
 
@@ -315,7 +315,7 @@ When I refresh page
 ```
 
 ---
-### I press {string} key
+### I press \{string} key
 
 Press key
 
@@ -328,7 +328,7 @@ When I press 'Enter' key
 ```
 
 ---
-### I press {string} key {int} time(s)
+### I press \{string} key \{int} time(s)
 
 Press button given number of times
 
@@ -344,7 +344,7 @@ I press 'Space' key 4 times
 ```
 
 ---
-### I hover over {string}
+### I hover over \{string}
 
 Hover over element
 
@@ -357,7 +357,7 @@ When I hover over 'Google Button'
 ```
 
 ---
-### I select {string} option from {string} dropdown
+### I select \{string} option from \{string} dropdown
 
 Select option with certain text from select element
 
@@ -372,7 +372,7 @@ When I select '$dateOfBirth' option from 'Registration Form > Date Of Birth' dro
 ```
   
 ---
-### I select {int}(st|nd|rd|th) option from {string} dropdown
+### I select \{int}(st|nd|rd|th) option from \{string} dropdown
 
 Select option with certain index from select element
 
@@ -404,7 +404,7 @@ When I dismiss alert
 ```
 
 ---
-### I type {string} to alert
+### I type \{string} to alert
 
 Type a text to alert
 
@@ -419,7 +419,7 @@ When I type 'nowadays' to alert
 ```
 
 ---
-### I upload {string} file to {string}
+### I upload \{string} file to \{string}
 
 Provide file url to upload input
 
@@ -433,7 +433,7 @@ When I upload '/folder/file.txt' file to 'File Input'
 ```
  
 ---
-### I scroll by {string}
+### I scroll by \{string}
 
 Scroll by offset
 
@@ -446,7 +446,7 @@ When I scroll by '0, 100'
 ```
 
 ---
-### I scroll to {string}
+### I scroll to \{string}
 
 Scroll to element
 
@@ -459,7 +459,7 @@ When I scroll to 'Element'
 ```
 
 ---
-### I scroll by {string} in {string}
+### I scroll by \{string} in \{string}
 
 Scroll by offset in element
 
@@ -473,7 +473,7 @@ When I scroll by '0, 100' in 'Overflow Container'
 ```
 
 -------------------------
-### I drag and drop {string} in {string}
+### I drag and drop \{string} in \{string}
 
 Drag&Drop one element to another
 
@@ -487,7 +487,7 @@ When I drag and drop 'Bishop' to 'E4'
 ```
 
 _________________________
-### I define {string} as {string} {playwrightPoType}
+### I define \{string} as \{string} \{playwrightPoType}
 
 Register selector as page object
 
@@ -505,7 +505,7 @@ And I expect number of element in 'Selected Items' collection to equal '3'
 ```
 
 -------------------------
-### I press {playwrightMouseButton} mouse button
+### I press \{playwrightMouseButton} mouse button
 
 Press mouse button
 
@@ -518,7 +518,7 @@ When I press left mouse button
 ```
 
 -------------------------
-### I release {playwrightMouseButton} mouse button
+### I release \{playwrightMouseButton} mouse button
 
 Release mouse button
 
@@ -531,7 +531,7 @@ When I release left mouse button
 ```
 
 -------------------------
-### I move mouse to {string}
+### I move mouse to \{string}
 
 Move mouse to coordinates
 
@@ -544,7 +544,7 @@ When I move mouse to '10, 15'
 ```
 
 -------------------------
-### I scroll mouse wheel by {string}
+### I scroll mouse wheel by \{string}
 
 Scroll mouse wheel by x, y offset
 
@@ -557,7 +557,7 @@ When I scroll mouse wheel by '0, 15'
 ```
 
 -------------------------
-### I hold down {string} key
+### I hold down \{string} key
 
 Press and hold keyboard key
 
@@ -570,7 +570,7 @@ When I hold down 'Q' key
 ```
 
 -------------------------
-### I release {string} key
+### I release \{string} key
 
 Release keyboard key
 
@@ -583,7 +583,7 @@ When I release 'Q' key
 ```
 
 ---
-### I click {wdioBrowserButton} button
+### I click \{wdioBrowserButton} button
 
 Click browser button
 
@@ -597,7 +597,7 @@ When I click forward button
 ```
 
 ---
-### I upload {string} file by clicking {string} step by
+### I upload \{string} file by clicking \{string} step by
 
 Provide file url to file chooser
 
@@ -611,7 +611,7 @@ When I upload '/folder/file.txt' by clicking 'Upload Button'
 ```
 
 ---
-### I set window size {string}
+### I set window size \{string}
 
 Resize browser viewport
 
@@ -626,7 +626,7 @@ When I set window size '1440,900'
 ```
 
 ---
-### I click {string} coordinates in {string}
+### I click \{string} coordinates in \{string}
 
 Click a certain coordinate of an element
 
@@ -644,7 +644,7 @@ When I click '0,20' coordinates in 'Google Button'
 ## Validation Steps
 
 ---
-### I expect {string} {playwrightConditionWait}
+### I expect \{string} \{playwrightConditionWait}
 
 Verify that element satisfies certain condition
 
@@ -659,7 +659,7 @@ Then I expect 'Loading' not to be present
 ```
 
 ---
-### I expect number of elements in {string} collection {playwrightValidation} {string}
+### I expect number of elements in \{string} collection \{playwrightValidation} \{string}
 
 Verify that number of element in collection satisfies condition
 
@@ -676,7 +676,7 @@ Then I expect number of elements in 'Search Results' collection to be below '51'
 ```
 
 ---
-### I expect text of {string} {playwrightValidation} {string}
+### I expect text of \{string} \{playwrightValidation} \{string}
 
 Verify that text of element satisfies condition
 
@@ -692,7 +692,7 @@ Then I expect text of '#1 of Search Results' to be equal 'google'
 Then I expect text of '#1 of Search Results' to be equal '$firstResult'
 ```
 ---
-### I expect {string} property of {string} {playwrightValidation} {string}
+### I expect \{string} property of \{string} \{playwrightValidation} \{string}
 
 Verify that property of element satisfies condition
 
@@ -710,7 +710,7 @@ Then I expect 'innerHTML' property of 'Label' to contain '<b>'
 Then I expect 'value' property of 'Search Input' to be equal '$inputText'
 ```
 ---
-### I expect {string} attribute of {string} {playwrightValidation} {string}
+### I expect \{string} attribute of \{string} \{playwrightValidation} \{string}
 
 Verify that attribute of element satisfies condition
 
@@ -728,7 +728,7 @@ Then I expect 'href' attribute of 'Home Link' to be equal '$url'
 ```
 
 ---
-### I expect current url {playwrightValidation} {string}
+### I expect current url \{playwrightValidation} \{string}
 
 Verify that current url satisfies condition
 
@@ -744,7 +744,7 @@ Then I expect current url equals 'https://wikipedia.org'
 ```
 
 ---
-### I expect page title {playwrightValidation} {string}
+### I expect page title \{playwrightValidation} \{string}
 
 Verify that page title satisfies condition
 
@@ -758,7 +758,7 @@ example:
 Then I expect page title equals 'Wikipedia'
 ```
 ---
-### I expect every element in {string} collection {playwrightConditionWait}
+### I expect every element in \{string} collection \{playwrightConditionWait}
 
 Verify that all elements in collection satisfy condition
 
@@ -774,7 +774,7 @@ Then I expect every element in 'Loading Bars' collection not to be present
 ```
 
 ---
-### I expect text of every element in {string} collection {playwrightValidation} {string}
+### I expect text of every element in \{string} collection \{playwrightValidation} \{string}
 
 Verify that all texts in collection satisfy condition
 
@@ -793,7 +793,7 @@ Then I expect text of every element in 'Search Results' collection does not cont
 ```
 
 ---
-### I expect {string} attribute of every element in {string} collection {playwrightValidation} {string}
+### I expect \{string} attribute of every element in \{string} collection \{playwrightValidation} \{string}
 
 Verify that all particular attributes in collection satisfy condition
 
@@ -812,7 +812,7 @@ Then I expect 'href' attribute of every element in 'Search Results' collection t
 ```
 
 ---
-### I expect {string} property of every element in {string} collection {playwrightValidation} {string}
+### I expect \{string} property of every element in \{string} collection \{playwrightValidation} \{string}
 
 Verify that all particular properties in collection satisfy condition
 
@@ -830,7 +830,7 @@ example:
 Then I expect 'href' property of every element in 'Search Results' collection to contain 'google'
 ```
 
-### I expect {string} css property of {string} {playwrightValidation} {string}
+### I expect \{string} css property of \{string} \{playwrightValidation} \{string}
 
 Verify that css property of element satisfies condition
 
@@ -848,7 +848,7 @@ Then I expect 'font-family' css property of 'Label' to contain 'Fira'
 ```
 
 ---
-### I expect text of alert {playwrightValidation} {string}
+### I expect text of alert \{playwrightValidation} \{string}
 
 Verify that text of an alert meets expectation
 
@@ -867,7 +867,7 @@ Then I expect text of alert does not contain 'Are you sure you want to leave thi
 ## Memory Steps
  
 ---
-### I save text of {string} as {string}
+### I save text of \{string} as \{string}
 
 Save text of element to memory
 
@@ -881,7 +881,7 @@ example:
 When I save text of '#1 of Search Results' as 'firstSearchResult'
 ```
 ---
-### I save {string} property of {string} as {string}
+### I save \{string} property of \{string} as \{string}
 
 Save property of element to memory
 
@@ -898,7 +898,7 @@ When I save 'checked' property of 'Checkbox' as 'checked'
 When I save '$prop' property of 'Checkbox' as 'checked'
 ```
 ---
-### I save {string} attribute of {string} as {string}
+### I save \{string} attribute of \{string} as \{string}
 
 Save attribute of element to memory
 
@@ -914,7 +914,7 @@ When I save 'href' attribute of 'Link' as 'linkHref'
 When I save '$prop' attribute of 'Link' as 'linkHref'
 ```
 ---
-### I save number of elements in {string} collection as {string}
+### I save number of elements in \{string} collection as \{string}
 
 Save number of elements in collection to memory
 
@@ -928,7 +928,7 @@ When I save number of elements in 'Search Results' collection as 'numberOfSearch
 ```
 
 ---
-### I save text of every element of {string} collection as {string}
+### I save text of every element of \{string} collection as \{string}
 
 Save array of texts of collection to memory
 
@@ -942,7 +942,7 @@ When I save text of every element of 'Search Results' collection as 'searchResul
 ```
 
 ---
-### I save {string} attribute of every element of {string} collection as {string}
+### I save \{string} attribute of every element of \{string} collection as \{string}
 
 Save array of attributes of collection to memory
 
@@ -957,7 +957,7 @@ When I save 'checked' attribute of every element of 'Search > Checkboxes' collec
 ```
 
 ---
-### I save {string} property of every element of {string} collection as {string}
+### I save \{string} property of every element of \{string} collection as \{string}
 
 Save array of properties of collection to memory
 
@@ -972,7 +972,7 @@ When I save 'href' property of every element of 'Search Results' collection as '
 ```
 
 ---
-### I save current url as {string}
+### I save current url as \{string}
 
 Save current url to memory
 
@@ -985,7 +985,7 @@ When I save current url as 'currentUrl'
 ```
  
 ---
-### I save page title as {string}
+### I save page title as \{string}
 
 Save current page title to memory
 
@@ -997,7 +997,7 @@ example:
 When I save page title as 'currentTitle'
 ```
 
-### I save {string} css property of {string} as {string}
+### I save \{string} css property of \{string} as \{string}
 
 Save css property of element to memory
 
@@ -1015,7 +1015,7 @@ When I save '$propertyName' property of 'Checkbox' as 'checkboxColor'
 ```
      
 ---
-### I save screenshot as {string}
+### I save screenshot as \{string}
 
 Save page screenshot into memory
 
@@ -1028,7 +1028,7 @@ When I save screenshot as 'screenshot'
 ```
 
 ---
-### I save screenshot of {string} as {string}
+### I save screenshot of \{string} as \{string}
 
 Save element screenshot into memory
 
@@ -1043,7 +1043,7 @@ When I save screenshot of 'Element' as 'screenshot'
 ```
 
 ---
-### I save bounding rect of {string} as {string}
+### I save bounding rect of \{string} as \{string}
 
 Save bounding client rect to memory
 https://developer.mozilla.org/en-US/docs/Web/API/DOMRect
@@ -1062,7 +1062,7 @@ Then I expect '$boundingRect.width' to equal '42'
 ## Wait Steps
 
 ---
-### I wait until {string} {playwrightConditionWait} {string}( ){playwrightTimeout}
+### I wait until \{string} \{playwrightConditionWait} \{string}( )\{playwrightTimeout}
 
 Wait for element condition
 
@@ -1079,7 +1079,7 @@ When I wait until 'Loading' not to be present
 When I wait until 'Header' to be visible (timeout: 3000)
 ```
 ---
-### I wait until text of {string} {playwrightValueWait} {string}( ){playwrightTimeout}
+### I wait until text of \{string} \{playwrightValueWait} \{string}( )\{playwrightTimeout}
 
 Wait for element text condition
 
@@ -1097,7 +1097,7 @@ When I wait until text of 'Header' not to be equal 'Python'
 When I wait until text of 'Header' to be equal 'Javascript' (timeout: 3000)
 ```
 ---
-### I wait until number of elements in {string} collection {playwrightValueWait} {string}( ){playwrightTimeout}
+### I wait until number of elements in \{string} collection \{playwrightValueWait} \{string}( )\{playwrightTimeout}
 
 Wait for collection length condition
 
@@ -1116,7 +1116,7 @@ When I wait until number of elements in 'Search Results' collection to be below 
 When I wait until number of elements in 'Search Results' collection to be below '51' (timeout: 3000)
 ```
 ---
-### I wait until {string} property of {string} {playwrightValueWait} {string}( ){playwrightTimeout}
+### I wait until \{string} property of \{string} \{playwrightValueWait} \{string}( )\{playwrightTimeout}
 
 Wait for element property condition
 
@@ -1134,7 +1134,7 @@ When I wait until 'value' property of 'Search Input' to be equal 'Javascript'
 When I wait until 'value' property of 'Search Input' to be equal 'Javascript' (timeout: 3000)
 ```
 ---
-### I wait until {string} attribute of {string} {playwrightValueWait} {string}( ){playwrightTimeout}
+### I wait until \{string} attribute of \{string} \{playwrightValueWait} \{string}( )\{playwrightTimeout}
 
 Wait for element property condition
 
@@ -1153,7 +1153,7 @@ When I wait until 'href' attribute of 'Home Link' to be equal '/javascript' (tim
 ```
 
 ---
-### I wait until current url {playwrightValueWait} {string}( ){playwrightTimeout}
+### I wait until current url \{playwrightValueWait} \{string}( )\{playwrightTimeout}
 
 Wait for url condition
 
@@ -1171,7 +1171,7 @@ When I wait until current url to be equal 'https://qavajs.github.io/' (timeout: 
 ```
 
 ---
-### I wait until page title {playwrightValueWait} {string}( ){playwrightTimeout}
+### I wait until page title \{playwrightValueWait} \{string}( )\{playwrightTimeout}
 
 Wait for title condition
 
@@ -1191,7 +1191,7 @@ When I wait until page title to be equal 'qavajs' (timeout: 3000)
 ## Execute Steps
 
 ---
-### I execute {string} function
+### I execute \{string} function
 
 Execute client function
 
@@ -1206,7 +1206,7 @@ When I execute 'window.scrollBy(0, 100)' function
 ```
 
 ---
-### I execute {string} function and save result as {string}
+### I execute \{string} function and save result as \{string}
 
 Execute client function and save result into memory
 
@@ -1222,7 +1222,7 @@ When I execute 'window.scrollY' function and save result as 'scroll'
 ```
 
 ---
-### I execute {string} function on {string}
+### I execute \{string} function on \{string}
 
 Execute client function on certain element
 
@@ -1238,7 +1238,7 @@ When I execute 'arguments[0].scrollIntoView()' function on 'Component > Element'
 ```
 
 ---
-### I execute {string} function on {string} and save result as {string}
+### I execute \{string} function on \{string} and save result as \{string}
 
 Execute client function on certain element
 
@@ -1257,7 +1257,7 @@ When I execute 'arguments[0].innerText' function on 'Component > Element' and sa
 ## Mock Steps
 
 ---
-### I create mock for {string} as {string}
+### I create mock for \{string} as \{string}
 
 Create mock instance
 
@@ -1273,7 +1273,7 @@ When I create mock for '$mockUrlTemplate' as 'mock1'
 ```
 
 ---
-### I set {string} mock to respond {string} with: [multiline]
+### I set \{string} mock to respond \{string} with: [multiline]
 
 Add mocking rule to respond with desired status code and payload
 
@@ -1295,7 +1295,7 @@ And I set '$myServiceMock' mock to respond '200' with:
 ```
 
 ---
-### I set {string} mock to respond {string} with {string}
+### I set \{string} mock to respond \{string} with \{string}
 
 Add mocking rule to respond with desired status code and payload
 
@@ -1312,7 +1312,7 @@ And I set '$myServiceMock' mock to respond '200' with '$response'
 ```
 
 ---
-### I set {string} mock to abort with {string} reason
+### I set \{string} mock to abort with \{string} reason
 
 Add mocking rule to abort request with certain reason
 
@@ -1328,7 +1328,7 @@ And I set '$myServiceMock' mock to abort with 'Failed' reason
 ```
 
 ---
-### I restore {string} mock
+### I restore \{string} mock
 
 Restore mock
 
@@ -1354,7 +1354,7 @@ When I restore all mocks
 ## Cookie Steps
 
 ---
-### I set {string} cookie as {string}
+### I set \{string} cookie as \{string}
 
 Set cookie
 
@@ -1370,7 +1370,7 @@ When I set 'userID' cookie '$userIdCookie'
 ```
    
 ---
-### I save value of {string} cookie as {string}
+### I save value of \{string} cookie as \{string}
 
 Save cookie value to memory
 
@@ -1387,7 +1387,7 @@ When I save value of 'auth' cookie as 'authCookie'
 ## Local/Session Storage Steps
 
 ---
-### I set {string} {word} storage value as {string}
+### I set \{string} \{word} storage value as \{string}
 
 Set value of local/session storage
 
@@ -1404,7 +1404,7 @@ When I set '$sessionStorageKey' session storage value as '$sessionStorageValue'
 ```
 
 ---
-### I save value of {string} {word} storage as {string}
+### I save value of \{string} \{word} storage as \{string}
 
 Set value of local/session storage
 
@@ -1423,7 +1423,7 @@ When I save value of '$sessionStorageKey' session storage value as 'sessionStora
 ## Network Intercept Steps
 
 ---
-### I create interception for {string} as {string}
+### I create interception for \{string} as \{string}
 
 Create interception for url or predicate function
 
@@ -1439,7 +1439,7 @@ When I create interception for '$condition' as 'intercept' # where condition is 
 ```
 
 ---
-### I wait for {string} response
+### I wait for \{string} response
 
 Wait for interception event
 
@@ -1454,7 +1454,7 @@ And I wait for '$interception' response
 ```
 
 ---
-### I save {string} response as {string}
+### I save \{string} response as \{string}
 
 Wait for interception event and save response to memory
 
@@ -1473,7 +1473,7 @@ And I expect '$response.status()' to equal '200'
 ## Multi-browser Steps
 
 ---
-### I launch new driver as {string}
+### I launch new driver as \{string}
 
 Launch new driver (from provided config)
 
@@ -1487,7 +1487,7 @@ When I launch new driver as 'chrome'
 ```
  
 ---
-### I launch new driver as {string}: [Multiline]
+### I launch new driver as \{string}: [Multiline]
 
 Launch new driver with provided config
 
@@ -1509,7 +1509,7 @@ When I launch new driver as 'firefox':
 ```
 
 ---
-### I switch to {string} driver
+### I switch to \{string} driver
 
 Switch to driver
 
@@ -1525,7 +1525,7 @@ And I switch to 'default' driver
 ```
 
 ---
-### I close {string} driver
+### I close \{string} driver
 
 Close driver
 
@@ -1539,7 +1539,7 @@ When I close to 'browser2' driver
 ```
 
 ---
-### I open new browser context as {string}
+### I open new browser context as \{string}
 
 Open new browser context
 
@@ -1553,7 +1553,7 @@ When I open new browser context as 'browser2'
 ```
 
 ---
-### I switch to {string} browser context
+### I switch to \{string} browser context
 
 Switch to other browser context by name
 
@@ -1569,7 +1569,7 @@ And I switch to 'default' browser context
 ```
 
 ---
-### I close {string} browser context
+### I close \{string} browser context
 
 Close browser context
 
