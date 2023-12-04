@@ -57,20 +57,20 @@ module.exports = new App();
 ## Working with collection
 Collection elements can be accessed using prefixes
 
-**By index:** `#{index} of Collection` (access 1st element in collection)
+**By index:** `#\{index} of Collection` (access 1st element in collection)
 ```gherkin
 When I click '#1 of Collection'
 ```
-**By partial text:** `#{text} in Collection` (access first element which text contains {text})
+**By partial text:** `#\{text} in Collection` (access first element which text contains \{text})
 ```gherkin
 When I click '#some partial text in Collection'
 ```
-**By exact text:** `@{text} in Collection` (access first element which text exactly match {text})
+**By exact text:** `@\{text} in Collection` (access first element which text exactly match \{text})
 ```gherkin
 When I click '@some exact text in Collection'
 ```
 
-**By regexp:** `/{regexp}/ in Collection` (access first element which text match {regexp} regexp)
+**By regexp:** `/\{regexp}/ in Collection` (access first element which text match \{regexp} regexp)
 ```gherkin
 When I click '/^some regexp$/ in Collection'
 ```
@@ -103,9 +103,9 @@ class ChildComponent {
 ```
 
 ## Immediate option
-In order, you don't need to retry query for elements exists you can pass { immediate: true } option
+In order, you don't need to retry query for elements exists you can pass `{ immediate: true }` option
 ```javascript
-When('I wait {string} not to be present', async function (alias) {
+When('I wait \{string} not to be present', async function (alias) {
     const element = await po.getElement(alias, { immediate: true }); // in case if element not found dummy not existing element be returned
     await element.waitForExist({ reverse: true });
 });
@@ -120,7 +120,7 @@ const { Selector } = require('@qavajs/po');
 
 class Component {
     selector = '.container';
-    Element = $(Selector((index => `div:nth-child(${index})`))); // function should return valid selector 
+    Element = $(Selector((index => `div:nth-child($\{index})`))); // function should return valid selector 
 }
 ```
 

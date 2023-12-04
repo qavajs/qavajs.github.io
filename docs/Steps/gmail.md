@@ -25,7 +25,7 @@ module.exports = {
 
 ## Email Steps
 --------------
-### I log in to gmail as {string}
+### I log in to gmail as \{string}
 
 Login to gmail
 
@@ -48,7 +48,7 @@ When I log in to gmail as '$gmailUser'
 ```
                      
 --------------
-### I wait email matching {string}
+### I wait email matching \{string}
 
 Wait until email matching advanced search syntax query to exist
 
@@ -62,7 +62,7 @@ When I wait email matching 'subject:some subject'
 ```
 
 --------------
-### I save email matching {string} as {string}
+### I save email matching \{string} as \{string}
 
 Save email matching advanced search syntax query to memory as https://nodemailer.com/extras/mailparser/ object
 If query returns multiple message only first one will be saved.

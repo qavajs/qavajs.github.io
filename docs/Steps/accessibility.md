@@ -7,7 +7,7 @@ Steps to perform accessibility checks using axe library.
 Library can work on top of playwright and webdriverio drivers
 
 ## Installation
-`npm install @qavajs/steps-accessibility/index.js`
+`npm install @qavajs/steps-accessibility`
 
 ## Config
 ```javascript

@@ -19,7 +19,7 @@ module.exports = {
 ## Steps
 
 ---
-### I expect {string} {memoryValidation} {string}
+### I expect \{string} \{memoryValidation} \{string}
 
 Verify that value from memory satisfies validation against other value
 
@@ -36,7 +36,7 @@ Then I expect '$value' not to contain '56'
 ```
 
 ---
-### I expect every element in {string} array {memoryValidation} {string}
+### I expect every element in \{string} array \{memoryValidation} \{string}
 
 Verify that every element in array satisfies validation against other value
 
@@ -52,7 +52,7 @@ Then I expect every element in '$arr' array to be above '$expectedValue'
 Then I expect every element in '$arr' array to be above '50'
 ```
 ---
-### I expect at least {int} elements in {string} array {memoryValidation} {string}
+### I expect at least \{int} elements in \{string} array \{memoryValidation} \{string}
 
 Verify that at least x elements in array pass validation
 
@@ -70,7 +70,7 @@ Then I expect at least 2 element(s) in '$arr' array to be above '50'
 ```
 
 ---
-### I save {string} to memory as {string}
+### I save \{string} to memory as \{string}
 
 Set memory value
 
@@ -85,7 +85,7 @@ When I save 'value' to memory as 'key'
 ```
 
 ---
-### I set {string} = {string}
+### I set \{string} = \{string}
 
 Save value to memory
 
@@ -100,14 +100,14 @@ When I set 'key' = 'value'
 ```
               
 ---
-### I save result of math expression {string} as {string}
+### I save result of math expression \{string} as \{string}
 
 Save result of math expression and save result to memory
 
-|   param    |  type  |      description       |  example   |
-|:----------:|:------:|:----------------------:|:----------:|
-| expression | string | expression to evaluate | {$var} + 1 |
-|    key     | string |          key           |            |
+|   param    |  type  |      description       |   example    |
+|:----------:|:------:|:----------------------:|:------------:|
+| expression | string | expression to evaluate | `{$var} + 1` |
+|    key     | string |          key           |              |
 
 example:
 ```gherkin
@@ -116,14 +116,14 @@ When I save result of math expression '{$random()} * 100' as 'result'
 ```
 
 ---
-### I save json to memory as {string}: [Multiline]
+### I save json to memory as \{string}: [Multiline]
 
 Save json value to memory (as JS object)
 
-| param |  type  |      description       |      example      |
-|:-----:|:------:|:----------------------:|:-----------------:|
-|  key  | string |          key           |                   |
-| json  | string | multi string with json | {"key" : "value"} |
+| param |  type  |      description       |       example       |
+|:-----:|:------:|:----------------------:|:-------------------:|
+|  key  | string |          key           |                     |
+| json  | string | multi string with json | `{"key" : "value"}` |
 
 example:
 ```gherkin
@@ -138,7 +138,7 @@ Then I expect '$object.someKey' to equal 'someValue'
 ```
 
 ---
-### I save key-value pairs to memory as {string}: [DataTable]
+### I save key-value pairs to memory as \{string}: [DataTable]
 
 Save key-value pairs provided as Data Table to memory (as JS object)
 
@@ -156,7 +156,7 @@ Then I expect '$object.someKey' to equal '42'
 ```
 
 ---
-### I expect {string} array to be sorted by {string}
+### I expect \{string} array to be sorted by \{string}
 
 Verify that array is sorted by provided comparator provided as reference to function
 https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort#description

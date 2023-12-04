@@ -23,7 +23,7 @@ module.exports = {
 ## Steps
 
 ---
-### I expect {string} screenshot to equal {string}
+### I expect \{string} screenshot to equal \{string}
 
 Compare two screenshots from memory (saved as base64)
 
@@ -38,7 +38,7 @@ Then I expect '$actual' screenshot to equal '$expected'
 ```
 ---
 
-### I expect {string} screenshot to equal {string}: [DataTable]
+### I expect \{string} screenshot to equal \{string}: [DataTable]
 
 Compare two screenshots from memory (saved as base64) with provided compare parameters
 

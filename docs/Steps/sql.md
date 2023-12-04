@@ -64,7 +64,7 @@ select smth from some_table where smth = 42
 ```
 
 ---
-### I execute SQL query and save result as {string}: [multiline]
+### I execute SQL query and save result as \{string}: [multiline]
 
 Execute sql query in default db provided as multiline string and save result
 
@@ -82,7 +82,7 @@ select smth from some_table where smth = 42
 ```
 
 ---
-### I execute {string} SQL query
+### I execute \{string} SQL query
 
 Execute sql query in default db
 
@@ -96,7 +96,7 @@ When I execute 'select smth from some_table where smth = 42' SQL query
 ```
 
 ---
-### I execute {string} SQL query and save result as {string}
+### I execute \{string} SQL query and save result as \{string}
 
 Execute sql query in default db and save result
 
@@ -113,7 +113,7 @@ When I execute 'select * from some_table' SQL query and save result as 'sqlResul
 ## Specified DB Steps
 
 ---
-### I execute SQL query in {string} db: [multiline]
+### I execute SQL query in \{string} db: [multiline]
 
 Execute sql query in specified db provided as multiline string
 
@@ -131,7 +131,7 @@ select smth from some_table where smth = 42
 ```
 
 ---
-### I execute SQL query in {string} and save result as {string}: [multiline]
+### I execute SQL query in \{string} and save result as \{string}: [multiline]
 
 Execute sql query in specified db provided as multiline string and save result
 
@@ -150,7 +150,7 @@ select smth from some_table where smth = 42
 ```
 
 ---
-### I execute {string} SQL query in {string} db
+### I execute \{string} SQL query in \{string} db
 
 Execute sql query in specified db
 
@@ -165,7 +165,7 @@ When I execute 'select smth from some_table where smth = 42' SQL query in 'auror
 ```
 
 ---
-### I execute {string} SQL query in {string} db and save result as {string}
+### I execute \{string} SQL query in \{string} db and save result as \{string}
 
 Execute sql query in specified db and save result
 
