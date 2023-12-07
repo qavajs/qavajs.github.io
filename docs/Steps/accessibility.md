@@ -42,7 +42,6 @@ module.exports = {
 
 Perform accessibility check and attach report
 
-example:
 ```gherkin
 Feature: Accessibility
 

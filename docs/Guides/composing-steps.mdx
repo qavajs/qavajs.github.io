@@ -1,0 +1,45 @@
+---
+sidebar_position: 3
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Composing Steps
+Framework provides capability to implement complex logic via `executeStep` world method
+that allow to call gherkin definitions programmatically
+
+<Tabs>
+  <TabItem value="js" label="JavaScript" default>
+    ```javascript
+    const { When, DataTable } = require('@cucumber/cucumber');
+
+    When('I do smth complex', async function() {
+        await this.executeStep(`I type 'username' to 'Username Input'`);
+        await this.executeStep(`I type 'password' to 'Password Input'`);
+        await this.executeStep(`I click 'Login Button'`);
+        await this.executeStep(`I fill following fields`, new DataTable([
+            [ 'Order', '123' ],
+            [ 'Delivery Location', 'New York' ]
+        ]))
+    });
+    ```
+  </TabItem>
+  <TabItem value="ts" label="TypeScript">
+    ```typescript
+    import { IQavajsWorld } from '@qavajs/cli';
+    import { When, DataTable } from '@cucumber/cucumber';
+
+    When('I do smth complex', async function(this: IQavajsWorld) {
+        await this.executeStep(`I type 'username' to 'Username Input'`);
+        await this.executeStep(`I type 'password' to 'Password Input'`);
+        await this.executeStep(`I click 'Login Button'`);
+        await this.executeStep(`I fill following fields`, new DataTable([
+            [ 'Order', '123' ],
+            [ 'Delivery Location', 'New York' ]
+        ]))
+    });
+    ```
+  </TabItem>
+</Tabs>
+

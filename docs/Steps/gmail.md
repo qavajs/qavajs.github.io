@@ -56,7 +56,6 @@ Wait until email matching advanced search syntax query to exist
 |:-----------:|:------:|:------------------------------------------------------------------------:|
 | searchQuery | string | advanced search syntax query https://support.google.com/mail/answer/7190 |
 
-example:
 ```gherkin
 When I wait email matching 'subject:some subject'
 ```
@@ -72,7 +71,6 @@ If query returns multiple message only first one will be saved.
 | searchQuery | string | advanced search syntax query https://support.google.com/mail/answer/7190 |
 |  memoryKey  | string |                         memory key to save email                         |
 
-example:
 ```gherkin
 When I save email matching 'subject:some subject' as 'email'
 Then I expect '$email.subject' to equal 'some subject'

@@ -9,7 +9,7 @@ Console formatter for cucumber framework
 ## Installation
 `npm install @qavajs/console-formatter`
 
-## Config
+## Configuration
 To use formatter just add formatter section in config file
 
 ```javascript

@@ -6,7 +6,14 @@ sidebar_position: 1
 Step library to work with webdriverio using DSL page object
 ## Installation
 `npm install @qavajs/steps-wdio`
-## Config
+## Configuration
+Wdio steps provide a couple of additional configuration properties
+
+| Name         | Type     | Description                                                                     | Default |
+|--------------|----------|---------------------------------------------------------------------------------|---------|
+| `browser`    | `object` | object describing wdio config                                                   | `{}`    |
+| `pageObject` | `object` | instance of page object definitions  [(page object)](../Guides/page-object.mdx) | `{}`    |
+
 ```javascript
 const App = require('./page_object');
 module.exports = {
@@ -34,12 +41,34 @@ module.exports = {
 }
 ```
 
-wdio steps provide a couple of additional configuration properties
+## Screenshot
+@qavajs/steps-wdio has build-in capability to take screenshot on particular event.
+- onFail
+- beforeStep
+- afterStep
 
-| Name         | Type     | Description                                                                    | Default |
-|--------------|----------|--------------------------------------------------------------------------------|---------|
-| `browser`    | `object` | object describing wdio config                                                  | `{}`    |
-| `pageObject` | `object` | instance of page object definitions  [(page object)](../Guides/page-object.md) | `{}`    |
+```javascript
+module.exports = {
+    default: {
+        browser: {
+            screenshot: ['onFail']
+        }
+    }
+}
+```
+
+## reuseSession
+reuseSession flag allows to share driver session between tests. Browser will not be closed automatically after test.
+
+```javascript
+module.exports = {
+    default: {
+        browser: {
+            reuseSession: true
+        }
+    }
+}
+```
 
 ## Parameter Types
 ### wdioConditionWait 
@@ -75,7 +104,7 @@ mouse button to interact
 - middle
 
 ## Global variables
-@qavajs/steps-playwright exposes following global variables
+@qavajs/steps-wdio exposes following global variables
 
 | variable         | type             | description                          |
 |------------------|------------------|--------------------------------------|
@@ -92,7 +121,7 @@ Opens provided url
 | param |  type  |   description   |
 |:-----:|:------:|:---------------:|
 |  url  | string | url to navigate |
-example:
+
 ```gherkin
 When I open 'https://google.com' url
 ```
@@ -105,7 +134,7 @@ Type text to element
 |:-----:|:------:|:---------------:|
 | alias | string | element to type |
 | value | string |  value to type  |
-example:
+
 ```gherkin
 When I type 'wikipedia' to 'Google Input'
 ```
@@ -118,8 +147,6 @@ Click element
 |:------------:|:------------------:|:--------------------------:|
 |    alias     |       string       |      element to click      |
 | disable wait | (optional) boolean | disable actionability wait |
-
-example:
 ```gherkin
 When I click 'Google Button'
 When I click 'Google Button' (disable actionability wait)
@@ -133,8 +160,6 @@ Double click element
 |:------------:|:------------------:|:--------------------------:|
 |    alias     |       string       |      element to click      |
 | disable wait | (optional) boolean | disable actionability wait |
-
-example:
 ```gherkin
 When I double click 'Input Field'
 When I double click 'Input Field' (disable actionability wait)
@@ -148,7 +173,7 @@ Right click element
 |:------------:|:------------------:|:--------------------------:|
 |    alias     |       string       |      element to click      |
 | disable wait | (optional) boolean | disable actionability wait |
-example:
+
 ```gherkin
 When I right click 'User Icon'
 When I right click 'User Icon' (disable actionability wait) 
@@ -161,7 +186,7 @@ Clear element
 | param |  type  |   description    |
 |:-----:|:------:|:----------------:|
 | alias | string | element to clear |
-example:
+
 ```gherkin
 When I clear 'Search Input'
 ```
@@ -174,7 +199,7 @@ Click on element with desired text in collection
 |:------------:|:------:|:-------------:|
 | expectedText | string | text to click |
 |    alias     | string |  collection   |
-example:
+
 ```gherkin
 When I click 'google' text in 'Search Engines' collection
 ```
@@ -183,8 +208,6 @@ When I click 'google' text in 'Search Engines' collection
 ### I switch to parent frame
 
 Switch to parent frame
-
-example:
 ```gherkin
 When I switch to parent frame
 ```
@@ -197,7 +220,7 @@ Switch to frame by index
 | param |  type  |      description      |
 |:-----:|:------:|:---------------------:|
 | index | number | frame index to switch |
-example:
+
 ```gherkin
 When I switch to 2 frame
 ```
@@ -210,7 +233,7 @@ Switch to frame by page object alias
 | param |  type  |       description        |
 |:-----:|:------:|:------------------------:|
 | alias | string | Iframe page object alias |
-example:
+
 ```gherkin
 When I switch to 'Checkout Iframe' frame
 ```
@@ -223,7 +246,7 @@ Switch to window by index
 | param |  type  |      description       |
 |:-----:|:------:|:----------------------:|
 | index | number | window index to switch |
-example:
+
 ```gherkin
 When I switch to 2 window
 ```
@@ -236,7 +259,7 @@ Switch to window by matcher
 |  param  |  type  |          description          |
 |:-------:|:------:|:-----------------------------:|
 | matcher | string | window matcher (url or title) |
-example:
+
 ```gherkin
 When I switch to 'google.com' window
 ```
@@ -245,8 +268,6 @@ When I switch to 'google.com' window
 ### I open new tab
 
 Open new browser tab
-
-example:
 ```gherkin
 When I open new tab
 ```
@@ -255,8 +276,6 @@ When I open new tab
 ### I close current tab
 
 Close current browser tab
-
-example:
 ```gherkin
 When I close current tab
 ```
@@ -265,8 +284,6 @@ When I close current tab
 ### I refresh page
 
 Refresh page
-
-example:
 ```gherkin
 When I refresh page
 ```
@@ -279,7 +296,7 @@ Press key
 | param |  type  | description  |
 |:-----:|:------:|:------------:|
 |  key  | string | key to press |
-example:
+
 ```gherkin
 When I press 'Enter' key
 ```
@@ -293,8 +310,6 @@ Press button given number of times
 |:------:|:------:|:---------------:|
 |  key   | string |  key to press   |
 | number | number | number of times |
-
-example:
 ```gherkin
 I press 'Enter' key 5 times // for selenium
 I press '$Enter' key 4 times // for devtools $Enter is memory value String.fromCharCode(13)
@@ -308,7 +323,7 @@ Hover over element
 | param |  type  |      description      |
 |:-----:|:------:|:---------------------:|
 | alias | string | element to hover over |
-example:
+
 ```gherkin
 When I hover over 'Google Button'
 ```
@@ -322,7 +337,7 @@ Select option with certain text from select element
 |:------:|:------:|:----------------:|
 | option | string | option to select |
 | alias  | string | alias of select  |
-example:
+
 ```gherkin
 When I select '1900' option from 'Registration Form > Date Of Birth'
 When I select '$dateOfBirth' option from 'Registration Form > Date Of Birth' dropdown
@@ -337,7 +352,7 @@ Select option with certain index from select element
 |:-----------:|:------:|:-------------------------:|
 | optionIndex | number | index of option to select |
 |    alias    | string |      alias of select      |
-example:
+
 ```gherkin
 When I select 1 option from 'Registration Form > Date Of Birth' dropdown
 ```
@@ -350,7 +365,7 @@ Click browser button
 | param  |  type  |          description           |
 |:------:|:------:|:------------------------------:|
 | button | string | browser button (back, forward) |
-example:
+
 ```gherkin
 When I click back button
 When I click forward button
@@ -365,7 +380,7 @@ Provide file url to upload input
 |:-----:|:------:|:----------------------:|
 | alias | string | element to upload file |
 | value | string |       file path        |
-example:
+
 ```gherkin
 When I upload '/folder/file.txt' file to 'File Input'
 ```
@@ -378,7 +393,7 @@ Scroll to element
 | param |  type  |   description    |
 |:-----:|:------:|:----------------:|
 | alias | string | alias of element |
-example:
+
 ```gherkin
 When I scroll to 'Element'
 ```
@@ -391,7 +406,7 @@ Scroll by offset
 | param  |  type  |          description           |
 |:------:|:------:|:------------------------------:|
 | offset | string | offset string in 'x, y' format |
-example:
+
 ```gherkin
 When I scroll by '0, 100'
 ```
@@ -405,7 +420,7 @@ Scroll by offset in element
 |:------:|:------:|:------------------------------:|
 | offset | string | offset string in 'x, y' format |
 | alias  | string |        alias of element        |
-example:
+
 ```gherkin
 When I scroll by '0, 100' in 'Overflow Container'
 ```
@@ -449,7 +464,7 @@ Drag&Drop one element to another
 |:------------:|:------:|:---------------:|
 | elementAlias | string | element to drop |
 | targetAlias  | string |     target      |
-example:
+
 ```gherkin
 When I drag and drop 'Bishop' to 'E4'
 ```
@@ -464,7 +479,7 @@ Register selector as page object
 | selectorKey | string |           selector to register            |
 |  aliasKey   | string |             alias of element              |
 |   poType    | string | type of page object (element, collection) |
-example:
+
 ```gherkin
 When I define '#someId' as 'My Button' element
 And I click 'My Button'
@@ -480,7 +495,7 @@ Press mouse button
 | param  |  type  |              description              |
 |:------:|:------:|:-------------------------------------:|
 | button | string | button to press (left, right, middle) |
-example:
+
 ```gherkin
 When I press left mouse button
 ```
@@ -493,7 +508,7 @@ Release mouse button
 | param  |  type  |               description               |
 |:------:|:------:|:---------------------------------------:|
 | button | string | button to release (left, right, middle) |
-example:
+
 ```gherkin
 When I release left mouse button
 ```
@@ -506,7 +521,7 @@ Move mouse to coordinates
 |    param    |  type  |       description        |
 |:-----------:|:------:|:------------------------:|
 | coordinates | string | x, y coordinates to move |
-example:
+
 ```gherkin
 When I move mouse to '10, 15'
 ```
@@ -519,7 +534,7 @@ Scroll mouse wheel by x, y offset
 |    param    |  type  |      description      |
 |:-----------:|:------:|:---------------------:|
 | coordinates | string | x, y offset to scroll |
-example:
+
 ```gherkin
 When I scroll mouse wheel by '0, 15'
 ```
@@ -532,7 +547,7 @@ Press and hold keyboard key
 | param |  type  | description  |
 |:-----:|:------:|:------------:|
 |  key  | string | key to press |
-example:
+
 ```gherkin
 When I hold down 'Q' key
 ```
@@ -545,7 +560,7 @@ Release keyboard key
 | param |  type  |  description   |
 |:-----:|:------:|:--------------:|
 |  key  | string | key to release |
-example:
+
 ```gherkin
 When I release 'Q' key
 ```
@@ -561,7 +576,7 @@ Verify that element satisfies certain condition
 |:-------------:|:------:|:--------------------------:|:--------------------------------:|
 |     alias     | string | element to check condition |           Search Input           |
 | conditionWait | string | function to wait condition | to be visible, not to be present |
-example:
+
 ```gherkin
 Then I expect 'Header' to be visible
 Then I expect 'Loading' not to be present
@@ -578,7 +593,7 @@ Verify that number of element in collection satisfies condition
 |  collection   | string | collection to check condition |            Search Results             |
 |  validation   | string | function to verify condition  | to be equal, to be above, to be below |
 | expectedValue | string |        expected value         |                                       |
-example:
+
 ```gherkin
 Then I expect number of elements in 'Search Results' collection to be equal '50'
 Then I expect number of elements in 'Search Results' collection to be above '49'
@@ -595,8 +610,6 @@ Verify that text of element satisfies condition
 |     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
-
-example:
 ```gherkin
 Then I expect text of '#1 of Search Results' to be equal 'google'
 Then I expect text of '#1 of Search Results' to be equal '$firstResult'
@@ -612,8 +625,6 @@ Verify that property of element satisfies condition
 |     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
-
-example:
 ```gherkin
 Then I expect 'value' property of 'Search Input' to be equal 'text'
 Then I expect 'innerHTML' property of 'Label' to contain '<b>'
@@ -630,8 +641,6 @@ Verify that attribute of element satisfies condition
 |     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
-
-example:
 ```gherkin
 Then I expect 'href' attribute of 'Home Link' to contain '/home'
 Then I expect 'href' attribute of 'Home Link' to be equal '$url'
@@ -646,8 +655,6 @@ Verify that current url satisfies condition
 |:-------------:|:------:|:--------------------------:|:-------------------------------------:|
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
-
-example:
 ```gherkin
 Then I expect current url contains 'wikipedia'
 Then I expect current url equals 'https://wikipedia.org'
@@ -662,8 +669,6 @@ Verify that page title satisfies condition
 |:-------------:|:------:|:--------------------------:|:-------------------------------------:|
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
-
-example:
 ```gherkin
 Then I expect page title equals 'Wikipedia'
 ```
@@ -677,8 +682,6 @@ Verify that all elements in collection satisfy condition
 |:---------:|:------:|:-------------------:|:----------------------------:|
 |   alias   | string | alias of collection |        Search Results        |
 | condition | string |  condition to wait  | to be visible, to be present |
-
-example:
 ```gherkin
 Then I expect every element in 'Header > Links' collection to be visible
 Then I expect every element in 'Loading Bars' collection not to be present
@@ -696,8 +699,6 @@ Note: step passes in case of empty collection
 |     alias     | string | alias of collection |            Search Results             |
 |  validation   | string |   validation type   | to be equal, to contain, not to match |
 | expectedValue | string |   expected result   |                                       |
-
-example:
 ```gherkin
 Then I expect text of every element in 'Search Results' collection to be equal 'google'
 Then I expect text of every element in 'Search Results' collection does not contain 'yandex'
@@ -716,8 +717,6 @@ Note: step passes in case of empty collection
 |     alias     | string | alias of collection |            Search Results             |
 |  validation   | string |   validation type   | to be equal, to contain, not to match |
 | expectedValue | string |   expected result   |                                       |
-
-example:
 ```gherkin
 Then I expect 'href' attribute of every element in 'Search Results' collection to contain 'google'
 ```
@@ -735,8 +734,6 @@ Note: step passes in case of empty collection
 |     alias     | string | alias of collection |            Search Results             |
 |  validation   | string |   validation type   | to be equal, to contain, not to match |
 | expectedValue | string |   expected result   |                                       |
-
-example:
 ```gherkin
 Then I expect 'href' property of every element in 'Search Results' collection to contain 'google'
 ```
@@ -751,8 +748,6 @@ Verify that css property of element satisfies condition
 |     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
-
-example:
 ```gherkin
 Then I expect 'color' css property of 'Search Input' to be equal 'rgb(42, 42, 42)'
 Then I expect 'font-family' css property of 'Label' to contain 'Fira'
@@ -766,8 +761,6 @@ Verify that text of an alert meets expectation
 |:-------------:|:------:|:----------------------------:|:-------------------------------------:|
 |  validation   | string | function to verify condition | to be equal, to be above, to be below |
 | expectedValue | string |       expected result        |                                       |
-
-example:
 ```gherkin
 Then I expect text of alert does not contain 'coffee'
 Then I expect text of alert does not contain 'hello world'
@@ -785,8 +778,6 @@ Save text of element to memory
 |:-----:|:------:|:--------------------:|:-----------------------------------:|
 | alias | string | element to get value | Label, #1 of Search Results > Title |
 |  key  | string |  key to store value  |                                     |
-
-example:
 ```gherkin
 When I save text of '#1 of Search Results' as 'firstSearchResult'
 ```
@@ -801,8 +792,6 @@ Save property of element to memory
 |  alias   | string | element to get value | Label, #1 of Search Results > Title |
 |   key    | string |  key to store value  |                                     |
 
-
-example:
 ```gherkin
 When I save 'checked' property of 'Checkbox' as 'checked'
 When I save '$prop' property of 'Checkbox' as 'checked'
@@ -817,8 +806,6 @@ Save attribute of element to memory
 | attribute | string |  attribute to store  |            href, checked            |
 |   alias   | string | element to get value | Label, #1 of Search Results > Title |
 |    key    | string |  key to store value  |                                     |
-
-example:
 ```gherkin
 When I save 'href' attribute of 'Link' as 'linkHref'
 When I save '$prop' attribute of 'Link' as 'linkHref'
@@ -832,7 +819,7 @@ Save number of elements in collection to memory
 |:----------:|:------:|:-----------------------:|:--------------:|
 | collection | string | collection to get value | Search Results |
 |    key     | string |   key to store value    |                |
-example:
+
 ```gherkin
 When I save number of elements in 'Search Results' collection as 'numberOfSearchResults'
 ```
@@ -846,7 +833,7 @@ Save array of texts of collection to memory
 |:-----:|:------:|:-----------------------:|:--------------:|
 | alias | string | collection to get value | Search Results |
 |  key  | string |   key to store value    |                |
-example:
+
 ```gherkin
 When I save text of every element of 'Search Results' collection as 'searchResults'
 ```
@@ -861,7 +848,7 @@ Save array of attributes of collection to memory
 | attribute | string | attribute to get value  | checked, href  |
 |   alias   | string | collection to get value | Search Results |
 |    key    | string |   key to store value    |                |
-example:
+
 ```gherkin
 When I save 'checked' attribute of every element of 'Search > Checkboxes' collection as 'checkboxes'
 ```
@@ -876,7 +863,7 @@ Save array of properties of collection to memory
 | property | string |  property to get value  |      href      |
 |  alias   | string | collection to get value | Search Results |
 |   key    | string |   key to store value    |                |
-example:
+
 ```gherkin
 When I save 'href' property of every element of 'Search Results' collection as 'hrefs'
 ```
@@ -889,7 +876,7 @@ Save current url to memory
 |  param   |  type  |       description       |    example     |
 |:--------:|:------:|:-----------------------:|:--------------:|
 |   key    | string |   key to store value    |                |
-example:
+
 ```gherkin
 When I save current url as 'currentUrl'
 ```
@@ -902,7 +889,7 @@ Save current page title to memory
 |  param   |  type  |       description       |    example     |
 |:--------:|:------:|:-----------------------:|:--------------:|
 |   key    | string |   key to store value    |                |
-example:
+
 ```gherkin
 When I save page title as 'currentTitle'
 ```
@@ -915,7 +902,7 @@ Save page screenshot into memory
 | param |  type  |    description     |
 |:-----:|:------:|:------------------:|
 |  key  | string | key to store value |
-example:
+
 ```gherkin
 When I save screenshot as 'screenshot'
 ```
@@ -929,8 +916,6 @@ Save element screenshot into memory
 |:-----:|:------:|:-------------------------:|
 |  key  | string |    key to store value     |
 | alias | string | element to get screenshot |
-
-example:
 ```gherkin
 When I save screenshot of 'Element' as 'screenshot'
 ```
@@ -946,8 +931,6 @@ Save css property of element to memory
 |  alias   | string | element to get value | Label, #1 of Search Results > Title |
 |   key    | string |  key to store value  |                                     |
 
-
-example:
 ```gherkin
 When I save 'color' css property of 'Checkbox' as 'checkboxColor'
 When I save '$propertyName' property of 'Checkbox' as 'checkboxColor'
@@ -963,8 +946,6 @@ https://developer.mozilla.org/en-US/docs/Web/API/DOMRect
 |:-----:|:------:|:----------------------------:|
 | alias | string | element to get bounding rect |
 |  key  | string |      key to store value      |
-
-example:
 ```gherkin
 When I save bounding rect of 'Node' as 'boundingRect'
 Then I expect '$boundingRect.width' to equal '42'
@@ -980,8 +961,6 @@ Wait for a specified number of milliseconds
 | param |  type  | description  |
 |:-----:|:------:|:------------:|
 |  ms   | number | milliseconds |
-
-example:
 ```gherkin
 When I wait 1000 ms
 ```
@@ -996,7 +975,7 @@ Wait for element condition
 |   alias    |      string       |         element         |
 | validation |      string       |     validation type     |
 |  timeout   | number (optional) | timeout in milliseconds |
-example:
+
 ```gherkin
 When I wait until 'Header' to be visible
 When I wait until 'Loading' not to be present
@@ -1015,8 +994,6 @@ Wait for element text condition
 |  value  |      string       |     expected result     |
 | timeout | number (optional) | timeout in milliseconds |
 
-
-example:
 ```gherkin
 When I wait until text of 'Header' to be equal 'Javascript'
 When I wait until text of 'Header' not to be equal 'Python'
@@ -1033,8 +1010,6 @@ Wait for collection length condition
 |  wait   |      string       |     validation type     |
 |  value  |      string       |     expected result     |
 | timeout | number (optional) | timeout in milliseconds |
-
-example:
 ```gherkin
 When I wait until number of elements in 'Search Results' collection to be equal '50'
 When I wait until number of elements in 'Search Results' collection to be above '49'
@@ -1053,8 +1028,6 @@ Wait for element property condition
 |   wait   |      string       |     validation type     |
 |  value   |      string       |     expected result     |
 | timeout  | number (optional) | timeout in milliseconds |
-
-example:
 ```gherkin
 When I wait until 'value' property of 'Search Input' to be equal 'Javascript'
 When I wait until 'value' property of 'Search Input' to be equal 'Javascript' (timeout: 3000)
@@ -1071,8 +1044,6 @@ Wait for element property condition
 |   wait    |      string       |     validation type     |
 |   value   |      string       |     expected result     |
 |  timeout  | number (optional) | timeout in milliseconds |
-
-example:
 ```gherkin
 When I wait until 'href' attribute of 'Home Link' to be equal '/javascript'
 When I wait until 'href' attribute of 'Home Link' to be equal '/javascript' (timeout: 3000)
@@ -1088,8 +1059,6 @@ Wait for url condition
 |  wait   |      string       |     validation type     |
 |  value  |      string       | expected value to wait  |
 | timeout | number (optional) | timeout in milliseconds |
-
-example:
 ```gherkin
 When I wait until current url to be equal 'https://qavajs.github.io/'
 When I wait until current url not to contain 'cypress'
@@ -1106,8 +1075,6 @@ Wait for title condition
 |  wait   |      string       |     validation type     |
 |  value  |      string       | expected value to wait  |
 | timeout | number (optional) | timeout in milliseconds |
-
-example:
 ```gherkin
 When I wait until page title to be equal 'qavajs'
 When I wait until page title not to contain 'cypress'
@@ -1117,8 +1084,6 @@ When I wait until page title to be equal 'qavajs' (timeout: 3000)
 ---
 ### I wait for alert
 Wait until alert to pop up
-
-example:
 ```gherkin
 When I wait for alert
 ```
@@ -1134,8 +1099,6 @@ Set cookie
 |:------:|:------:|:------------:|
 | cookie | string | cookie name  |
 | value  | string | value to set |
-
-example:
 ```gherkin
 When I set 'userID' cookie 'user1'
 When I set 'userID' cookie '$userIdCookie'
@@ -1150,8 +1113,6 @@ Save cookie value to memory
 |:------:|:------:|:-----------:|
 | cookie | string | cookie name |
 |  key   | string | memory key  |
-
-example:
 ```gherkin
 When I save value of 'auth' cookie as 'authCookie'
 ```
@@ -1168,8 +1129,6 @@ Set value of local/session storage
 | storageKey  | string | local/session storage key to set value |
 | storageType |  word  |    storage type (local or session)     |
 |    value    | string |              value to set              |
-
-example:
 ```gherkin
 When I set 'username' local storage value as 'user1'
 When I set '$sessionStorageKey' session storage value as '$sessionStorageValue'
@@ -1185,8 +1144,6 @@ Set value of local/session storage
 | storageKey  | string | local/session storage key to set value |
 | storageType |  word  |    storage type (local or session)     |
 |     key     | string |               memory key               |
-
-example:
 ```gherkin
 When I save value of 'username' local storage as 'localStorageValue'
 When I save value of '$sessionStorageKey' session storage value as 'sessionStorageValue'
@@ -1203,7 +1160,7 @@ Tap element
 | param |  type  |  description   |
 |:-----:|:------:|:--------------:|
 | alias | string | element to tap |
-example:
+
 ```gherkin
 When I tap 'Google Button'
 ```
@@ -1213,8 +1170,6 @@ When I tap 'Google Button'
 Support: Android, iOS
 
 Shake device
-
-example:
 ```gherkin
 When I shake device
 ```
@@ -1232,8 +1187,6 @@ Perform touch action
 |    param     |   type    |                                       description                                        |
 |:------------:|:---------:|:----------------------------------------------------------------------------------------:|
 | actionsTable | DataTable | data table of actions and params (see https://webdriver.io/docs/api/appium#touchperform) |
-
-example:
 ```gherkin
 When I perform touch action:
   | press   | 90, 80 |
@@ -1251,7 +1204,7 @@ Perform touch action
 |    param     |  type  |                                                   description                                                   |
 |:------------:|:------:|:---------------------------------------------------------------------------------------------------------------:|
 | actionsAlias | string | memory alias that resolves into array of action objects (see https://webdriver.io/docs/api/appium#touchperform) |
-example:
+
 ```gherkin
 When I perform touch action '$actions'
 ```
@@ -1266,8 +1219,6 @@ Execute client function
 |    param    |  type  |          description           |
 |:-----------:|:------:|:------------------------------:|
 | functionKey | string | function memory key to execute |
-
-example:
 ```gherkin
 When I execute '$fn' function # fn is function reference
 When I execute 'window.scrollBy(0, 100)' function
@@ -1282,8 +1233,6 @@ Execute client function and save result into memory
 |:-----------:|:------:|:------------------------------:|
 | functionKey | string | function memory key to execute |
 |  memoryKey  | string |    memory key to save value    |
-
-example:
 ```gherkin
 When I execute '$fn' function and save result as 'result' # fn is function reference
 When I execute 'window.scrollY' function and save result as 'scroll'
@@ -1298,8 +1247,6 @@ Execute client function on certain element
 |:-----------:|:------:|:------------------------------:|
 | functionKey | string | function memory key to execute |
 |    alias    | string |      target element alias      |
-
-example:
 ```gherkin
 When I execute '$fn' function on 'Component > Element' # fn is function reference
 When I execute 'arguments[0].scrollIntoView()' function on 'Component > Element'
@@ -1315,8 +1262,6 @@ Execute client function on certain element
 | functionKey | string | function memory key to execute |
 |  memoryKey  | string |    memory key to save value    |
 |    alias    | string |      target element alias      |
-
-example:
 ```gherkin
 When I execute '$fn' function on 'Component > Element' and save result as 'innerText' # fn is function reference
 When I execute 'arguments[0].innerText' function on 'Component > Element' and save result as 'innerText'
@@ -1333,8 +1278,6 @@ Create mock instance
 |:-----------:|:------:|:---------------------------------:|
 | urlTemplate | string |  minimatch url template to mock   |
 |  memoryKey  | string | memory key to store mock instance |
-
-example:
 ```gherkin
 When I create mock for '/yourservice/**' as 'mock1'
 When I create mock for '$mockUrlTemplate' as 'mock1'
@@ -1350,8 +1293,6 @@ Add mocking rule to respond with desired status code and payload
 |  mockKey   | string | memory key to get mock instance |
 | statusCode | string |           status code           |
 |    body    | string |          response body          |
-
-example:
 ```gherkin
 When I create mock for '/yourservice/**' as 'myServiceMock'
 And I set '$myServiceMock' mock to respond '200' with:
@@ -1372,8 +1313,6 @@ Add mocking rule to respond with desired status code and payload
 |  mockKey   | string | memory key to get mock instance |
 | statusCode | string |           status code           |
 |    body    | string |          response body          |
-
-example:
 ```gherkin
 When I create mock for '/yourservice/**' as 'myServiceMock'
 And I set '$myServiceMock' mock to respond '200' with '$response'
@@ -1388,8 +1327,6 @@ Add mocking rule to abort request with certain reason
 |:-------:|:------:|:----------------------------------------------------------:|
 | mockKey | string |              memory key to get mock instance               |
 | reason  | string | reason string see https://webdriver.io/docs/api/mock/abort |
-
-example:
 ```gherkin
 When I create mock for '/yourservice/**' as 'myServiceMock'
 And I set '$myServiceMock' mock to abort with 'Failed' reason
@@ -1403,8 +1340,6 @@ Restore mock
 |  param  |  type  |                        description                         |
 |:-------:|:------:|:----------------------------------------------------------:|
 | mockKey | string |              memory key to get mock instance               |
-
-example:
 ```gherkin
 When I restore '$myServiceMock'
 ```
@@ -1413,8 +1348,6 @@ When I restore '$myServiceMock'
 ### I restore all mocks
 
 Restore all mocks
-
-example:
 ```gherkin
 When I restore all mocks
 ```
@@ -1430,8 +1363,6 @@ Create interception for url
 |:---------:|:------:|:-----------------------------------:|
 | predicate | string | url or predicate function to listen |
 |    key    | string |      key to save interception       |
-
-example:
 ```gherkin
 When I create interception for '**/api/qavajs' as 'interception'
 ```
@@ -1444,8 +1375,6 @@ Wait for interception event
 |    param     |  type  |           description            |
 |:------------:|:------:|:--------------------------------:|
 | interception | string | memory key of interception event |
-
-example:
 ```gherkin
 When I create interception for '**/api/qavajs' as 'interception'
 And I wait for '$interception' response
@@ -1460,8 +1389,6 @@ Wait for interception event and save response to memory
 |:------------:|:------:|:---------------------------------:|
 | interception | string | memory key of interception event  |
 |     key      | string | key to save interception response |
-
-example:
 ```gherkin
 When I create interception for '**/api/qavajs' as 'interception'
 When I save '$interception' response as 'response' # response will be instance of Response object
@@ -1478,8 +1405,6 @@ Open new browser
 |    param    |  type  | description  |
 |:-----------:|:------:|:------------:|
 | browserName | string | browser name |
-
-example:
 ```gherkin
 When I open new browser as 'browser2'
 ```
@@ -1492,8 +1417,6 @@ Switch to other browser by name
 |    param    |  type  | description  |
 |:-----------:|:------:|:------------:|
 | browserName | string | browser name |
-
-example:
 ```gherkin
 When I open new browser as 'browser2'
 And I switch to 'browser2' browser
@@ -1508,8 +1431,6 @@ Close browser
 |    param    |  type  | description  |
 |:-----------:|:------:|:------------:|
 | browserName | string | browser name |
-
-example:
 ```gherkin
 When I close to 'browser2' browser
 ```
@@ -1522,8 +1443,6 @@ Resize browser window
 |   param    |  type  |                  description                  |
 |:----------:|:------:|:---------------------------------------------:|
 | windowSize | string | width and height in pixels separated by comma |
-
-example:
 
 ```gherkin
 When I set window size '1440,900'
@@ -1538,8 +1457,6 @@ Click a certain coordinate of an element
 |:-----------:|:------:|:-----------------------------------:|
 | coordinates | string | comma separated x and y coordinates |
 |    alias    | string |          element to click           |
-
-example:
 
 ```gherkin
 When I click '0,20' coordinates in 'Google Button'
