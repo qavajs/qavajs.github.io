@@ -6,7 +6,7 @@ sidebar_position: 5
 
 Junit formatter is built-in to CucumberJS so no need to install any packages
       
-## Config
+## Configuration
 ```javascript
 export default {
     format: [

@@ -6,7 +6,8 @@ sidebar_position: 4
 Steps to work with memory module
 ## Installation
 `npm install @qavajs/steps-memory`
-## Config
+
+## Configuration
 ```javascript
 module.exports = {
     default: {
@@ -29,7 +30,6 @@ Verify that value from memory satisfies validation against other value
 | validation | Function | function to verify condition | to be equal, to be above, to be below |
 |   value2   |   any    |            value2            |      42, $value, $currentDate()       |
 
-example:
 ```gherkin
 Then I expect '$value' to equal '$anotherValue'
 Then I expect '$value' not to contain '56'
@@ -46,7 +46,6 @@ Verify that every element in array satisfies validation against other value
 |   validation   | Function | function to verify condition | to be equal, to be above, to be below |
 | expectedValue  |   any    |        expected value        |      42, $value, $currentDate()       |
 
-example:
 ```gherkin
 Then I expect every element in '$arr' array to be above '$expectedValue'
 Then I expect every element in '$arr' array to be above '50'
@@ -63,7 +62,6 @@ Verify that at least x elements in array pass validation
 |   validation   | Function |            function to verify condition             | to be equal, to be above, to be below |
 | expectedValue  |   any    |                   expected value                    |      42, $value, $currentDate()       |
 
-example:
 ```gherkin
 Then I expect at least 1 element(s) in '$arr' array to be above '$expectedValue'
 Then I expect at least 2 element(s) in '$arr' array to be above '50'
@@ -79,7 +77,6 @@ Set memory value
 | value | string |    value    |         |
 |  key  | string |     key     |         |
 
-example:
 ```gherkin
 When I save 'value' to memory as 'key'
 ```
@@ -94,7 +91,6 @@ Save value to memory
 |  key  | string |     key     |         |
 | value | string |    value    |         |
 
-example:
 ```gherkin
 When I set 'key' = 'value'
 ```
@@ -109,7 +105,6 @@ Save result of math expression and save result to memory
 | expression | string | expression to evaluate | `{$var} + 1` |
 |    key     | string |          key           |              |
 
-example:
 ```gherkin
 When I save result of math expression '{$variable} + 42' as 'result'
 When I save result of math expression '{$random()} * 100' as 'result'
@@ -125,7 +120,6 @@ Save json value to memory (as JS object)
 |  key  | string |          key           |                     |
 | json  | string | multi string with json | `{"key" : "value"}` |
 
-example:
 ```gherkin
 When I save json to memory as 'object':
     """
@@ -147,7 +141,6 @@ Save key-value pairs provided as Data Table to memory (as JS object)
 |  key  | string |       key       |         |
 |  kv   | string | key-value pairs |         |
 
-example:
 ```gherkin
 When I save key-value pairs to memory as 'key':
     | someKey      | 42               |
@@ -166,7 +159,6 @@ https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects
 |    arr     | string |          memory key of array           |
 | comparator | string | memory key of sort comparator function |
 
-example:
 ```gherkin
 When I expect '$arr' array to be sorted by '$ascending'
 ```

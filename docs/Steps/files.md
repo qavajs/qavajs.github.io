@@ -8,7 +8,7 @@ Step library to work with file system
 ## Installation
 `npm install @qavajs/steps-files`
 
-## Config
+## Configuration
 ```javascript
 module.exports = {
     default: {
@@ -50,7 +50,7 @@ Wait until file matching regexp appear in directory
 |:-----:|:------:|:-----------------------:|:------------:|
 | file  | string | file name regex to wait |   f.+\.txt   |
 |  dir  | string | directory path to wait  | ./yourFolder |
-example:
+
 ```gherkin
 When I wait until file matching 'f.+\.txt' regexp appears in './test-e2e/folder'
 When I wait until file matching '$fileRegexp' regexp appears in '$folder'
@@ -64,7 +64,7 @@ Wait until file appear
 | param |  type  |    description    |        example        |
 |:-----:|:------:|:-----------------:|:---------------------:|
 | file  | string | file path to wait | ./yourFolder/file.txt |
-example:
+
 ```gherkin
 When I wait until './test-e2e/folder/file.txt' file appears
 When I wait until '$filePath' file appears
@@ -81,7 +81,7 @@ Verify that text file content satisfy validation
 |      file      | string |   file path    |  ./yourFolder/file.txt  |
 | validationType | string |   file path    | to be equal, to contain |
 | expectedValue  | string | expected value |      text, $value       |
-example:
+
 ```gherkin
 When I expect './folder/file.txt' text file content to be equal 'file content'
 When I expect '$filePath' text file content to contain '$content'
@@ -97,7 +97,7 @@ Save file content to memory as buffer
 |:---------:|:------:|:-----------:|:----------------------:|
 |   file    | string |  file path  | ./yourFolder/file.jpeg |
 | memoryKey | string | memory key  |   fileContent, value   |
-example:
+
 ```gherkin
 When I save './folder/file.txt' file content as 'fileContent'
 When I save '$filePath' file content as 'fileContent'
@@ -112,7 +112,7 @@ Save file content to memory as text (utf-8)
 |:---------:|:------:|:-----------:|:---------------------:|
 |   file    | string |  file path  | ./yourFolder/file.txt |
 | memoryKey | string | memory key  |  textContent, value   |
-example:
+
 ```gherkin
 When I save './folder/file.txt' text file content as 'fileContent'
 When I save '$filePath' text file as 'fileContent'
@@ -127,7 +127,7 @@ Save file content to memory as Excel object (https://www.npmjs.com/package/xlsx)
 |:---------:|:------:|:-----------:|:----------------------:|
 |   file    | string |  file path  | ./yourFolder/file.xlsx |
 | memoryKey | string | memory key  |  excelContent, value   |
-example:
+
 ```gherkin
 When I save './folder/file.txt' Excel file content as 'fileContent'
 When I save '$filePath' Excel file as 'fileContent'
@@ -151,7 +151,7 @@ Save file content to memory as pdf object with following properties:
 |:---------:|:------:|:-----------:|:---------------------:|
 |   file    | string |  file path  | ./yourFolder/file.txt |
 | memoryKey | string | memory key  |  textContent, value   |
-example:
+
 ```gherkin
 When I save './folder/file.pdf' pdf file content as 'pdfContent'
 When I save '$filePath' pdf file content as 'pdfContent'
@@ -175,7 +175,6 @@ Save file content to memory as word object with following properties:
 |   file    | string | file path or buffer | ./yourFolder/file.docx |
 | memoryKey | string |     memory key      |   wordContent, value   |
 
-example:
 ```gherkin
 When I save './folder/file.docx' Word file content as 'wordContent'
 When I save '$filePath' Word file content as 'wordContent'
@@ -194,7 +193,7 @@ Save file content to memory as csv object. First row will is considered as heade
 |:---------:|:------:|:-------------------:|:---------------------:|
 |   file    | string | file path or buffer | ./yourFolder/file.csv |
 | memoryKey | string |     memory key      |   csvContent, value   |
-example:
+
 ```gherkin
 When I save './folder/file.csv' csv file content as 'csvContent'
 When I save '$filePath' csv file as 'csvContent'

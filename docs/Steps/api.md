@@ -7,7 +7,8 @@ Step library to work with API
 
 ## Installation
 `npm install @qavajs/steps-api`
-## Config
+
+## Configuration
 ```javascript
 module.exports = {
     default: {
@@ -31,7 +32,7 @@ Send request to the endpoint
 |   url   | string |                endpoint url                 |
 | headers | Object |       object with headers (optional)        |
 |   key   | string | key that should be used for saving response |
-example:
+
 ```gherkin
 When I send "GET" request to "$BASE_API_URL" with headers "$headers" and save response as "response"
 ```
@@ -47,7 +48,7 @@ Send request to the endpoint with query string
 | headers | Object |       object with headers (optional)        |
 | params  | string |           query string parameters           |
 |   key   | string | key that should be used for saving response |
-example:
+
 ```gherkin
 When I send "GET" request to "https://www.some_service.com/some_endpoint" with qs "?category=HR&name=test" and save response as "response"
 ```
@@ -63,7 +64,7 @@ Send request with body
 |   headers   | Object |       object with headers (optional)        |
 | requestBody |  JSON  |                request body                 |
 |     key     | string | key that should be used for saving response |
-example:
+
 ```gherkin
 When I send "POST" request to "$BASE_API_URL" with Body "test_data_file.json" and save response as "response"
 ```
@@ -80,7 +81,7 @@ Send request with body and query string
 |   params    | string |           query string parameters           |
 | requestBody |  JSON  |                request body                 |
 |     key     | string | key that should be used for saving response |
-example:
+
 ```gherkin
 When I send "PUT" request to "https://www.some_service.com/some_endpoint/" with qs "?category=HR&name=test" and Body "test_data_file.json" and save response as "response"
 ```
@@ -96,7 +97,7 @@ Send request with body that given as part of Cucumber step
 |   headers   | Object |       object with headers (optional)        |
 | requestBody |  JSON  |                request body                 |
 |     key     | string | key that should be used for saving response |
-example:
+
 ```gherkin
 When I send "POST" request and save response as "response" to "$BASE_API_URL" with Body:
    """
@@ -115,7 +116,6 @@ Parsing body in needed way and adds payload property to response
 | response | string | response key in memory |
 |   type   | string |    type of payload     |
 
-example:
 ```gherkin
 When I parse '$response' body as 'json'
 Then I expect '$response.payload.foo' to equal 'bar'
@@ -133,7 +133,7 @@ Verify response status code
 |  response   | Response |       saved response       |
 | validation  | Function | function to wait condition |
 | statusCode  |  string  |    expected status code    |
-example:
+
 ```gherkin
 Then Response "$response" Status Code equals to "200"
 ```
@@ -147,7 +147,7 @@ Verify that response contains needed properties
 |:---------:|:------:|:------------------------------:|
 | property  |  Any   |  property from saved response  |
 | dataTable | Object | data table with all properties |
-example:
+
 ```gherkin
 Then Response "$response.payload.data.items" contains:
       | _id               |
@@ -166,7 +166,6 @@ Verifying that response model has necessary type
 | validation  | Function | function to wait condition |
 |    type     |  string  |   expected property type   |
 
-example:
 ```gherkin
    Then Response "$response.payload.data.items" equals to "array"
 ```
@@ -181,7 +180,6 @@ Verify that response array size is equal to|less than|greater than given number
 |  validation   | Function | function to wait condition |
 | expectedValue |  string  |   expected property size   |
 
-example:
 ```gherkin
 Then Response "$response.payload.data.items" size to be above "0"
 ```
@@ -196,7 +194,6 @@ Execute any jsonPath query against response and verify result is equal to expect
 |  validation   | Function | function to wait condition |
 | expectedValue |  string  |  expected property value   |
 
-example:
 ```gherkin
 Then I verify response "$response.payload.data.items[0].title" equals to "TEST"
 ```
@@ -212,7 +209,6 @@ Create request template and save it to memory
 |:------:|:------:|:-----------:|
 | method | string | API method  |
 
-example:
 ```gherkin
 When I create 'GET' request 'request'
 ```
@@ -227,7 +223,6 @@ Add data table of headers to request
 |    requestKey    |  string   |   memory key of request    |
 | headersDataTable | DataTable | key value array of headers |
 
-example:
 ```gherkin
 When I create 'GET' request 'request'
 And I add headers to '$request':
@@ -244,7 +239,6 @@ Add headers to request
 | requestKey | string |              memory key of request               |
 | headersKey | string | memory key of headers that resolves to JS object |
 
-example:
 ```gherkin
 When I create 'GET' request 'request'
 And I add '$headers' headers to '$request'
@@ -260,7 +254,6 @@ Add body to request as multiline parameter
 | requestKey | string | memory key of request |
 |    body    | string |         body          |
 
-example:
 ```gherkin
 When I create 'GET' request 'request'
 And I add body to '$request':
@@ -281,7 +274,6 @@ Add body to request
 | requestKey | string | memory key of request |
 |    body    | string |         body          |
 
-example:
 ```gherkin
 When I create 'GET' request 'request'
 And I add '$body' body to '$request'
@@ -297,7 +289,6 @@ Add url to request
 | requestKey | string | memory key of request |
 |    url     | string |          url          |
 
-example:
 ```gherkin
 When I create 'GET' request 'request'
 And I add 'https://qavajs.github.io/' url to '$request'
@@ -313,7 +304,6 @@ Send prepared request and save response
 | requestKey  | string |    memory key of request    |
 | responseKey | string | memory key to save response |
 
-example:
 ```gherkin
 When I create 'GET' request 'request'
 And I add 'https://qavajs.github.io/' url to '$request'

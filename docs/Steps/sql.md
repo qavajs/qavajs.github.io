@@ -55,7 +55,6 @@ Execute sql query in default db provided as multiline string
 |:-----:|:------:|:--------------------:|:---------------------:|
 | query | string | SQL query to execute | I select * from table |
 
-example:
 ```gherkin
 When I execute SQL query:
 """
@@ -73,7 +72,6 @@ Execute sql query in default db provided as multiline string and save result
 | memoryKey | string | memory key to save value |       sqlResult       |
 |   query   | string |   SQL query to execute   | I select * from table |
 
-example:
 ```gherkin
 When I execute SQL query and save result as 'sqlResult':
 """
@@ -90,7 +88,6 @@ Execute sql query in default db
 |:---------:|:------:|:------------------------:|:---------------------:|
 |   query   | string |   SQL query to execute   | I select * from table |
 
-example:
 ```gherkin
 When I execute 'select smth from some_table where smth = 42' SQL query
 ```
@@ -105,7 +102,6 @@ Execute sql query in default db and save result
 |   query   | string |   SQL query to execute   | I select * from table |
 | memoryKey | string | memory key to save value |       sqlResult       |
 
-example:
 ```gherkin
 When I execute 'select * from some_table' SQL query and save result as 'sqlResult'
 ```
@@ -122,7 +118,6 @@ Execute sql query in specified db provided as multiline string
 |  db   | string | db to execute script |    default, aurora    |
 | query | string | SQL query to execute | I select * from table |
 
-example:
 ```gherkin
 When I execute SQL query in 'aurora' db:
 """
@@ -141,7 +136,6 @@ Execute sql query in specified db provided as multiline string and save result
 | memoryKey | string | memory key to save value |       sqlResult       |
 |   query   | string |   SQL query to execute   | I select * from table |
 
-example:
 ```gherkin
 When I execute SQL query in 'aurora' db and save result as 'sqlResult':
 """
@@ -159,7 +153,6 @@ Execute sql query in specified db
 | query | string | SQL query to execute | I select * from table |
 |  db   | string | db to execute script |    default, aurora    |
 
-example:
 ```gherkin
 When I execute 'select smth from some_table where smth = 42' SQL query in 'aurora' db
 ```
@@ -175,7 +168,6 @@ Execute sql query in specified db and save result
 |    db     | string |   db to execute script   |    default, aurora    |
 | memoryKey | string | memory key to save value |       sqlResult       |
 
-example:
 ```gherkin
 When I execute 'select * from some_table' SQL query in 'aurora' db and save result as 'sqlResult'
 ```

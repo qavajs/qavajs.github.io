@@ -9,7 +9,7 @@ Jira Xray formatter for cucumber framework
 ## Installation
 `npm install @qavajs/xray-formatter`
       
-## Config
+## Configuration
 Add to format section in config file
 
 cloud configuration:

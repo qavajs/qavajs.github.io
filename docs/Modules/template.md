@@ -6,7 +6,7 @@ sidebar_position: 1
 Module that allow to define step definitions on Gherkin language.
 ## Installation
 `npm install @qavajs/template`
-## Config
+## Configuration
 To use templates their location need to be passed to templates property of config file and library need to be listed
 in require
 ```javascript

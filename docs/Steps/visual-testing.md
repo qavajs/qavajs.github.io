@@ -9,7 +9,7 @@ Step library to perform visual testing using pixelmatch library
 
 `npm install @qavajs/steps-visual-testing`
 
-## Config
+## Configuration
 ```javascript
 module.exports = {
     default: {
@@ -32,7 +32,6 @@ Compare two screenshots from memory (saved as base64)
 |  actual  | string |  alias of actual screenshot  |
 | expected | string | alias of expected screenshot |
 
-example:
 ```gherkin
 Then I expect '$actual' screenshot to equal '$expected'
 ```
@@ -54,7 +53,6 @@ Supported params:
 |:-----------:|:------:|:-------------------------------------------------------------------------------------------:|
 |  threshold  | number |  Matching threshold, ranges from 0 to 1. Smaller values make the comparison more sensitive  |
 
-example:
 ```gherkin
 Then I expect '$actual' screenshot to equal '$expected':
   | threshold | 0.5 |
