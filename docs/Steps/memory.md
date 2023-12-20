@@ -168,3 +168,67 @@ class Memory {
     ascending = (a, b) => a - b; //implementation of comparator function
 }
 ```
+
+---
+### I expect \{string} \{memoryValidation} at least one of \{string}
+
+Verify that the value satisfies validation with at least one value from the array
+
+|   param    |  type  |              description               |         example          |
+|:----------:|:------:|:--------------------------------------:|:------------------------:|
+|   actual   | string |       actual value or memory key       |      string, $value      |
+| validation | string |               validation               | to equal, to match, etc. |
+|  expected  | string | array of expected values or memory key | $js([1,2,3]), $expected  |
+
+```gherkin
+When I expect '$text' to equal at least one of '$js(["free", "11.99"])'
+```
+
+---
+### I expect \{string} \{memoryValidation} at least one of: [DataTable]
+
+Verify that the value satisfies validation with at least one value from the array
+
+|   param    |   type    |                 description                 |         example          |
+|:----------:|:---------:|:-------------------------------------------:|:------------------------:|
+|   actual   |  string   |         actual value or memory key          |      string, $value      |
+| validation |  string   |                 validation                  | to equal, to match, etc. |
+|  expected  | DataTable | data table of expected values or memory key |                          |
+
+```gherkin
+When I expect '$text' to equal at least one of:
+    | free  |
+    | 11.99 |
+```
+
+---
+### I expect \{string} \{memoryValidation} all of \{string}
+
+Verify that the value satisfies validation with all values from the array
+
+|   param    |  type  |              description               |         example          |
+|:----------:|:------:|:--------------------------------------:|:------------------------:|
+|   actual   | string |       actual value or memory key       |      string, $value      |
+| validation | string |               validation               | to equal, to match, etc. |
+|  expected  | string | array of expected values or memory key | $js([1,2,3]), $expected  |
+
+```gherkin
+When I expect '$text' not to equal all of '$js(["free", "10.00"])'
+```
+
+---
+### I expect \{string} \{memoryValidation} all of \{string}
+
+Verify that the value satisfies validation with all values from the array
+
+|   param    |  type  |                 description                 |         example          |
+|:----------:|:------:|:-------------------------------------------:|:------------------------:|
+|   actual   | string |         actual value or memory key          |      string, $value      |
+| validation | string |                 validation                  | to equal, to match, etc. |
+|  expected  | string | data table of expected values or memory key | $js([1,2,3]), $expected  |
+
+```gherkin
+When I expect '$text' not to equal all of:
+    | free  |
+    | 10.00 |
+```
