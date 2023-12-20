@@ -217,15 +217,15 @@ When I expect '$text' not to equal all of '$js(["free", "10.00"])'
 ```
 
 ---
-### I expect \{string} \{memoryValidation} all of \{string}
+### I expect \{string} \{memoryValidation} all of: [DataTable]
 
 Verify that the value satisfies validation with all values from the array
 
-|   param    |  type  |                 description                 |         example          |
-|:----------:|:------:|:-------------------------------------------:|:------------------------:|
-|   actual   | string |         actual value or memory key          |      string, $value      |
-| validation | string |                 validation                  | to equal, to match, etc. |
-|  expected  | string | data table of expected values or memory key | $js([1,2,3]), $expected  |
+|   param    |   type    |                 description                 |         example          |
+|:----------:|:---------:|:-------------------------------------------:|:------------------------:|
+|   actual   |  string   |         actual value or memory key          |      string, $value      |
+| validation |  string   |                 validation                  | to equal, to match, etc. |
+|  expected  | DataTable | data table of expected values or memory key | $js([1,2,3]), $expected  |
 
 ```gherkin
 When I expect '$text' not to equal all of:
