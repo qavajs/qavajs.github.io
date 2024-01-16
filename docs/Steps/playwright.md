@@ -102,7 +102,7 @@ module.exports = {
 ```
 
 ## Video
-@qavajs support capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
+@qavajs supports video recording. https://playwright.dev/docs/next/videos
 ```typescript
 module.exports = {
     default: {
