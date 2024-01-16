@@ -102,7 +102,7 @@ module.exports = {
 ```
 
 ## Video
-@qavajs support capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
+@qavajs supports video recording. https://playwright.dev/docs/next/videos
 ```typescript
 module.exports = {
     default: {
@@ -312,19 +312,6 @@ Switch to window by matcher
 When I switch to 'google.com' window
 ```
 
----
-### I switch to \{string} window
-
-Switch to window by matcher
-
-|  param  |  type  |          description          |
-|:-------:|:------:|:-----------------------------:|
-| matcher | string | window matcher (url or title) |
-
-```gherkin
-When I switch to 'google.com' window
-```
- 
 ---
 ### I open new tab
 
