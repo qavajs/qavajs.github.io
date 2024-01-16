@@ -313,19 +313,6 @@ When I switch to 'google.com' window
 ```
 
 ---
-### I switch to \{string} window
-
-Switch to window by matcher
-
-|  param  |  type  |          description          |
-|:-------:|:------:|:-----------------------------:|
-| matcher | string | window matcher (url or title) |
-
-```gherkin
-When I switch to 'google.com' window
-```
- 
----
 ### I open new tab
 
 Open new browser tab
