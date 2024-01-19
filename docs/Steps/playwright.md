@@ -1365,8 +1365,8 @@ Set cookie
 | value  | string | value to set |
 
 ```gherkin
-When I set 'userID' cookie 'user1'
-When I set 'userID' cookie '$userIdCookie'
+When I set 'userID' cookie as 'user1'
+When I set 'userID' cookie as '$userIdCookie'
 ```
    
 ---
