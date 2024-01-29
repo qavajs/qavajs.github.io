@@ -82,6 +82,25 @@ When I save 'value' to memory as 'key'
 ```
 
 ---
+### I save multiline string to memory as \{string}: [Multiline]
+
+Set multiline memory value
+
+| param |  type  | description | example |
+|:-----:|:------:|:-----------:|:-------:|
+|  key  | string |     key     |         |
+| value | string |    value    |         |
+
+example:
+```gherkin
+When I save multiline string to memory as 'multilineString':
+  """
+  foo
+  bar
+  """
+```
+
+---
 ### I set \{string} = \{string}
 
 Save value to memory
