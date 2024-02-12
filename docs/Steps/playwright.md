@@ -679,7 +679,7 @@ When I click '0,20' coordinates in 'Google Button'
 ---
 ### I force click \{string}
 
-Force click HTMLElement
+Force click element
 
 | param |  type  |   description    |
 |:-----:|:------:|:----------------:|
