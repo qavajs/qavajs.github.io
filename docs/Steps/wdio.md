@@ -565,6 +565,20 @@ Release keyboard key
 When I release 'Q' key
 ```
 
+---
+### I force click \{string}
+
+Force click element
+
+| param |  type  |   description    |
+|:-----:|:------:|:----------------:|
+| alias | string | element to click |
+
+```gherkin
+When I force click 'Google Button'
+```
+---
+
 ## Validation Steps
 
 ---
