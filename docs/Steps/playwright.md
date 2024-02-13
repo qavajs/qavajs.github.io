@@ -663,6 +663,20 @@ Click a certain coordinate of an element
 When I click '0,20' coordinates in 'Google Button'
 ```
 
+---
+### I force click \{string}
+
+Force click element
+
+| param |  type  |   description    |
+|:-----:|:------:|:----------------:|
+| alias | string | element to click |
+
+```gherkin
+When I force click 'Google Button'
+```
+---
+
 ## Validation Steps
 
 ---
