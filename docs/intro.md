@@ -50,5 +50,4 @@ Config file extends Cucumber [config file](https://github.com/cucumber/cucumber-
 | `services`       | `[]`     | list of services to run before/after tests (setup/teardown selenium, appium etc.) | []      |
 | `memory`         | `object` | instance of memory object with loaded constants and computed                      | {}      |
 
-### VSCode Extension
-https://github.com/qavajs/vscode/releases
+

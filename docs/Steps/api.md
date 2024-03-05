@@ -203,11 +203,12 @@ Then I verify response "$response.payload.data.items[0].title" equals to "TEST"
 ---
 ### I create \{string} request \{string}
 
-Create request template and save it to memory
+Create request and save it to memory
 
-| param  |  type  | description |
-|:------:|:------:|:-----------:|
-| method | string | API method  |
+|   param    |  type  |     description     |
+|:----------:|:------:|:-------------------:|
+|   method   | string |     API method      |
+| requestKey | string | key to save request |
 
 ```gherkin
 When I create 'GET' request 'request'
@@ -308,4 +309,142 @@ Send prepared request and save response
 When I create 'GET' request 'request'
 And I add 'https://qavajs.github.io/' url to '$request'
 And I send '$request' request and save response as 'response'
+```
+
+---
+### I create GraphQL request \{string}
+
+Create GraphQL request and save it to memory
+
+|   param    |  type  |     description     |
+|:----------:|:------:|:-------------------:|
+| requestKey | string | key to save request |
+
+```gherkin
+When I create GraphQL request 'request'
+```
+        
+---
+### I add \{gqlRequestProperty} to GraphQL \{string}: [Multiline]
+
+Add GraphQL property
+
+|   param    |  type  |      description       |
+|:----------:|:------:|:----------------------:|
+|  property  | string |   query or variables   |
+| requestKey | string | memory key of request  |
+|   value    | string | value multiline string |
+
+```gherkin
+When I create GraphQL request 'request'
+And I add query to GraphQL '$request':
+"""
+query {
+  characters(page: 2, filter: { name: "rick" }) {
+    results {
+      name
+    }
+  }
+}
+"""    
+And I add variables to GraphQL '$request':
+"""
+{
+  "value": 42
+}
+"""
+```
+
+## Websocket Steps
+
+---
+### I connect to \{string} ws endpoint \{string}
+
+Connect to websocket endpoint and save connection to memory
+
+|   param    |  type  |     description     |
+|:----------:|:------:|:-------------------:|
+|    url     | string | websocket endpoint  |
+| requestKey | string | key to save request |
+
+```gherkin
+When I connect to 'ws://localhost:3000' ws endpoint 'ws'
+```
+
+---
+### I save message from \{string} ws endpoint as \{string}
+
+Save message from websocket connection to memory
+
+|     param     |  type  |          description           |
+|:-------------:|:------:|:------------------------------:|
+| connectionKey | string | memory key of saved connection |
+|   memoryKey   | string |   memory key to save message   |
+
+```gherkin
+When I connect to 'ws://localhost:3000' ws endpoint 'ws'
+And I save message from '$ws' ws endpoint as 'message'
+```
+
+---
+### I save message matching \{string} from \{string} ws endpoint as \{string}'
+
+Save message matching regexp from websocket connection to memory
+
+|     param     |  type  |          description           |
+|:-------------:|:------:|:------------------------------:|
+|    regexp     | string |   regexp to filter messages    |
+| connectionKey | string | memory key of saved connection |
+|   memoryKey   | string |   memory key to save message   |
+
+```gherkin
+When I connect to 'ws://localhost:3000' ws endpoint 'ws'
+And I save message matching 'qavajs test' from '$ws' ws endpoint as 'message'
+```
+
+---
+### I send \{string} message to \{string} ws endpoint
+
+Send message to websocket
+
+|     param     |  type  |          description           |
+|:-------------:|:------:|:------------------------------:|
+|    message    | string |        message to send         |
+| connectionKey | string | memory key of saved connection |
+
+```gherkin
+When I connect to 'ws://localhost:3000' ws endpoint 'ws'
+And I send 'qavajs' message to '$ws' ws endpoint
+```
+
+---
+### I send message to \{string} ws endpoint: [Multiline]
+
+Send message to websocket
+
+|     param     |  type  |          description           |
+|:-------------:|:------:|:------------------------------:|
+| connectionKey | string | memory key of saved connection |
+|    message    | string |        message to send         |
+
+```gherkin
+When I connect to 'ws://localhost:3000' ws endpoint 'ws'
+And I send message to '$ws' ws endpoint:
+"""
+qavajs
+"""
+```
+
+---
+### I close \{string} ws connection
+
+Close websocket connection
+
+|     param     |  type  |          description           |
+|:-------------:|:------:|:------------------------------:|
+| connectionKey | string | memory key of saved connection |
+
+```gherkin
+When I connect to 'ws://localhost:3000' ws endpoint 'ws'
+And I close '$ws' ws connection
 ```
