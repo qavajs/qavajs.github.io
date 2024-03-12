@@ -1049,6 +1049,19 @@ When I save screenshot as 'screenshot'
 ```
 
 ---
+### I save full page screenshot as \{string}
+
+Save full page screenshot into memory
+
+| param |  type  |    description     |
+|:-----:|:------:|:------------------:|
+|  key  | string | key to store value |
+
+```gherkin
+When I save full page screenshot as 'screenshot'
+```
+
+---
 ### I save screenshot of \{string} as \{string}
 
 Save element screenshot into memory
