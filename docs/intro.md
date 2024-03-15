@@ -8,7 +8,7 @@ sidebar_position: 1
 
 https://qavajs.github.io/
 
-@qavajs framework is a solution that allow to significantly reduces automation project setup time due to set of predefined steps, built-in page object solution and OOB integrations with other test related stuff (like EPAM ReportPortal etc.)
+@qavajs framework is a solution that allows to significantly reduces automation project setup time due to a set of predefined steps, built-in page object solution, and OOB integrations with other test-related stuff (like EPAM ReportPortal etc.)
         
 ```gherkin
 Feature: Desktop Web Feature
@@ -29,17 +29,15 @@ Feature: Desktop Web Feature
       | Java       |
 ```
 ### Installation from scratch
-`npm init`
+`npm init @qavajs`
 
-`npm install @qavajs/cli`
-
-`npx qavajs install` and select modules to install. The system will generate config file based on your answers.
+and select modules to install. The system will generate a config file based on your answers.
 
 ### Test execution
 `npx qavajs run --config <config> --profile <profile>`
 
-default config is cucumber.js
-default profile is default
+- default config is cucumber.js
+- default profile is default
 
 ### Config file
 Config file extends Cucumber [config file](https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md#options):
