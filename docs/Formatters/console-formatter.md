@@ -18,7 +18,8 @@ module.exports = {
         format: ['@qavajs/console-formatter'],
         formatOptions: {
             console: {
-                showLogs: true //show cucumber logs
+                showLogs: true, //show cucumber logs. Default - false
+                showProgress: true //show progress bar. Default - false
             }
         },
     }
