@@ -57,8 +57,24 @@ module.exports = {
 }
 ```
 
-## reuseSession
-reuseSession flag allows to share driver session between tests. Browser will not be closed automatically after test.
+## Snapshot
+@qavajs/steps-wdio has build-in capability to take snapshot on particular event.
+- onFail
+- beforeStep
+- afterStep
+
+```javascript
+module.exports = {
+    default: {
+        browser: {
+            snapshot: ['onFail']
+        }
+    }
+}
+```
+
+## Reuse Session
+_reuseSession_ flag allows to share driver session between tests. Browser will not be closed automatically after test.
 
 ```javascript
 module.exports = {
@@ -629,6 +645,21 @@ Then I expect text of '#1 of Search Results' to be equal 'google'
 Then I expect text of '#1 of Search Results' to be equal '$firstResult'
 ```
 ---
+### I expect value of \{string} \{playwrightValidation} \{string}
+
+Verify that value of element satisfies condition
+
+|     param     |  type  |        description         |                example                |
+|:-------------:|:------:|:--------------------------:|:-------------------------------------:|
+|     alias     | string | element to check condition |           Input, Text Area            |
+|  validation   | string |      validation type       | to be equal, to contain, not to match |
+| expectedValue | string |      expected result       |                                       |
+
+```gherkin
+Then I expect value of 'Input' to be equal 'google'
+Then I expect value of '#1 of Textareas' to be equal '$firstResult'
+```
+---
 ### I expect \{string} property of \{string} \{wdioValidation} \{string}
 
 Verify that property of element satisfies condition
@@ -1012,6 +1043,23 @@ Wait for element text condition
 When I wait until text of 'Header' to be equal 'Javascript'
 When I wait until text of 'Header' not to be equal 'Python'
 When I wait until text of 'Header' to be equal 'Javascript' (timeout: 3000)
+```
+---
+### I wait until value of \{string} \{playwrightValueWait} \{string}( )\{playwrightTimeout}
+
+Wait for element value condition
+
+|  param  |       type        |       description       |
+|:-------:|:-----------------:|:-----------------------:|
+|  alias  |      string       |         element         |
+|  wait   |      string       |     validation type     |
+|  value  |      string       |     expected result     |
+| timeout | number (optional) | timeout in milliseconds |
+
+```gherkin
+When I wait until value of 'Input' to be equal 'Javascript'
+When I wait until value of 'Input' not to be equal 'Python'
+When I wait until value of 'Input' to be equal 'Javascript' (timeout: 3000)
 ```
 ---
 ### I wait until number of elements in \{string} collection \{wdioValidation} \{string}( )\{wdioTimeout}
