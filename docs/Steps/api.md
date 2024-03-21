@@ -19,10 +19,38 @@ module.exports = {
 }
 ```
 ## Parameter Types
+### gqlRequestProperty
+Used to initialize one of two possible GraphQl body properties
+
+- query
+- variables
+
+### apiValidation
+Used for parsing responses body
+
+- arrayBuffer
+- formData
+- blob
+- json
+- text
+
+### bodyParsingType
+Used for validation function (can be negated with not)
+
+- to equal 
+- to match schema 
+- to have member
+- to match
+- to contain
+- to be above
+- to be below
+- to be greater than
+- to be less than
+- to have type
 
 ## Action Steps
 
-### I send \{string} request to \{landingUrl}\{headers} and save response as \{string}
+### I send \{method} request to \{url} and save response as \{key}
 
 Send request to the endpoint
 
@@ -30,14 +58,28 @@ Send request to the endpoint
 |:-------:|:------:|:-------------------------------------------:|
 | method  | string |               request method                |
 |   url   | string |                endpoint url                 |
-| headers | Object |       object with headers (optional)        |
+|   key   | string | key that should be used for saving response |
+
+```gherkin
+When I send "GET" request to "$BASE_API_URL" and save response as "response"
+```
+---
+### I send \{method} request to \{url} with headers \{headers} and save response as \{key}
+
+Send request to the endpoint
+
+|  param  |  type  |                 description                 |
+|:-------:|:------:|:-------------------------------------------:|
+| method  | string |               request method                |
+|   url   | string |                endpoint url                 |
+| headers | string |           memory key with headers           |
 |   key   | string | key that should be used for saving response |
 
 ```gherkin
 When I send "GET" request to "$BASE_API_URL" with headers "$headers" and save response as "response"
 ```
 ---
-### I send \{string} request to \{landingUrl}\{headers} with qs \{string} and save response as \{string}
+### I send \{method} request to \{url} with qs \{params} and save response as \{key}
 
 Send request to the endpoint with query string
 
@@ -45,15 +87,30 @@ Send request to the endpoint with query string
 |:-------:|:------:|:-------------------------------------------:|
 | method  | string |               request method                |
 |   url   | string |                endpoint url                 |
-| headers | Object |       object with headers (optional)        |
 | params  | string |           query string parameters           |
 |   key   | string | key that should be used for saving response |
 
 ```gherkin
-When I send "GET" request to "https://www.some_service.com/some_endpoint" with qs "?category=HR&name=test" and save response as "response"
+When I send "GET" request to "$BASE_API_URL" with qs "?category=HR&name=test" and save response as "response"
 ```
 ---
-### I send \{string} request to \{landingUrl}\{headers} with Body \{json} and save response as \{string}
+### I send \{method} request to \{url} with headers \{headers} with qs \{params} and save response as \{key}
+
+Send request to the endpoint with query string
+
+|  param  |  type  |                 description                 |
+|:-------:|:------:|:-------------------------------------------:|
+| method  | string |               request method                |
+|   url   | string |                endpoint url                 |
+| headers | string |           memory key with headers           |
+| params  | string |           query string parameters           |
+|   key   | string | key that should be used for saving response |
+
+```gherkin
+When I send "GET" request to "$BASE_API_URL" with headers "$headers" with qs "?category=HR&name=test" and save response as "response"
+```
+---
+### I send \{method} request to \{url} with Body \{requestBody} and save response as \{key}
 
 Send request with body
 
@@ -61,7 +118,6 @@ Send request with body
 |:-----------:|:------:|:-------------------------------------------:|
 |   method    | string |               request method                |
 |     url     | string |                endpoint url                 |
-|   headers   | Object |       object with headers (optional)        |
 | requestBody |  JSON  |                request body                 |
 |     key     | string | key that should be used for saving response |
 
@@ -69,7 +125,23 @@ Send request with body
 When I send "POST" request to "$BASE_API_URL" with Body "test_data_file.json" and save response as "response"
 ```
 ---
-### I send \{string} request to \{landingUrl}\{headers} with qs \{string} and Body \{json} and save response as \{string}
+### I send \{method} request to \{url} with headers \{headers} with Body \{requestBody} and save response as \{key}
+
+Send request with body
+
+|    param    |  type  |                 description                 |
+|:-----------:|:------:|:-------------------------------------------:|
+|   method    | string |               request method                |
+|     url     | string |                endpoint url                 |
+|   headers   | string |           memory key with headers           |
+| requestBody |  JSON  |                request body                 |
+|     key     | string | key that should be used for saving response |
+
+```gherkin
+When I send "POST" request to "$BASE_API_URL" with headers "$json('headers.json')" with Body "test_data_file.json" and save response as "response"
+```
+---
+### I send \{method} request to \{url} with qs \{params} and Body \{requestBody} and save response as \{key}
 
 Send request with body and query string
 
@@ -77,7 +149,6 @@ Send request with body and query string
 |:-----------:|:------:|:-------------------------------------------:|
 |   method    | string |               request method                |
 |     url     | string |                endpoint url                 |
-|   headers   | Object |       object with headers (optional)        |
 |   params    | string |           query string parameters           |
 | requestBody |  JSON  |                request body                 |
 |     key     | string | key that should be used for saving response |
@@ -86,17 +157,33 @@ Send request with body and query string
 When I send "PUT" request to "https://www.some_service.com/some_endpoint/" with qs "?category=HR&name=test" and Body "test_data_file.json" and save response as "response"
 ```
 ---
-### I send \{string} request and save response as \{string} to \{landingUrl}\{headers} with Body:
+### I send \{method} request to \{url} with headers \{headers} with qs \{params} and Body \{requestBody} and save response as \{key}
 
-Send request with body that given as part of Cucumber step
+Send request with body and query string
 
 |    param    |  type  |                 description                 |
 |:-----------:|:------:|:-------------------------------------------:|
 |   method    | string |               request method                |
 |     url     | string |                endpoint url                 |
-|   headers   | Object |       object with headers (optional)        |
+|   headers   | string |           memory key with headers           |
+|   params    | string |           query string parameters           |
 | requestBody |  JSON  |                request body                 |
 |     key     | string | key that should be used for saving response |
+
+```gherkin
+When I send "PUT" request to "https://www.some_service.com/some_endpoint/" with headers "$headers" with qs "?category=HR&name=test" and Body "test_data_file.json" and save response as "response"
+```
+---
+### I send \{method} request and save response as \{key} to \{url} with Body: [requestBody]
+
+Send request with body that given as part of Cucumber step
+
+|    param    |        type        |                 description                 |
+|:-----------:|:------------------:|:-------------------------------------------:|
+|   method    |       string       |               request method                |
+|     key     |       string       | key that should be used for saving response |
+|     url     |       string       |                endpoint url                 |
+| requestBody | string (Multiline) |                request body                 |
 
 ```gherkin
 When I send "POST" request and save response as "response" to "$BASE_API_URL" with Body:
@@ -107,14 +194,14 @@ When I send "POST" request and save response as "response" to "$BASE_API_URL" wi
    """
 ```
 
-### I parse \{string} body as \{bodyParsingType}
+### I parse \{response} body as \{type}
 MANDATORY STEP THAT SHOULD BE USED AFTER SENDING REQUEST
 Parsing body in needed way and adds payload property to response
 
-|  param   |  type  |      description       |
-|:--------:|:------:|:----------------------:|
-| response | string | response key in memory |
-|   type   | string |    type of payload     |
+|  param   |                type                 |      description       |
+|:--------:|:-----------------------------------:|:----------------------:|
+| response |               string                | response key in memory |
+|   type   | [bodyParsingType](#bodyparsingtype) |    type of payload     |
 
 ```gherkin
 When I parse '$response' body as 'json'
@@ -124,22 +211,35 @@ Then I expect '$response.payload.foo' to equal 'bar'
 ## Validation Steps
 
 ---
-### Response \{string} Status Code \{apiValidation} \{string}
+### Response \{response} Status Code \{validation} \{statusCode}
 
 Verify response status code
 
-|    param    |   type   |        description         |
-|:-----------:|:--------:|:--------------------------:|
-|  response   | Response |       saved response       |
-| validation  | Function | function to wait condition |
-| statusCode  |  string  |    expected status code    |
+|   param    |              type               |        description         |
+|:----------:|:-------------------------------:|:--------------------------:|
+|  response  |            Response             |       saved response       |
+| validation | [apiValidation](#apivalidation) | function to wait condition |
+| statusCode |             string              |    expected status code    |
 
 ```gherkin
 Then Response "$response" Status Code equals to "200"
 ```
-
 ---
-### Response \{string} contains:
+### Response \{response} Status Message \{validation} \{statusMessage}
+
+Verify response status code
+
+|     param     |              type               |        description         |
+|:-------------:|:-------------------------------:|:--------------------------:|
+|   response    |            Response             |       saved response       |
+|  validation   | [apiValidation](#apivalidation) | function to wait condition |
+| statusMessage |             string              |  expected status message   |
+
+```gherkin
+Then Response "$response" Status Message equals to "OK"
+```
+---
+### Response \{property} contains:
 
 Verify that response contains needed properties
 
@@ -156,43 +256,43 @@ Then Response "$response.payload.data.items" contains:
 ```
 
 ---
-### Response \{string} \{apiValidation} \{string}
+### Response \{response} \{validation} \{type}
 
 Verifying that response model has necessary type
 
-|    param    |   type   |        description         |
-|:-----------:|:--------:|:--------------------------:|
-|  response   | Response |       saved response       |
-| validation  | Function | function to wait condition |
-|    type     |  string  |   expected property type   |
+|   param    |              type               |        description         |
+|:----------:|:-------------------------------:|:--------------------------:|
+|  response  |            Response             |       saved response       |
+| validation | [apiValidation](#apivalidation) | function to wait condition |
+|    type    |             string              |   expected property type   |
 
 ```gherkin
    Then Response "$response.payload.data.items" equals to "array"
 ```
 ---
-### Response \{string} size \{apiValidation} \{string}
+### Response \{response} size \{validation} \{expectedValue}
 
 Verify that response array size is equal to|less than|greater than given number
 
-|     param     |   type   |        description         |
-|:-------------:|:--------:|:--------------------------:|
-|   response    | Response |       saved response       |
-|  validation   | Function | function to wait condition |
-| expectedValue |  string  |   expected property size   |
+|     param     |              type               |        description         |
+|:-------------:|:-------------------------------:|:--------------------------:|
+|   response    |            Response             |       saved response       |
+|  validation   | [apiValidation](#apivalidation) | function to wait condition |
+| expectedValue |             string              |   expected property size   |
 
 ```gherkin
 Then Response "$response.payload.data.items" size to be above "0"
 ```
 ---
-### I verify response \{string} \{apiValidation} \{string}
+### I verify response \{response} \{validation} \{expectedValue}
 
 Execute any jsonPath query against response and verify result is equal to expected value
 
-|     param     |   type   |        description         |
-|:-------------:|:--------:|:--------------------------:|
-|   response    | Response |       saved response       |
-|  validation   | Function | function to wait condition |
-| expectedValue |  string  |  expected property value   |
+|     param     |              type               |        description         |
+|:-------------:|:-------------------------------:|:--------------------------:|
+|   response    |            Response             |       saved response       |
+|  validation   | [apiValidation](#apivalidation) | function to wait condition |
+| expectedValue |             string              |  expected property value   |
 
 ```gherkin
 Then I verify response "$response.payload.data.items[0].title" equals to "TEST"
@@ -201,7 +301,7 @@ Then I verify response "$response.payload.data.items[0].title" equals to "TEST"
 ## Construction API Steps
 
 ---
-### I create \{string} request \{string}
+### I create \{method} request \{requestKey}
 
 Create request and save it to memory
 
@@ -215,7 +315,7 @@ When I create 'GET' request 'request'
 ```
 
 ---
-### I add headers to \{string}: [DataTable]
+### I add headers to \{requestKey}: [headersDataTable]
 
 Add data table of headers to request
 
@@ -231,7 +331,7 @@ And I add headers to '$request':
 ```
 
 ---
-### I add \{string} headers to \{string}
+### I add \{requestKey} headers to \{headersKey}
 
 Add headers to request
 
@@ -246,14 +346,14 @@ And I add '$headers' headers to '$request'
 ```
 
 ---
-### I add body to \{string}: [Multiline]
+### I add body to \{requestKey}: [body]
 
 Add body to request as multiline parameter
 
-|   param    |  type  |      description      |
-|:----------:|:------:|:---------------------:|
-| requestKey | string | memory key of request |
-|    body    | string |         body          |
+|   param    |        type        |      description      |
+|:----------:|:------------------:|:---------------------:|
+| requestKey |       string       | memory key of request |
+|    body    | string (Multiline) |         body          |
 
 ```gherkin
 When I create 'GET' request 'request'
@@ -266,7 +366,7 @@ And I add body to '$request':
 ```
 
 ---
-### I add \{string} body to \{string}
+### I add \{requestKey} body to \{body}
 
 Add body to request
 
@@ -281,7 +381,7 @@ And I add '$body' body to '$request'
 ```
 
 ---
-### I add \{string} url to \{string}
+### I add \{requestKey} url to \{url}
 
 Add url to request
 
@@ -296,7 +396,7 @@ And I add 'https://qavajs.github.io/' url to '$request'
 ```
 
 ---
-### I send \{string} request and save response as \{string}
+### I send \{requestKey} request and save response as \{responseKey}
 
 Send prepared request and save response
 
@@ -312,7 +412,25 @@ And I send '$request' request and save response as 'response'
 ```
 
 ---
-### I create GraphQL request \{string}
+### I add form data body to \{requestKey}: [dataTable]
+
+Send prepared request and save response
+
+|   param    |   type    |      description      |
+|:----------:|:---------:|:---------------------:|
+| requestKey |  string   | memory key of request |
+| dataTable  | DataTable |         body          |
+
+```gherkin
+When I add body to '$request':
+| key      | value                    | filename | contentType      |
+| formKey  | formValue                |          | application/json |
+| otherKey | otherValue               |          | text/plain       |
+| fileKey  | $file('./path/file.png') | file.png | image/png        |
+```
+
+---
+### I create GraphQL request \{requestKey}
 
 Create GraphQL request and save it to memory
 
@@ -325,15 +443,15 @@ When I create GraphQL request 'request'
 ```
         
 ---
-### I add \{gqlRequestProperty} to GraphQL \{string}: [Multiline]
+### I add \{property} to GraphQL \{string}: [value]
 
 Add GraphQL property
 
-|   param    |  type  |      description       |
-|:----------:|:------:|:----------------------:|
-|  property  | string |   query or variables   |
-| requestKey | string | memory key of request  |
-|   value    | string | value multiline string |
+|   param    |                   type                    |      description       |
+|:----------:|:-----------------------------------------:|:----------------------:|
+|  property  | [gqlRequestProperty](#gqlrequestproperty) |   query or variables   |
+| requestKey |                  string                   | memory key of request  |
+|   value    |            string (Multiline)             | value multiline string |
 
 ```gherkin
 When I create GraphQL request 'request'
@@ -418,14 +536,14 @@ And I send 'qavajs' message to '$ws' ws endpoint
 ```
 
 ---
-### I send message to \{string} ws endpoint: [Multiline]
+### I send message to \{string} ws endpoint: [message]
 
 Send message to websocket
 
-|     param     |  type  |          description           |
-|:-------------:|:------:|:------------------------------:|
-| connectionKey | string | memory key of saved connection |
-|    message    | string |        message to send         |
+|     param     |        type        |          description           |
+|:-------------:|:------------------:|:------------------------------:|
+| connectionKey |       string       | memory key of saved connection |
+|    message    | string (Multiline) |        message to send         |
 
 ```gherkin
 When I connect to 'ws://localhost:3000' ws endpoint 'ws'
