@@ -639,7 +639,7 @@ Provide file url to file chooser
 | alias | string | element that invokes file chooser |
 
 ```gherkin
-When I upload '/folder/file.txt' by clicking 'Upload Button'
+When I upload '/folder/file.txt' file by clicking 'Upload Button'
 ```
 
 ---
