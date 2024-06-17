@@ -1253,6 +1253,42 @@ When I wait until page title not to contain 'cypress'
 When I wait until page title to be equal 'qavajs' (timeout: 3000)
 ```
 
+-------------------------
+### I refresh page until \{string} \{playwrightConditionWait}( )\{wdioTimeout}
+
+Refresh page until element matches condition
+
+|   param   |       type        |       description       |
+|:---------:|:-----------------:|:-----------------------:|
+|   alias   |      string       |      element alias      |
+| condition |      string       |    condition to wait    |
+|  timeout  | number (optional) | timeout in milliseconds |
+
+```gherkin
+When I refresh page until 'Internal Server Error Box' to be visible
+When I refresh page until 'Submit Button' to be enabled
+When I refresh page until 'Place Order Button' to be clickable (timeout: 3000)
+```
+-------------------------
+
+### I refresh page until text of \{string} \{playwrightValidation} \{string}( )\{playwrightTimeout}
+
+Refresh page until element text matches condition
+
+|   param   |       type        |       description       |
+|:---------:|:-----------------:|:-----------------------:|
+|   alias   |      string       |      element alias      |
+| condition |      string       |    condition to wait    |
+| expected  |      string       |     expected value      |
+|  timeout  | number (optional) | timeout in milliseconds |
+
+```gherkin
+When I refresh page until text of 'Order Status' to be equal 'Processing'
+When I refresh page until text of 'Currency' not contain '$'
+When I refresh page until text of 'My Salary' to match '/5\d{3,}/' (timeout: 3000)
+```
+-------------------------
+
 ## Execute Steps
 
 ---

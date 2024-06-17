@@ -11,7 +11,7 @@ https://qavajs.github.io/
 @qavajs framework is a solution that allows to significantly reduces automation project setup time due to a set of predefined steps, built-in page object solution, and OOB integrations with other test-related stuff (like EPAM ReportPortal etc.)
         
 ```gherkin
-Feature: Desktop Web Feature
+Feature: Web Feature
 
   @wikipedia
   Scenario Outline: Search in wikipedia (<term>)
