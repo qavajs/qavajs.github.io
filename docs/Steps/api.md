@@ -25,7 +25,7 @@ Used to initialize one of two possible GraphQl body properties
 - query
 - variables
 
-### apiValidation
+### bodyParsingType
 Used for parsing responses body
 
 - arrayBuffer
@@ -34,7 +34,7 @@ Used for parsing responses body
 - json
 - text
 
-### bodyParsingType
+### apiValidation
 Used for validation function (can be negated with not)
 
 - to equal 
