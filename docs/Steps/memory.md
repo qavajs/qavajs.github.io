@@ -5,7 +5,9 @@ sidebar_position: 4
 # @qavajs/steps-memory
 Steps to work with memory module
 ## Installation
-`npm install @qavajs/steps-memory`
+```
+npm install @qavajs/steps-memory
+```
 
 ## Configuration
 ```javascript

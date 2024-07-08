@@ -6,11 +6,13 @@ qavajs implementation on top of playwright runner
 
 ## Installation
 
-`npm init playwright`              
+```shell
+npm init playwright
+```              
 
-`npm install @qavajs/playwright-runner-adapter`
-
-`npm install @qavajs/playwright`
+```shell
+npm install @cucumber/cucumber @qavajs/playwright @qavajs/playwright-runner-adapter @qavajs/memory @qavajs/po-playwright
+```
 
 ## Configuration
 cucumber.ts

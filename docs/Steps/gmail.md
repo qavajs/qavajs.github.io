@@ -6,7 +6,9 @@ sidebar_position: 8
 Step library to test emails via gmail client
 
 ## Installation
-`npm install @qavajs/steps-gmail`
+```
+npm install @qavajs/steps-gmail
+```
 
 ## Configuration
 ```javascript

@@ -6,11 +6,13 @@ qavajs implementation on top of cypress runner
 
 ## Installation
   
-`npm install cypress`
+```
+npm install cypress
+```
 
-`npm install @qavajs/cypress-runner-adapter`
-
-`npm install @qavajs/cypress`
+```
+npm install @qavajs/cypress @qavajs/cypress-runner-adapter @qavajs/memory @qavajs/po-cypress
+```
 
 ## Configuration
 cypress.config.js

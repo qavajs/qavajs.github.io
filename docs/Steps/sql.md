@@ -6,7 +6,9 @@ sidebar_position: 6
 Step library to work with relational databases
 
 ## Installation
-`npm install @qavajs/steps-sql`
+```
+npm install @qavajs/steps-sql
+```
 
 ## Configuration
 ```javascript

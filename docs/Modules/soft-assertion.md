@@ -6,7 +6,9 @@ sidebar_position: 2
 Module that allow to use soft asserts in qavajs tests
 
 ## Installation
-`npm install @qavajs/soft-assertion`
+```shell
+npm install @qavajs/soft-assertion
+```
 
 ## Usage
 

@@ -5,9 +5,11 @@ sidebar_position: 1
 # @qavajs/steps-wdio
 Step library to work with webdriverio using DSL page object
 ## Installation
-`npm install @qavajs/steps-wdio`
+```
+npm install @qavajs/steps-wdio
+```
 ## Configuration
-Wdio steps provide a couple of additional configuration properties
+wdio steps provide additional configuration properties
 
 | Name         | Type     | Description                                                                     | Default |
 |--------------|----------|---------------------------------------------------------------------------------|---------|

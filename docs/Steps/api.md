@@ -6,7 +6,9 @@ sidebar_position: 3
 Step library to work with API
 
 ## Installation
-`npm install @qavajs/steps-api`
+```
+npm install @qavajs/steps-api
+```
 
 ## Configuration
 ```javascript

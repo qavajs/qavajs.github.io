@@ -6,7 +6,9 @@ sidebar_position: 1
 This package is formatter for EPAM report portal
 
 ## Install
-`npm install @qavajs/format-report-portal`
+```
+npm install @qavajs/format-report-portal
+```
 
 ## Configuration
 
