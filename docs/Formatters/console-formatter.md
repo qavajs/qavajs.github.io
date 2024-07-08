@@ -7,7 +7,9 @@ sidebar_position: 2
 Console formatter for cucumber framework
 
 ## Installation
-`npm install @qavajs/console-formatter`
+```
+npm install @qavajs/console-formatter
+```
 
 ## Configuration
 To use formatter just add formatter section in config file

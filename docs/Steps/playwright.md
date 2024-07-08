@@ -5,7 +5,9 @@ sidebar_position: 2
 # @qavajs/steps-playwright
 Step library to work with playwright using DSL page object
 ## Installation
-`npm install @qavajs/steps-playwright`
+```
+npm install @qavajs/steps-playwright
+```
 ## Configuration
 Playwright steps provide a couple of additional configuration properties
 

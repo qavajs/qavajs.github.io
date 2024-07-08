@@ -7,7 +7,9 @@ Step library to perform visual testing using pixelmatch library
 
 ## Installation
 
-`npm install @qavajs/steps-visual-testing`
+```
+npm install @qavajs/steps-visual-testing
+```
 
 ## Configuration
 ```javascript
