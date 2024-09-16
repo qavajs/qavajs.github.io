@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 1
 ---
 
 # @qavajs/steps-playwright
@@ -80,7 +80,10 @@ module.exports = {
 module.exports = {
     default: {
         browser: {
-            screenshot: ['onFail']
+            screenshot: {
+                event: ['onFail'], //event to take screenshot
+                fullPage: true // option to take full page screenshot (default false)
+            }
         }
     }
 }
@@ -98,9 +101,11 @@ module.exports = {
         //...
         browser: {
             trace: {
-                event: ['onFail'], // Events to save trace. Possible values onFail or afterScenario 
-                dir: 'traces', // Dir to store traces. Default is traces/
-                attach: true // Define if trace need to be attached to cucumber report. Default false
+                event: ['onFail'], // Events to save trace. Possible value onFail or afterScenario 
+                dir: 'dirToStoreTraces', // Dir to store traces. Default - traces/
+                attach: true, // Whether trace need to be attached to cucumber report. Default - false
+                screenshots: true, // Whether to capture screenshots during tracing. Screenshots are used to build a timeline preview. Default - true
+                snapshots: true, // Whether to capture DOM and network activity
             }
         }
     }
@@ -137,6 +142,19 @@ module.exports = {
     default: {
         browser: {
             reuseSession: true
+        }
+    }
+}
+```
+
+## Restart Browser
+_restartBrowser_ flag allows to restart browser between tests instead of default restarting context
+
+```javascript
+module.exports = {
+    default: {
+        browser: {
+            restartBrowser: true
         }
     }
 }
