@@ -692,6 +692,63 @@ When I click '0,20' coordinates in 'Google Button'
 ```
 
 ---
+
+### I grant \{string} permission
+
+Provides permission for the browser context.  
+Full list of permissions can be found
+in [Playwright documentation](https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions).
+
+| param |  type  |       description        |
+|:-----:|:------:|:------------------------:|
+| alias | string | permission name or alias |
+
+```gherkin
+When I grant 'geolocation' permission
+```
+
+---
+
+### I revoke browser permissions
+
+Clears all permission overrides for the browser context.
+
+```gherkin
+When I revoke browser permissions
+```
+
+---
+
+### I set \{string} geolocation
+
+Sets a geolocation for a current context.  
+Geolocation param should conform to a JavaScript object \{ latitude: number, longitude: number}
+
+|      param       |  type  |            description             |
+|:----------------:|:------:|:----------------------------------:|
+| geolocationAlias | string | memory alias of geolocation object |
+
+```gherkin
+When I set '$sweden' geolocation
+When I set '$js({ latitude: 62.39, longitude: -96.81})' geolocation
+```
+
+---
+
+### I save file to \{string} by clicking \{string}
+
+Save file to a certain directory.
+
+| param |  type  |           description            |
+|:-----:|:------:|:--------------------------------:|
+| path  | string |            file path             |
+| alias | string | element that invokes downloading |
+
+```gherkin
+When I save file to '/folder/file.txt' by clicking 'Download Button'
+```
+
+---
 ### I force click \{string}
 
 Force click element
@@ -704,6 +761,44 @@ Force click element
 When I force click 'Google Button'
 ```
 ---
+
+---
+### I grant \{string} permission
+
+Provides permission for the browser context.  
+Full list of permissions can be found in [Playwright documentation](https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions).
+
+| param |  type  |       description        |
+|:-----:|:------:|:------------------------:|
+| alias | string | permission name or alias |
+
+```gherkin
+When I grant 'geolocation' permission
+```
+
+---
+### I revoke browser permissions
+
+Clears all permission overrides for the browser context.
+
+```gherkin
+When I revoke browser permissions
+```
+
+---
+### I set \{string} geolocation
+
+Sets a geolocation for a current context.  
+Geolocation param should conform to a JavaScript object \{ latitude: number, longitude: number}
+
+|      param       |  type  |            description             |
+|:----------------:|:------:|:----------------------------------:|
+| geolocationAlias | string | memory alias of geolocation object |
+
+```gherkin
+When I set '$sweden' geolocation
+When I set '$js({ latitude: 62.39, longitude: -96.81})' geolocation
+```
 
 ## Validation Steps
 
