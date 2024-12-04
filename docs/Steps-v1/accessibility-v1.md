@@ -2,13 +2,13 @@
 sidebar_position: 7
 ---
 
-# @qavajs/steps-accessibility
+# @qavajs/steps-accessibility v1
 Steps to perform accessibility checks using axe library.
 Library can work on top of playwright and webdriverio drivers
 
 ## Installation
 ```
-npm install @qavajs/steps-accessibility
+npm install @qavajs/steps-accessibility@1
 ```
 
 ## Config

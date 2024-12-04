@@ -2,13 +2,13 @@
 sidebar_position: 8
 ---
 
-# @qavajs/steps-lighthouse
+# @qavajs/steps-lighthouse v1
 Steps to perform lighthouse audit.
 Library can work on top of playwright and webdriverio drivers
 
 ## Installation
 ```
-npm install @qavajs/steps-lighthouse
+npm install @qavajs/steps-lighthouse@1
 ```
 
 ## Configuration

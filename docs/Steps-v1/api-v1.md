@@ -2,12 +2,12 @@
 sidebar_position: 3
 ---
 
-# @qavajs/steps-api
+# @qavajs/steps-api v1
 Step library to work with API
 
 ## Installation
 ```
-npm install @qavajs/steps-api
+npm install @qavajs/steps-api@1
 ```
 
 ## Configuration

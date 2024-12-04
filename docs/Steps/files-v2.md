@@ -2,8 +2,10 @@
 sidebar_position: 5
 ---
 
-# @qavajs/steps-files
+# @qavajs/steps-files v2
 Step library to work with file system
+
+It is docs for qavajs v2. If you are looking docs for v1 go to [(v1 docs)](../Steps-v1/files-v1.md)
 
 ## Installation
 ```
@@ -11,42 +13,26 @@ npm install @qavajs/steps-files
 ```
 
 ## Configuration
-```javascript
-module.exports = {
-    default: {
-        require: [
-            'node_modules/@qavajs/steps-files/index.js'
-        ],
-        // add fileTimeout property in case you need to customize built-in interval and timeout
-        fileTimeout: {
-            interval: 1000,
-            timeout: 1000
-        }
+```typescript
+export default {
+    require: [
+        'node_modules/@qavajs/steps-files/index.js'
+    ],
+    // add fileTimeout property in case you need to customize built-in interval and timeout
+    fileTimeout: {
+        interval: 1000,
+        timeout: 1000
     }
 }
 
-```
 
-## Parameter types
-### fileValidation
-validation of values (can be negated with _not_)
-- to be equal
-- to be strictly equal
-- to be deeply equal
-- to have member
-- to be match
-- to contain
-- to be above
-- to be below
-- to be greater than
-- to be less than
-- to have type
+```
 
 ## Wait Steps
 ---
-### I wait until file matching \{string} regexp appears in \{string}
+### I expect file matching \{string} regexp appears in \{string}
 
-Wait until file matching regexp appear in directory
+Verify that file matching regexp appears in directory
 
 | param |  type  |       description       |   example    |
 |:-----:|:------:|:-----------------------:|:------------:|
@@ -54,27 +40,27 @@ Wait until file matching regexp appear in directory
 |  dir  | string | directory path to wait  | ./yourFolder |
 
 ```gherkin
-When I wait until file matching 'f.+\.txt' regexp appears in './test-e2e/folder'
-When I wait until file matching '$fileRegexp' regexp appears in '$folder'
+When I expect file matching 'f.+\.txt' regexp appears in './test-e2e/folder'
+When I expect file matching '$fileRegexp' regexp appears in '$folder'
 ```
 
 ---
-### I wait until \{string} file appears
+### I expect \{string} file appears
 
-Wait until file appear
+Verify that file appears in provided location
 
 | param |  type  |    description    |        example        |
 |:-----:|:------:|:-----------------:|:---------------------:|
 | file  | string | file path to wait | ./yourFolder/file.txt |
 
 ```gherkin
-When I wait until './test-e2e/folder/file.txt' file appears
-When I wait until '$filePath' file appears
+When I expect './test-e2e/folder/file.txt' file appears
+When I expect '$filePath' file appears
 ```
 
 ## Validation Steps
 ---
-### I expect \{string} text file content \{fileValidation} \{string}
+### I expect \{string} text file content \{validation} \{string}
 
 Verify that text file content satisfy validation
 
