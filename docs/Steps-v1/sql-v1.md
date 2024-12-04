@@ -2,12 +2,12 @@
 sidebar_position: 6
 ---
 
-# @qavajs/steps-sql
+# @qavajs/steps-sql v1
 Step library to work with relational databases
 
 ## Installation
 ```
-npm install @qavajs/steps-sql
+npm install @qavajs/steps-sql@1
 ```
 
 ## Configuration

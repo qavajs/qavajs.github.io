@@ -1,135 +1,74 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
-# @qavajs/steps-playwright
-Step library to work with playwright using DSL page object
+# @qavajs/steps-wdio v2
+Step library to work with webdriverio using DSL page object
+
+It is docs for qavajs v2. If you are looking docs for v1 go to [(v1 docs)](../Steps-v1/wdio-v1.md)
+
 ## Installation
 ```
-npm install @qavajs/steps-playwright
+npm install @qavajs/steps-wdio
 ```
 ## Configuration
-Playwright steps provide a couple of additional configuration properties
+wdio steps provide additional configuration properties
 
-| Name         | Type     | Description                                                                     | Default |
-|--------------|----------|---------------------------------------------------------------------------------|---------|
-| `browser`    | `object` | object describing playwright config                                             | `{}`    |
-| `pageObject` | `object` | instance of page object definitions  [(page object)](../Guides/page-object.mdx) | `{}`    |
+| Name         | Type     | Description                                                                     | Default       |
+|--------------|----------|---------------------------------------------------------------------------------|---------------|
+| `browser`    | `object` | object describing wdio config                                                   | `{}`          |
+| `pageObject` | `object` | instance of page object definitions  [(page object)](../Guides/page-object-v1.mdx) | `constructor` |
 
-```javascript
-const App = require('./page_object');
-module.exports = {
-    default: {
-        require: [
-            'node_modules/@qavajs/steps-playwright/index.js'
-        ],
-        browser: {
-            timeout: {
-                present: 10000,
-                visible: 20000,
-                page: 10000,
-                value: 5000, // expect value timeout
-                valueInterval: 500 //expect value interval  
-            },
-            capabilities: {
-                browserName: 'chromium'
-            }
+```typescript
+import App from './page_object';
+export default {
+    require: [
+        'node_modules/@qavajs/steps-wdio/index.js'
+    ],
+    browser: {
+        timeout: {
+            present: 10000,
+            visible: 20000,
+            clickable: 15000,
+            page: 10000,
+            implicit: 0, //wdio implicit wait for element,
+            element: 2000 ,//timeout to element to be accesible,
+            value: 5000, // expect value timeout
+            valueInterval: 500 //expect value interval
         },
-        pageObject: new App()
-    }
-}
-```
-
-## Connect to playwright server
-In order to connect to playwright server pass _wsEndpoint_ property in capabilities object
-```javascript
-module.exports = {
-    default: {
-        browser: {
-            capabilities: {
-                browserName: 'chromium',
-                wsEndpoint: 'ws://127.0.0.1:60291/2bd48ce272de2b543e4c8c533f664b83'
-            }
-        },
-    }
-}
-```
-
-## Connect to cdp endpoint
-In order to connect to CDP endpoint pass _cdpEndpoint_ property in capabilities object
-```javascript
-module.exports = {
-    default: {
-        browser: {
-            capabilities: {
-                browserName: 'chromium',
-                cdpEndpoint: 'http://localhost:9222/'
-            }
-        },
-    }
+        capabilities: {
+            browserName: 'chrome'
+        }
+    },
+    pageObject: App
 }
 ```
 
 ## Screenshot
-@qavajs/steps-playwright has build-in capability to take screenshot on particular event.
+@qavajs/steps-wdio has build-in capability to take screenshot on particular event.
 - onFail
 - beforeStep
 - afterStep
 
-```javascript
-module.exports = {
-    default: {
-        browser: {
-            screenshot: {
-                event: ['onFail'], //event to take screenshot
-                fullPage: true // option to take full page screenshot (default false)
-            }
-        }
+```typescript
+export default {
+    browser: {
+        screenshot: ['onFail']
     }
 }
+
 ```
 
-## Traces
-@qavajs support capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
-Supported events:
+## Snapshot
+@qavajs/steps-wdio has build-in capability to take snapshot on particular event.
 - onFail
-- afterScenario
+- beforeStep
+- afterStep
 
 ```typescript
-module.exports = {
-    default: {
-        //...
-        browser: {
-            trace: {
-                event: ['onFail'], // Events to save trace. Possible value onFail or afterScenario 
-                dir: 'dirToStoreTraces', // Dir to store traces. Default - traces/
-                attach: true, // Whether trace need to be attached to cucumber report. Default - false
-                screenshots: true, // Whether to capture screenshots during tracing. Screenshots are used to build a timeline preview. Default - true
-                snapshots: true, // Whether to capture DOM and network activity
-            }
-        }
-    }
-}
-```
-
-## Video
-@qavajs supports video recording. https://playwright.dev/docs/next/videos
-Supported events:
-- onFail
-- afterScenario
-
-```typescript
-module.exports = {
-    default: {
-        //...
-        browser: {
-            video: {
-                event: ['onFail'], // Events to save video. Possible value onFail or afterScenario 
-                dir: 'video', // Dir to store video. Default is video/
-                size: { width: 640, height: 480 }, // Video resolution
-                attach: true // Define if trace need to be attached to cucumber report. Default false
-            }
-        }
+export default {
+    browser: {
+        snapshot: ['onFail']
     }
 }
 ```
@@ -137,70 +76,44 @@ module.exports = {
 ## Reuse Session
 _reuseSession_ flag allows to share driver session between tests. Browser will not be closed automatically after test.
 
-```javascript
-module.exports = {
-    default: {
-        browser: {
-            reuseSession: true
-        }
+```typescript
+export default {
+    browser: {
+        reuseSession: true
     }
 }
-```
 
-## Restart Browser
-_restartBrowser_ flag allows to restart browser between tests instead of default restarting context
-
-```javascript
-module.exports = {
-    default: {
-        browser: {
-            restartBrowser: true
-        }
-    }
-}
 ```
 
 ## Parameter Types
-### playwrightConditionWait 
+### `playwrightLocator`
+Resolves to playwright locator
+
+### `wdioCondition` 
 condition of element to wait (can be negated with _not_) 
 - to be visible
 - to be present
 - to be invisible
+- to be enabled
+- to be disabled
 - to be in viewport
 
-### playwrightValidation
-validation of values (can be negated with _not_)
-- to equal
-- to strictly equal
-- to deeply equal
-- to have member
-- to match
-- to contain
-- to be above
-- to be below
-- to be greater than
-- to be less than
-- to have type
-
-### playwrightTimeout
+### `wdioTimeout`
 optional timeout that can be passed to wait steps _(timeout: x)_, where x timeout in milliseconds
 
-### playwrightMouseButton
+### `wdioMouseButton`
 mouse button to interact
 - left
 - right
 - middle
 
-## Global variables
-@qavajs/steps-playwright exposes following global variables
+## Context variables
+@qavajs/steps-wdio exposes following world variables
 
-| variable         | type             | description                                                     |
-|------------------|------------------|-----------------------------------------------------------------|
-| `browser`        | `Browser`        | browser instance                                                |
-| `driver`         | `Browser`        | browser instance (alias for browser)                            |
-| `context`        | `BrowserContext` | current browser context                                         |
-| `page`           | `Page`           | current context page                                            |
-| `browserManager` | `BrowserManager` | manager for opened browsers, electron applications and contexts |
+| variable         | type             | description                          |
+|------------------|------------------|--------------------------------------|
+| `this.browser`   | `Browser`        | browser instance                     |
+| `this.driver`    | `Browser`        | browser instance (alias for browser) |
 
 ## Action Steps
 
@@ -229,29 +142,44 @@ Type text to element
 When I type 'wikipedia' to 'Google Input'
 ```
 ---
-### I type \{string} chars to \{string}
-
-Type text to element sending fine-grained keyboard events
-
-| param |  type  |   description   |
-|:-----:|:------:|:---------------:|
-| alias | string | element to type |
-| value | string |  value to type  |
-
-```gherkin
-When I type 'wikipedia' chars to 'Google Input'
-```
----
-### I click \{string}
+### I click \{string}( )\{wdioDisableActionabilityCheck}
 
 Click element
 
-| param |  type  |   description    |
-|:-----:|:------:|:----------------:|
-| alias | string | element to click |
-
+|    param     |        type        |        description         |
+|:------------:|:------------------:|:--------------------------:|
+|    alias     |       string       |      element to click      |
+| disable wait | (optional) boolean | disable actionability wait |
 ```gherkin
 When I click 'Google Button'
+When I click 'Google Button' (disable actionability wait)
+```
+---
+### I double click \{string}( )\{wdioDisableActionabilityCheck}
+
+Double click element
+
+|    param     |        type        |        description         |
+|:------------:|:------------------:|:--------------------------:|
+|    alias     |       string       |      element to click      |
+| disable wait | (optional) boolean | disable actionability wait |
+```gherkin
+When I double click 'Input Field'
+When I double click 'Input Field' (disable actionability wait)
+```
+---
+### I right click \{string}( )\{wdioDisableActionabilityCheck}
+
+Right click element
+
+|    param     |        type        |        description         |
+|:------------:|:------------------:|:--------------------------:|
+|    alias     |       string       |      element to click      |
+| disable wait | (optional) boolean | disable actionability wait |
+
+```gherkin
+When I right click 'User Icon'
+When I right click 'User Icon' (disable actionability wait) 
 ```
 ---
 ### I clear \{string}
@@ -283,7 +211,6 @@ When I click 'google' text in 'Search Engines' collection
 ### I switch to parent frame
 
 Switch to parent frame
-
 ```gherkin
 When I switch to parent frame
 ```
@@ -339,21 +266,19 @@ Switch to window by matcher
 ```gherkin
 When I switch to 'google.com' window
 ```
-
+   
 ---
 ### I open new tab
 
 Open new browser tab
-
 ```gherkin
 When I open new tab
 ```
-
+ 
 ---
 ### I close current tab
 
 Close current browser tab
-
 ```gherkin
 When I close current tab
 ```
@@ -362,7 +287,6 @@ When I close current tab
 ### I refresh page
 
 Refresh page
-
 ```gherkin
 When I refresh page
 ```
@@ -389,10 +313,9 @@ Press button given number of times
 |:------:|:------:|:---------------:|
 |  key   | string |  key to press   |
 | number | number | number of times |
-
 ```gherkin
-I press 'Enter' key 5 times
-I press 'Space' key 4 times
+I press 'Enter' key 5 times // for selenium
+I press '$Enter' key 4 times // for devtools $Enter is memory value String.fromCharCode(13)
 ```
 
 ---
@@ -438,36 +361,17 @@ When I select 1 option from 'Registration Form > Date Of Birth' dropdown
 ```
 
 ---
-### I accept alert
+### I click \{wdioBrowserButton} button
 
-Accepts an alert
+Click browser button
 
-```gherkin
-When I accept alert
-```
-
----
-### I dismiss alert
-
-Dismisses an alert
+| param  |  type  |          description           |
+|:------:|:------:|:------------------------------:|
+| button | string | browser button (back, forward) |
 
 ```gherkin
-When I dismiss alert
-```
-
----
-### I type \{string} to alert
-
-Type a text to alert
-
-| param |  type  |  description  |
-|:-----:|:------:|:-------------:|
-| value | string | value to type |
-
-```gherkin
-When I type 'Alerts are' to alert
-When I type 'not a good practice' to alert
-When I type 'nowadays' to alert
+When I click back button
+When I click forward button
 ```
 
 ---
@@ -482,19 +386,6 @@ Provide file url to upload input
 
 ```gherkin
 When I upload '/folder/file.txt' file to 'File Input'
-```
- 
----
-### I scroll by \{string}
-
-Scroll by offset
-
-| param  |  type  |          description           |
-|:------:|:------:|:------------------------------:|
-| offset | string | offset string in 'x, y' format |
-
-```gherkin
-When I scroll by '0, 100'
 ```
 
 ---
@@ -511,6 +402,19 @@ When I scroll to 'Element'
 ```
 
 ---
+### I scroll by \{string}
+
+Scroll by offset
+
+| param  |  type  |          description           |
+|:------:|:------:|:------------------------------:|
+| offset | string | offset string in 'x, y' format |
+
+```gherkin
+When I scroll by '0, 100'
+```
+
+---
 ### I scroll by \{string} in \{string}
 
 Scroll by offset in element
@@ -523,7 +427,37 @@ Scroll by offset in element
 ```gherkin
 When I scroll by '0, 100' in 'Overflow Container'
 ```
+_________________________
+### I accept alert
 
+Accepts an alert
+
+```gherkin
+When I accept alert
+```
+_________________________
+### I dismiss alert
+
+Dismisses an alert
+
+```gherkin
+When I dismiss alert
+```
+_________________________
+### I type \{string} to alert
+
+Type a text to alert
+
+| param |  type  |  description  |
+|:-----:|:------:|:-------------:|
+| value | string | value to type |
+
+```gherkin
+When I type 'Alerts are' to alert
+When I type 'not a good practice' to alert
+When I type 'nowadays' to alert
+```
+    
 -------------------------
 ### I drag and drop \{string} in \{string}
 
@@ -539,7 +473,7 @@ When I drag and drop 'Bishop' to 'E4'
 ```
 
 _________________________
-### I define \{string} as \{string} \{playwrightPoType}
+### I define \{string} as \{string} locator
 
 Register selector as page object
 
@@ -547,17 +481,16 @@ Register selector as page object
 |:-----------:|:------:|:-----------------------------------------:|
 | selectorKey | string |           selector to register            |
 |  aliasKey   | string |             alias of element              |
-|   poType    | string | type of page object (element, collection) |
 
 ```gherkin
-When I define '#someId' as 'My Button' element
+When I define '#someId' as 'My Button' locator
 And I click 'My Button'
-When I define 'li.selected' as 'Selected Items' collection
+When I define 'li.selected' as 'Selected Items' locator
 And I expect number of element in 'Selected Items' collection to equal '3'
 ```
 
 -------------------------
-### I press \{playwrightMouseButton} mouse button
+### I press \{wdioMouseButton} mouse button
 
 Press mouse button
 
@@ -570,7 +503,7 @@ When I press left mouse button
 ```
 
 -------------------------
-### I release \{playwrightMouseButton} mouse button
+### I release \{wdioMouseButton} mouse button
 
 Release mouse button
 
@@ -635,120 +568,6 @@ When I release 'Q' key
 ```
 
 ---
-### I click \{playwrightBrowserButton} button
-
-Click browser button
-
-| param  |  type  |          description           |
-|:------:|:------:|:------------------------------:|
-| button | string | browser button (back, forward) |
-
-```gherkin
-When I click back button
-When I click forward button
-```
-
----
-### I upload \{string} file by clicking \{string} step by
-
-Provide file url to file chooser
-
-| param |  type  |            description            |
-|:-----:|:------:|:---------------------------------:|
-| file  | string |     file path or file handle      |
-| alias | string | element that invokes file chooser |
-
-```gherkin
-When I upload '/folder/file.txt' file by clicking 'Upload Button'
-```
-
----
-### I set window size \{string}
-
-Resize browser viewport
-
-|    param     |  type  |                  description                  |
-|:------------:|:------:|:---------------------------------------------:|
-| viewportSize | string | width and height in pixels separated by comma |
-
-
-```gherkin
-When I set window size '1440,900'
-```
-
----
-### I click \{string} coordinates in \{string}
-
-Click a certain coordinate of an element
-
-|    param    |  type  |             description             |
-|:-----------:|:------:|:-----------------------------------:|
-| coordinates | string | comma separated x and y coordinates |
-|    alias    | string |          element to click           |
-
-
-```gherkin
-When I click '0,20' coordinates in 'Google Button'
-```
-
----
-
-### I grant \{string} permission
-
-Provides permission for the browser context.  
-Full list of permissions can be found
-in [Playwright documentation](https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions).
-
-| param |  type  |       description        |
-|:-----:|:------:|:------------------------:|
-| alias | string | permission name or alias |
-
-```gherkin
-When I grant 'geolocation' permission
-```
-
----
-
-### I revoke browser permissions
-
-Clears all permission overrides for the browser context.
-
-```gherkin
-When I revoke browser permissions
-```
-
----
-
-### I set \{string} geolocation
-
-Sets a geolocation for a current context.  
-Geolocation param should conform to a JavaScript object \{ latitude: number, longitude: number}
-
-|      param       |  type  |            description             |
-|:----------------:|:------:|:----------------------------------:|
-| geolocationAlias | string | memory alias of geolocation object |
-
-```gherkin
-When I set '$sweden' geolocation
-When I set '$js({ latitude: 62.39, longitude: -96.81})' geolocation
-```
-
----
-
-### I save file to \{string} by clicking \{string}
-
-Save file to a certain directory.
-
-| param |  type  |           description            |
-|:-----:|:------:|:--------------------------------:|
-| path  | string |            file path             |
-| alias | string | element that invokes downloading |
-
-```gherkin
-When I save file to '/folder/file.txt' by clicking 'Download Button'
-```
-
----
 ### I force click \{string}
 
 Force click element
@@ -762,48 +581,10 @@ When I force click 'Google Button'
 ```
 ---
 
----
-### I grant \{string} permission
-
-Provides permission for the browser context.  
-Full list of permissions can be found in [Playwright documentation](https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions).
-
-| param |  type  |       description        |
-|:-----:|:------:|:------------------------:|
-| alias | string | permission name or alias |
-
-```gherkin
-When I grant 'geolocation' permission
-```
-
----
-### I revoke browser permissions
-
-Clears all permission overrides for the browser context.
-
-```gherkin
-When I revoke browser permissions
-```
-
----
-### I set \{string} geolocation
-
-Sets a geolocation for a current context.  
-Geolocation param should conform to a JavaScript object \{ latitude: number, longitude: number}
-
-|      param       |  type  |            description             |
-|:----------------:|:------:|:----------------------------------:|
-| geolocationAlias | string | memory alias of geolocation object |
-
-```gherkin
-When I set '$sweden' geolocation
-When I set '$js({ latitude: 62.39, longitude: -96.81})' geolocation
-```
-
 ## Validation Steps
 
 ---
-### I expect \{string} \{playwrightConditionWait}
+### I expect \{string} \{wdioConditionWait}
 
 Verify that element satisfies certain condition
 
@@ -815,10 +596,11 @@ Verify that element satisfies certain condition
 ```gherkin
 Then I expect 'Header' to be visible
 Then I expect 'Loading' not to be present
+Then I expect 'Search Bar > Submit Button' to be clickable
 ```
 
 ---
-### I expect number of elements in \{string} collection \{playwrightValidation} \{string}
+### I expect number of elements in \{string} collection \{validation} \{string}
 
 Verify that number of element in collection satisfies condition
 
@@ -835,19 +617,18 @@ Then I expect number of elements in 'Search Results' collection to be below '51'
 ```
 
 ---
-### I expect text of \{string} \{playwrightValidation} \{string}
+### I expect text of \{string} \{validation} \{string}
 
 Verify that text of element satisfies condition
 
 |     param     |  type  |        description         |                example                |
 |:-------------:|:------:|:--------------------------:|:-------------------------------------:|
-|     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
+|     alias     | string | element to check condition |   Label, Search Result (1) > Title    |
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
-
 ```gherkin
-Then I expect text of '#1 of Search Results' to be equal 'google'
-Then I expect text of '#1 of Search Results' to be equal '$firstResult'
+Then I expect text of 'Search Result (1)' to be equal 'google'
+Then I expect text of 'Search Result (1)' to be equal '$firstResult'
 ```
 ---
 ### I expect value of \{string} \{playwrightValidation} \{string}
@@ -862,44 +643,42 @@ Verify that value of element satisfies condition
 
 ```gherkin
 Then I expect value of 'Input' to be equal 'google'
-Then I expect value of '#1 of Textareas' to be equal '$firstResult'
+Then I expect value of 'Textarea (1)' to be equal '$firstResult'
 ```
 ---
-### I expect \{string} property of \{string} \{playwrightValidation} \{string}
+### I expect \{string} property of \{string} \{validation} \{string}
 
 Verify that property of element satisfies condition
 
 |     param     |  type  |        description         |                example                |
 |:-------------:|:------:|:--------------------------:|:-------------------------------------:|
 |   property    | string |  property check condition  |    value, href, checked, innerHTML    |
-|     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
+|     alias     | string | element to check condition |   Label, Search Result (1) > Title    |
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
-
 ```gherkin
 Then I expect 'value' property of 'Search Input' to be equal 'text'
 Then I expect 'innerHTML' property of 'Label' to contain '<b>'
 Then I expect 'value' property of 'Search Input' to be equal '$inputText'
 ```
 ---
-### I expect \{string} attribute of \{string} \{playwrightValidation} \{string}
+### I expect \{string} attribute of \{string} \{validation} \{string}
 
 Verify that attribute of element satisfies condition
 
 |     param     |  type  |        description         |                example                |
 |:-------------:|:------:|:--------------------------:|:-------------------------------------:|
 |   attribute   | string | attribute check condition  |             href, checked             |
-|     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
+|     alias     | string | element to check condition |   Label, Search Result (1) > Title    |
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
-
 ```gherkin
 Then I expect 'href' attribute of 'Home Link' to contain '/home'
 Then I expect 'href' attribute of 'Home Link' to be equal '$url'
 ```
 
 ---
-### I expect current url \{playwrightValidation} \{string}
+### I expect current url \{validation} \{string}
 
 Verify that current url satisfies condition
 
@@ -907,14 +686,13 @@ Verify that current url satisfies condition
 |:-------------:|:------:|:--------------------------:|:-------------------------------------:|
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
-
 ```gherkin
 Then I expect current url contains 'wikipedia'
 Then I expect current url equals 'https://wikipedia.org'
 ```
 
 ---
-### I expect page title \{playwrightValidation} \{string}
+### I expect page title \{validation} \{string}
 
 Verify that page title satisfies condition
 
@@ -922,12 +700,12 @@ Verify that page title satisfies condition
 |:-------------:|:------:|:--------------------------:|:-------------------------------------:|
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
-
 ```gherkin
 Then I expect page title equals 'Wikipedia'
 ```
+
 ---
-### I expect every element in \{string} collection \{playwrightConditionWait}
+### I expect every element in \{string} collection \{wdioConditionWait}
 
 Verify that all elements in collection satisfy condition
 
@@ -935,14 +713,13 @@ Verify that all elements in collection satisfy condition
 |:---------:|:------:|:-------------------:|:----------------------------:|
 |   alias   | string | alias of collection |        Search Results        |
 | condition | string |  condition to wait  | to be visible, to be present |
-
 ```gherkin
 Then I expect every element in 'Header > Links' collection to be visible
 Then I expect every element in 'Loading Bars' collection not to be present
 ```
 
 ---
-### I expect text of every element in \{string} collection \{playwrightValidation} \{string}
+### I expect text of every element in \{string} collection \{validation} \{string}
 
 Verify that all texts in collection satisfy condition
 
@@ -953,14 +730,13 @@ Note: step passes in case of empty collection
 |     alias     | string | alias of collection |            Search Results             |
 |  validation   | string |   validation type   | to be equal, to contain, not to match |
 | expectedValue | string |   expected result   |                                       |
-
 ```gherkin
-Then I expect text of every element in 'Search Results' collection equals to 'google'
-Then I expect text of every element in 'Search Results' collection does not contain 'google'
+Then I expect text of every element in 'Search Results' collection to be equal 'google'
+Then I expect text of every element in 'Search Results' collection does not contain 'yandex'
 ```
 
 ---
-### I expect \{string} attribute of every element in \{string} collection \{playwrightValidation} \{string}
+### I expect \{string} attribute of every element in \{string} collection \{validation} \{string}
 
 Verify that all particular attributes in collection satisfy condition
 
@@ -972,13 +748,12 @@ Note: step passes in case of empty collection
 |     alias     | string | alias of collection |            Search Results             |
 |  validation   | string |   validation type   | to be equal, to contain, not to match |
 | expectedValue | string |   expected result   |                                       |
-
 ```gherkin
 Then I expect 'href' attribute of every element in 'Search Results' collection to contain 'google'
 ```
 
 ---
-### I expect \{string} property of every element in \{string} collection \{playwrightValidation} \{string}
+### I expect \{string} property of every element in \{string} collection \{validation} \{string}
 
 Verify that all particular properties in collection satisfy condition
 
@@ -990,29 +765,26 @@ Note: step passes in case of empty collection
 |     alias     | string | alias of collection |            Search Results             |
 |  validation   | string |   validation type   | to be equal, to contain, not to match |
 | expectedValue | string |   expected result   |                                       |
-
 ```gherkin
 Then I expect 'href' property of every element in 'Search Results' collection to contain 'google'
 ```
 
-### I expect \{string} css property of \{string} \{playwrightValidation} \{string}
+### I expect \{string} css property of \{string} \{validation} \{string}
 
 Verify that css property of element satisfies condition
 
 |     param     |  type  |        description         |                example                |
 |:-------------:|:------:|:--------------------------:|:-------------------------------------:|
 |   property    | string |  property check condition  |           color, font-size            |
-|     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
+|     alias     | string | element to check condition |   Label, Search Result (1) > Title    |
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
-
 ```gherkin
 Then I expect 'color' css property of 'Search Input' to be equal 'rgb(42, 42, 42)'
 Then I expect 'font-family' css property of 'Label' to contain 'Fira'
 ```
 
----
-### I expect text of alert \{playwrightValidation} \{string}
+### I expect text of alert \{validation} \{string}
 
 Verify that text of an alert meets expectation
 
@@ -1020,7 +792,6 @@ Verify that text of an alert meets expectation
 |:-------------:|:------:|:----------------------------:|:-------------------------------------:|
 |  validation   | string | function to verify condition | to be equal, to be above, to be below |
 | expectedValue | string |       expected result        |                                       |
-
 ```gherkin
 Then I expect text of alert does not contain 'coffee'
 Then I expect text of alert does not contain 'hello world'
@@ -1034,25 +805,23 @@ Then I expect text of alert does not contain 'Are you sure you want to leave thi
 
 Save text of element to memory
 
-| param |  type  |     description      |               example               |
-|:-----:|:------:|:--------------------:|:-----------------------------------:|
-| alias | string | element to get value | Label, #1 of Search Results > Title |
-|  key  | string |  key to store value  |                                     |
-
+| param |  type  |     description      |             example              |
+|:-----:|:------:|:--------------------:|:--------------------------------:|
+| alias | string | element to get value | Label, Search Result (1) > Title |
+|  key  | string |  key to store value  |                                  |
 ```gherkin
-When I save text of '#1 of Search Results' as 'firstSearchResult'
+When I save text of 'Search Result (1)' as 'firstSearchResult'
 ```
 ---
 ### I save \{string} property of \{string} as \{string}
 
 Save property of element to memory
 
-|  param   |  type  |     description      |               example               |
-|:--------:|:------:|:--------------------:|:-----------------------------------:|
-| property | string |  property to store   |   value, href, checked, innerHTML   |
-|  alias   | string | element to get value | Label, #1 of Search Results > Title |
-|   key    | string |  key to store value  |                                     |
-
+|  param   |  type  |     description      |             example              |
+|:--------:|:------:|:--------------------:|:--------------------------------:|
+| property | string |  property to store   | value, href, checked, innerHTML  |
+|  alias   | string | element to get value | Label, Search Result (1) > Title |
+|   key    | string |  key to store value  |                                  |
 
 ```gherkin
 When I save 'checked' property of 'Checkbox' as 'checked'
@@ -1063,12 +832,11 @@ When I save '$prop' property of 'Checkbox' as 'checked'
 
 Save attribute of element to memory
 
-|   param   |  type  |     description      |               example               |
-|:---------:|:------:|:--------------------:|:-----------------------------------:|
-| attribute | string |  attribute to store  |            href, checked            |
-|   alias   | string | element to get value | Label, #1 of Search Results > Title |
-|    key    | string |  key to store value  |                                     |
-
+|   param   |  type  |     description      |             example              |
+|:---------:|:------:|:--------------------:|:--------------------------------:|
+| attribute | string |  attribute to store  |          href, checked           |
+|   alias   | string | element to get value | Label, Search Result (1) > Title |
+|    key    | string |  key to store value  |                                  |
 ```gherkin
 When I save 'href' attribute of 'Link' as 'linkHref'
 When I save '$prop' attribute of 'Link' as 'linkHref'
@@ -1157,22 +925,6 @@ Save current page title to memory
 When I save page title as 'currentTitle'
 ```
 
-### I save \{string} css property of \{string} as \{string}
-
-Save css property of element to memory
-
-|  param   |  type  |     description      |               example               |
-|:--------:|:------:|:--------------------:|:-----------------------------------:|
-| property | string |  property to store   |     background-color, font-size     |
-|  alias   | string | element to get value | Label, #1 of Search Results > Title |
-|   key    | string |  key to store value  |                                     |
-
-
-```gherkin
-When I save 'color' css property of 'Checkbox' as 'checkboxColor'
-When I save '$propertyName' property of 'Checkbox' as 'checkboxColor'
-```
-     
 ---
 ### I save screenshot as \{string}
 
@@ -1187,19 +939,6 @@ When I save screenshot as 'screenshot'
 ```
 
 ---
-### I save full page screenshot as \{string}
-
-Save full page screenshot into memory
-
-| param |  type  |    description     |
-|:-----:|:------:|:------------------:|
-|  key  | string | key to store value |
-
-```gherkin
-When I save full page screenshot as 'screenshot'
-```
-
----
 ### I save screenshot of \{string} as \{string}
 
 Save element screenshot into memory
@@ -1208,9 +947,24 @@ Save element screenshot into memory
 |:-----:|:------:|:-------------------------:|
 |  key  | string |    key to store value     |
 | alias | string | element to get screenshot |
-
 ```gherkin
 When I save screenshot of 'Element' as 'screenshot'
+```
+
+---
+### I save \{string} css property of \{string} as \{string}
+
+Save css property of element to memory
+
+|  param   |  type  |     description      |             example              |
+|:--------:|:------:|:--------------------:|:--------------------------------:|
+| property | string |  property to store   |   background-color, font-size    |
+|  alias   | string | element to get value | Label, Search Result (1) > Title |
+|   key    | string |  key to store value  |                                  |
+
+```gherkin
+When I save 'color' css property of 'Checkbox' as 'checkboxColor'
+When I save '$propertyName' property of 'Checkbox' as 'checkboxColor'
 ```
 
 ---
@@ -1223,7 +977,6 @@ https://developer.mozilla.org/en-US/docs/Web/API/DOMRect
 |:-----:|:------:|:----------------------------:|
 | alias | string | element to get bounding rect |
 |  key  | string |      key to store value      |
-
 ```gherkin
 When I save bounding rect of 'Node' as 'boundingRect'
 Then I expect '$boundingRect.width' to equal '42'
@@ -1232,144 +985,26 @@ Then I expect '$boundingRect.width' to equal '42'
 ## Wait Steps
 
 ---
-### I wait until \{string} \{playwrightConditionWait} \{string}( )\{playwrightTimeout}
+### I wait \{int} ms
 
-Wait for element condition
+Wait for a specified number of milliseconds
 
-|   param    |       type        |       description       |
-|:----------:|:-----------------:|:-----------------------:|
-|   alias    |      string       |         element         |
-| validation |      string       |     validation type     |
-|  timeout   | number (optional) | timeout in milliseconds |
-
+| param |  type  | description  |
+|:-----:|:------:|:------------:|
+|  ms   | number | milliseconds |
 ```gherkin
-When I wait until 'Header' to be visible
-When I wait until 'Loading' not to be present
-When I wait until 'Header' to be visible (timeout: 3000)
-```
----
-### I wait until text of \{string} \{playwrightValueWait} \{string}( )\{playwrightTimeout}
-
-Wait for element text condition
-
-|  param  |       type        |       description       |
-|:-------:|:-----------------:|:-----------------------:|
-|  alias  |      string       |         element         |
-|  wait   |      string       |     validation type     |
-|  value  |      string       |     expected result     |
-| timeout | number (optional) | timeout in milliseconds |
-
-```gherkin
-When I wait until text of 'Header' to be equal 'Javascript'
-When I wait until text of 'Header' not to be equal 'Python'
-When I wait until text of 'Header' to be equal 'Javascript' (timeout: 3000)
-```
----
-### I wait until value of \{string} \{playwrightValueWait} \{string}( )\{playwrightTimeout}
-
-Wait for element value condition
-
-|  param  |       type        |       description       |
-|:-------:|:-----------------:|:-----------------------:|
-|  alias  |      string       |         element         |
-|  wait   |      string       |     validation type     |
-|  value  |      string       |     expected result     |
-| timeout | number (optional) | timeout in milliseconds |
-
-```gherkin
-When I wait until value of 'Input' to be equal 'Javascript'
-When I wait until value of 'Input' not to be equal 'Python'
-When I wait until value of 'Input' to be equal 'Javascript' (timeout: 3000)
-```
----
-### I wait until number of elements in \{string} collection \{playwrightValueWait} \{string}( )\{playwrightTimeout}
-
-Wait for collection length condition
-
-|  param  |       type        |       description       |
-|:-------:|:-----------------:|:-----------------------:|
-|  alias  |      string       |       collection        |
-|  wait   |      string       |     validation type     |
-|  value  |      string       |     expected result     |
-| timeout | number (optional) | timeout in milliseconds |
-
-```gherkin
-When I wait until number of elements in 'Search Results' collection to be equal '50'
-When I wait until number of elements in 'Search Results' collection to be above '49'
-When I wait until number of elements in 'Search Results' collection to be below '51'
-When I wait until number of elements in 'Search Results' collection to be below '51' (timeout: 3000)
-```
----
-### I wait until \{string} property of \{string} \{playwrightValueWait} \{string}( )\{playwrightTimeout}
-
-Wait for element property condition
-
-|  param   |       type        |       description       |
-|:--------:|:-----------------:|:-----------------------:|
-| property |      string       |        property         |
-|  alias   |      string       |         element         |
-|   wait   |      string       |     validation type     |
-|  value   |      string       |     expected result     |
-| timeout  | number (optional) | timeout in milliseconds |
-
-```gherkin
-When I wait until 'value' property of 'Search Input' to be equal 'Javascript'
-When I wait until 'value' property of 'Search Input' to be equal 'Javascript' (timeout: 3000)
-```
----
-### I wait until \{string} attribute of \{string} \{playwrightValueWait} \{string}( )\{playwrightTimeout}
-
-Wait for element property condition
-
-|   param   |       type        |       description       |
-|:---------:|:-----------------:|:-----------------------:|
-| attribute |      string       |        attribute        |
-|   alias   |      string       |         element         |
-|   wait    |      string       |     validation type     |
-|   value   |      string       |     expected result     |
-|  timeout  | number (optional) | timeout in milliseconds |
-
-```gherkin
-When I wait until 'href' attribute of 'Home Link' to be equal '/javascript'
-When I wait until 'href' attribute of 'Home Link' to be equal '/javascript' (timeout: 3000)
+When I wait 1000 ms
 ```
 
 ---
-### I wait until current url \{playwrightValueWait} \{string}( )\{playwrightTimeout}
-
-Wait for url condition
-
-|  param  |       type        |       description       |
-|:-------:|:-----------------:|:-----------------------:|
-|  wait   |      string       |     validation type     |
-|  value  |      string       | expected value to wait  |
-| timeout | number (optional) | timeout in milliseconds |
-
+### I wait for alert
+Wait for alert to pop up
 ```gherkin
-When I wait until current url to be equal 'https://qavajs.github.io/'
-When I wait until current url not to contain 'cypress'
-When I wait until current url to be equal 'https://qavajs.github.io/' (timeout: 3000)
-```
-
----
-### I wait until page title \{playwrightValueWait} \{string}( )\{playwrightTimeout}
-
-Wait for title condition
-
-|  param  |       type        |       description       |
-|:-------:|:-----------------:|:-----------------------:|
-|  wait   |      string       |     validation type     |
-|  value  |      string       | expected value to wait  |
-| timeout | number (optional) | timeout in milliseconds |
-
-```gherkin
-When I wait until page title to be equal 'qavajs'
-When I wait until page title not to contain 'cypress'
-When I wait until page title to be equal 'qavajs' (timeout: 3000)
+When I wait for alert
 ```
 
 -------------------------
-### I refresh page until \{string} \{playwrightConditionWait}( )\{wdioTimeout}
+### I refresh page until \{string} \{wdioConditionWait}( )\{wdioTimeout}
 
 Refresh page until element matches condition
 
@@ -1385,8 +1020,8 @@ When I refresh page until 'Submit Button' to be enabled
 When I refresh page until 'Place Order Button' to be clickable (timeout: 3000)
 ```
 -------------------------
-
-### I refresh page until text of \{string} \{playwrightValidation} \{string}( )\{playwrightTimeout}
+ 
+### I refresh page until text of \{string} \{validation} \{string}( )\{wdioTimeout}
 
 Refresh page until element text matches condition
 
@@ -1404,6 +1039,127 @@ When I refresh page until text of 'My Salary' to match '/5\d{3,}/' (timeout: 300
 ```
 -------------------------
 
+## Cookie Steps
+
+---
+### I set \{string} cookie as \{string}
+
+Set cookie
+
+| param  |  type  | description  |
+|:------:|:------:|:------------:|
+| cookie | string | cookie name  |
+| value  | string | value to set |
+```gherkin
+When I set 'userID' cookie 'user1'
+When I set 'userID' cookie '$userIdCookie'
+```
+   
+---
+### I save value of \{string} cookie as \{string}
+
+Save cookie value to memory
+
+| param  |  type  | description |
+|:------:|:------:|:-----------:|
+| cookie | string | cookie name |
+|  key   | string | memory key  |
+```gherkin
+When I save value of 'auth' cookie as 'authCookie'
+```
+
+## Local/Session Storage Steps
+
+---
+### I set \{string} \{word} storage value as \{string}
+
+Set value of local/session storage
+
+|    param    |  type  |              description               |
+|:-----------:|:------:|:--------------------------------------:|
+| storageKey  | string | local/session storage key to set value |
+| storageType |  word  |    storage type (local or session)     |
+|    value    | string |              value to set              |
+```gherkin
+When I set 'username' local storage value as 'user1'
+When I set '$sessionStorageKey' session storage value as '$sessionStorageValue'
+```
+
+---
+### I save value of \{string} \{word} storage as \{string}
+
+Set value of local/session storage
+
+|    param    |  type  |              description               |
+|:-----------:|:------:|:--------------------------------------:|
+| storageKey  | string | local/session storage key to set value |
+| storageType |  word  |    storage type (local or session)     |
+|     key     | string |               memory key               |
+```gherkin
+When I save value of 'username' local storage as 'localStorageValue'
+When I save value of '$sessionStorageKey' session storage value as 'sessionStorageValue'
+```
+
+## Mobile Steps
+
+---
+### I tap \{string}
+Support: Android, iOS
+
+Tap element
+
+| param |  type  |  description   |
+|:-----:|:------:|:--------------:|
+| alias | string | element to tap |
+
+```gherkin
+When I tap 'Google Button'
+```
+
+---
+### I shake device
+Support: Android, iOS
+
+Shake device
+```gherkin
+When I shake device
+```
+          
+---
+### I perform touch action: [DataTable]
+Support: Android, iOS
+
+Perform touch action
+
+- press and move to accept x and y percentages of current viewport
+- wait accepts milliseconds
+- release doesn't accept any params
+
+|    param     |   type    |                                       description                                        |
+|:------------:|:---------:|:----------------------------------------------------------------------------------------:|
+| actionsTable | DataTable | data table of actions and params (see https://webdriver.io/docs/api/appium#touchperform) |
+```gherkin
+When I perform touch action:
+  | press   | 90, 80 |
+  | wait    | 200    |
+  | moveTo  | 10, 80 |
+  | release |        |
+```
+
+---
+### I perform touch action \{string}
+Support: Android, iOS
+
+Perform touch action
+
+|    param     |  type  |                                                   description                                                   |
+|:------------:|:------:|:---------------------------------------------------------------------------------------------------------------:|
+| actionsAlias | string | memory alias that resolves into array of action objects (see https://webdriver.io/docs/api/appium#touchperform) |
+
+```gherkin
+When I perform touch action '$actions'
+```
+
 ## Execute Steps
 
 ---
@@ -1414,7 +1170,6 @@ Execute client function
 |    param    |  type  |          description           |
 |:-----------:|:------:|:------------------------------:|
 | functionKey | string | function memory key to execute |
-
 ```gherkin
 When I execute '$fn' function # fn is function reference
 When I execute 'window.scrollBy(0, 100)' function
@@ -1429,7 +1184,6 @@ Execute client function and save result into memory
 |:-----------:|:------:|:------------------------------:|
 | functionKey | string | function memory key to execute |
 |  memoryKey  | string |    memory key to save value    |
-
 ```gherkin
 When I execute '$fn' function and save result as 'result' # fn is function reference
 When I execute 'window.scrollY' function and save result as 'scroll'
@@ -1444,7 +1198,6 @@ Execute client function on certain element
 |:-----------:|:------:|:------------------------------:|
 | functionKey | string | function memory key to execute |
 |    alias    | string |      target element alias      |
-
 ```gherkin
 When I execute '$fn' function on 'Component > Element' # fn is function reference
 When I execute 'arguments[0].scrollIntoView()' function on 'Component > Element'
@@ -1460,7 +1213,6 @@ Execute client function on certain element
 | functionKey | string | function memory key to execute |
 |  memoryKey  | string |    memory key to save value    |
 |    alias    | string |      target element alias      |
-
 ```gherkin
 When I execute '$fn' function on 'Component > Element' and save result as 'innerText' # fn is function reference
 When I execute 'arguments[0].innerText' function on 'Component > Element' and save result as 'innerText'
@@ -1477,7 +1229,6 @@ Create mock instance
 |:-----------:|:------:|:---------------------------------:|
 | urlTemplate | string |  minimatch url template to mock   |
 |  memoryKey  | string | memory key to store mock instance |
-
 ```gherkin
 When I create mock for '/yourservice/**' as 'mock1'
 When I create mock for '$mockUrlTemplate' as 'mock1'
@@ -1493,7 +1244,6 @@ Add mocking rule to respond with desired status code and payload
 |  mockKey   | string | memory key to get mock instance |
 | statusCode | string |           status code           |
 |    body    | string |          response body          |
-
 ```gherkin
 When I create mock for '/yourservice/**' as 'myServiceMock'
 And I set '$myServiceMock' mock to respond '200' with:
@@ -1514,7 +1264,6 @@ Add mocking rule to respond with desired status code and payload
 |  mockKey   | string | memory key to get mock instance |
 | statusCode | string |           status code           |
 |    body    | string |          response body          |
-
 ```gherkin
 When I create mock for '/yourservice/**' as 'myServiceMock'
 And I set '$myServiceMock' mock to respond '200' with '$response'
@@ -1525,11 +1274,10 @@ And I set '$myServiceMock' mock to respond '200' with '$response'
 
 Add mocking rule to abort request with certain reason
 
-|  param  |  type  |                                description                                |
-|:-------:|:------:|:-------------------------------------------------------------------------:|
-| mockKey | string |                      memory key to get mock instance                      |
-| reason  | string | reason string see https://playwright.dev/docs/api/class-route#route-abort |
-
+|  param  |  type  |                        description                         |
+|:-------:|:------:|:----------------------------------------------------------:|
+| mockKey | string |              memory key to get mock instance               |
+| reason  | string | reason string see https://webdriver.io/docs/api/mock/abort |
 ```gherkin
 When I create mock for '/yourservice/**' as 'myServiceMock'
 And I set '$myServiceMock' mock to abort with 'Failed' reason
@@ -1543,7 +1291,6 @@ Restore mock
 |  param  |  type  |                        description                         |
 |:-------:|:------:|:----------------------------------------------------------:|
 | mockKey | string |              memory key to get mock instance               |
-
 ```gherkin
 When I restore '$myServiceMock'
 ```
@@ -1552,74 +1299,8 @@ When I restore '$myServiceMock'
 ### I restore all mocks
 
 Restore all mocks
-
 ```gherkin
 When I restore all mocks
-```
-
-## Cookie Steps
-
----
-### I set \{string} cookie as \{string}
-
-Set cookie
-
-| param  |  type  | description  |
-|:------:|:------:|:------------:|
-| cookie | string | cookie name  |
-| value  | string | value to set |
-
-```gherkin
-When I set 'userID' cookie as 'user1'
-When I set 'userID' cookie as '$userIdCookie'
-```
-   
----
-### I save value of \{string} cookie as \{string}
-
-Save cookie value to memory
-
-| param  |  type  | description |
-|:------:|:------:|:-----------:|
-| cookie | string | cookie name |
-|  key   | string | memory key  |
-
-```gherkin
-When I save value of 'auth' cookie as 'authCookie'
-```
-
-## Local/Session Storage Steps
-
----
-### I set \{string} \{word} storage value as \{string}
-
-Set value of local/session storage
-
-|    param    |  type  |              description               |
-|:-----------:|:------:|:--------------------------------------:|
-| storageKey  | string | local/session storage key to set value |
-| storageType |  word  |    storage type (local or session)     |
-|    value    | string |              value to set              |
-
-```gherkin
-When I set 'username' local storage value as 'user1'
-When I set '$sessionStorageKey' session storage value as '$sessionStorageValue'
-```
-
----
-### I save value of \{string} \{word} storage as \{string}
-
-Set value of local/session storage
-
-|    param    |  type  |              description               |
-|:-----------:|:------:|:--------------------------------------:|
-| storageKey  | string | local/session storage key to set value |
-| storageType |  word  |    storage type (local or session)     |
-|     key     | string |               memory key               |
-
-```gherkin
-When I save value of 'username' local storage as 'localStorageValue'
-When I save value of '$sessionStorageKey' session storage value as 'sessionStorageValue'
 ```
 
 ## Network Intercept Steps
@@ -1627,16 +1308,14 @@ When I save value of '$sessionStorageKey' session storage value as 'sessionStora
 ---
 ### I create interception for \{string} as \{string}
 
-Create interception for url or predicate function
+Create interception for url
 
 |   param   |  type  |             description             |
 |:---------:|:------:|:-----------------------------------:|
 | predicate | string | url or predicate function to listen |
 |    key    | string |      key to save interception       |
-
 ```gherkin
 When I create interception for '**/api/qavajs' as 'interception'
-When I create interception for '$condition' as 'intercept' # where condition is function that wait for particular event https://playwright.dev/docs/network#network-events
 ```
 
 ---
@@ -1647,7 +1326,6 @@ Wait for interception event
 |    param     |  type  |           description            |
 |:------------:|:------:|:--------------------------------:|
 | interception | string | memory key of interception event |
-
 ```gherkin
 When I create interception for '**/api/qavajs' as 'interception'
 And I wait for '$interception' response
@@ -1662,114 +1340,75 @@ Wait for interception event and save response to memory
 |:------------:|:------:|:---------------------------------:|
 | interception | string | memory key of interception event  |
 |     key      | string | key to save interception response |
-
 ```gherkin
 When I create interception for '**/api/qavajs' as 'interception'
-And I save '$interception' response as 'response' # response will be instance of Response object https://playwright.dev/docs/api/class-response
-And I expect '$response.status()' to equal '200'
+When I save '$interception' response as 'response' # response will be instance of Response object
+And I expect '$response.statusCode' to equal '200'
 ```
 
 ## Multi-browser Steps
 
 ---
-### I launch new driver as \{string}
+### I open new browser as \{string}
 
-Launch new driver (from provided config)
+Open new browser
 
-|   param    |  type  | description |
-|:----------:|:------:|:-----------:|
-| driverName | string | driver name |
-
+|    param    |  type  | description  |
+|:-----------:|:------:|:------------:|
+| browserName | string | browser name |
 ```gherkin
-When I launch new driver as 'chrome'
-```
- 
----
-### I launch new driver as \{string}: [Multiline]
-
-Launch new driver with provided config
-
-|   param    |  type  |   description   |
-|:----------:|:------:|:---------------:|
-| driverName | string |   driver name   |
-|   config   | string | provided config |
-
-```gherkin
-When I launch new driver as 'firefox':
-"""
-    {
-      "capabilities": {
-          "browserName": "firefox"
-      }
-    }
-"""
+When I open new browser as 'browser2'
 ```
 
 ---
-### I switch to \{string} driver
+### I switch to \{string} browser
 
-Switch to driver
+Switch to other browser by name
 
-|   param    |  type  | description |
-|:----------:|:------:|:-----------:|
-| driverName | string | driver name |
-
+|    param    |  type  | description  |
+|:-----------:|:------:|:------------:|
+| browserName | string | browser name |
 ```gherkin
-When I launch new driver as 'browser2'
-And I switch to 'browser2' driver
-And I switch to 'default' driver
+When I open new browser as 'browser2'
+And I switch to 'browser2' browser
+And I switch to 'default' browser
 ```
 
 ---
-### I close \{string} driver
+### I close \{string} browser
 
-Close driver
+Close browser
 
-|   param    |  type  | description |
-|:----------:|:------:|:-----------:|
-| driverName | string | driver name |
-
+|    param    |  type  | description  |
+|:-----------:|:------:|:------------:|
+| browserName | string | browser name |
 ```gherkin
-When I close to 'browser2' driver
+When I close to 'browser2' browser
 ```
 
 ---
-### I open new browser context as \{string}
+### I set window size \{string}
 
-Open new browser context
+Resize browser window
 
-|       param        |  type  |     description      |
-|:------------------:|:------:|:--------------------:|
-| browserContextName | string | browser context name |
+|   param    |  type  |                  description                  |
+|:----------:|:------:|:---------------------------------------------:|
+| windowSize | string | width and height in pixels separated by comma |
 
 ```gherkin
-When I open new browser context as 'browser2'
+When I set window size '1440,900'
 ```
 
 ---
-### I switch to \{string} browser context
+### I click \{string} coordinates in \{string}
 
-Switch to other browser context by name
+Click a certain coordinate of an element
 
-|       param        |  type  |     description      |
-|:------------------:|:------:|:--------------------:|
-| browserContextName | string | browser context name |
-
-```gherkin
-When I open new browser context as 'browser2'
-And I switch to 'browser2' browser context
-And I switch to 'default' browser context
-```
-
----
-### I close \{string} browser context
-
-Close browser context
-
-|       param        |  type  |     description      |
-|:------------------:|:------:|:--------------------:|
-| browserContextName | string | browser context name |
+|    param    |  type  |             description             |
+|:-----------:|:------:|:-----------------------------------:|
+| coordinates | string | comma separated x and y coordinates |
+|    alias    | string |          element to click           |
 
 ```gherkin
-When I close to 'browser2' browser context
+When I click '0,20' coordinates in 'Google Button'
 ```

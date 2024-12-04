@@ -5,13 +5,13 @@ sidebar_position: 2
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Page Object
+# Page Object v1
 Framework provides capability to call getElement method from po object that resolves plain-english selector and return element or array of elements.
 <Tabs>
   <TabItem value="js" label="JavaScript" default>
     ```javascript
     const { When } = require('@cucumber/cucumber');
-    const { po } = require('@qavajs/po');
+    const { po } = require('@qavajs/steps-wdio/po'); // or @qavajs/steps-playwright/po
 
     When(/^click '(.+)'$/, async function (alias) {
         const element = await po.getElement(alias);
@@ -23,7 +23,7 @@ Framework provides capability to call getElement method from po object that reso
   <TabItem value="ts" label="TypeScript">
     ```typescript
     import { When } from '@cucumber/cucumber';
-    import { po } from '@qavajs/po';
+    import { po } from '@qavajs/steps-wdio/po'; // or @qavajs/steps-playwright/po
 
     When(/^click '(.+)'$/, async function (alias: string) {
         const element = await po.getElement(alias);
@@ -55,7 +55,7 @@ Each not top-level component should have selector property or be inherited from 
      *  playwright - @qavajs/po-playwright
      *  testcafe - @qavajs/po-testcafe
      */
-    const { $, $$, Component } = require('@qavajs/po');
+    const { $, $$, Component } = require('@qavajs/steps-wdio/po'); // or @qavajs/steps-playwright/po
 
     class MultipleComponent extends Component {
         ChildItem = $('div');
@@ -84,7 +84,7 @@ Each not top-level component should have selector property or be inherited from 
      *  playwright - @qavajs/po-playwright
      *  testcafe - @qavajs/po-testcafe
      */
-    import { $, $$, Component } from '@qavajs/po';
+    import { $, $$, Component } from '@qavajs/steps-wdio/po'; // or @qavajs/steps-playwright/po
 
     class MultipleComponent extends Component {
         ChildItem = $('div');
@@ -170,7 +170,7 @@ In case you need to generate selector based on some data you can use dynamic sel
 <Tabs>
   <TabItem value="js" label="JavaScript" default>
     ```javascript
-    const { Selector } = require('@qavajs/po');
+    const { Selector } = require('@qavajs/steps-wdio/po'); // or @qavajs/steps-playwright/po
 
     class Component {
         selector = '.container';
@@ -180,7 +180,7 @@ In case you need to generate selector based on some data you can use dynamic sel
   </TabItem>
   <TabItem value="ts" label="TypeScript">
     ```typescript
-    import { Selector } from '@qavajs/po';
+    import { Selector } from '@qavajs/steps-wdio/po'; // or @qavajs/steps-playwright/po
 
     class Component {
         selector = '.container';
@@ -204,7 +204,7 @@ Playwright example:
 <Tabs>
   <TabItem value="js" label="JavaScript" default>
     ```javascript
-    const { NativeSelector } = require('@qavajs/po-playwright');
+    const { NativeSelector } = require('@qavajs/steps-playwright/po');
 
     class Component {
         selector = '.container';
@@ -214,7 +214,7 @@ Playwright example:
   </TabItem>
   <TabItem value="ts" label="TypeScript">
     ```typescript
-    import { NativeSelector } from '@qavajs/po-playwright';
+    import { NativeSelector } from '@qavajs/steps-playwright/po';
 
     class Component {
         selector = '.container';
@@ -229,7 +229,7 @@ WDIO example:
 <Tabs>
   <TabItem value="js" label="JavaScript" default>
     ```javascript
-    const { NativeSelector } = require('@qavajs/po');
+    const { NativeSelector } = require('@qavajs/steps-wdio/po');
 
     class Component {
         selector = '.container';
@@ -239,7 +239,7 @@ WDIO example:
   </TabItem>
   <TabItem value="ts" label="TypeScript">
     ```typescript
-    import { NativeSelector } from '@qavajs/po-playwright';
+    import { NativeSelector } from '@qavajs/steps-wdio/po';
 
     class Component {
         selector = '.container';

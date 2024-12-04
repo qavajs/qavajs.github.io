@@ -2,8 +2,11 @@
 sidebar_position: 4
 ---
 
-# @qavajs/steps-memory
+# @qavajs/steps-memory v2
 Steps to work with memory module
+
+It is docs for qavajs v2. If you are looking docs for v1 go to [(v1 docs)](../Steps-v1/memory-v2.md)
+
 ## Installation
 ```
 npm install @qavajs/steps-memory
@@ -11,18 +14,17 @@ npm install @qavajs/steps-memory
 
 ## Configuration
 ```javascript
-module.exports = {
-    default: {
-        require: [
-            'node_modules/@qavajs/steps-memory/index.js'
-        ]
-    }
+export default {
+    require: [
+        'node_modules/@qavajs/steps-memory/index.js'
+    ]
 }
+
 ```
 ## Steps
 
 ---
-### I expect \{string} \{memoryValidation} \{string}
+### I expect \{string} \{validation} \{string}
 
 Verify that value from memory satisfies validation against other value
 
@@ -38,7 +40,7 @@ Then I expect '$value' not to contain '56'
 ```
 
 ---
-### I expect every element in \{string} array \{memoryValidation} \{string}
+### I expect every element in \{string} array \{validation} \{string}
 
 Verify that every element in array satisfies validation against other value
 
@@ -53,7 +55,7 @@ Then I expect every element in '$arr' array to be above '$expectedValue'
 Then I expect every element in '$arr' array to be above '50'
 ```
 ---
-### I expect at least \{int} elements in \{string} array \{memoryValidation} \{string}
+### I expect at least \{int} elements in \{string} array \{validation} \{string}
 
 Verify that at least x elements in array pass validation
 
@@ -191,7 +193,7 @@ class Memory {
 ```
 
 ---
-### I expect \{string} \{memoryValidation} at least one of \{string}
+### I expect \{string} \{validation} at least one of \{string}
 
 Verify that the value satisfies validation with at least one value from the array
 
@@ -206,7 +208,7 @@ When I expect '$text' to equal at least one of '$js(["free", "11.99"])'
 ```
 
 ---
-### I expect \{string} \{memoryValidation} at least one of: [DataTable]
+### I expect \{string} \{validation} at least one of: [DataTable]
 
 Verify that the value satisfies validation with at least one value from the array
 
@@ -223,7 +225,7 @@ When I expect '$text' to equal at least one of:
 ```
 
 ---
-### I expect \{string} \{memoryValidation} all of \{string}
+### I expect \{string} \{validation} all of \{string}
 
 Verify that the value satisfies validation with all values from the array
 
@@ -238,7 +240,7 @@ When I expect '$text' not to equal all of '$js(["free", "10.00"])'
 ```
 
 ---
-### I expect \{string} \{memoryValidation} all of: [DataTable]
+### I expect \{string} \{validation} all of: [DataTable]
 
 Verify that the value satisfies validation with all values from the array
 
