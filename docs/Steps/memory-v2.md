@@ -5,7 +5,7 @@ sidebar_position: 4
 # @qavajs/steps-memory v2
 Steps to work with memory module
 
-It is docs for qavajs v2. If you are looking docs for v1 go to [(v1 docs)](../Steps-v1/memory-v2.md)
+It is docs for qavajs v2. If you are looking docs for v1 go to [(v1 docs)](../Steps-v1/memory-v1.md)
 
 ## Installation
 ```
