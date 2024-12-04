@@ -11,7 +11,7 @@ npm install cypress
 ```
 
 ```
-npm install @qavajs/cypress @qavajs/cypress-runner-adapter @qavajs/memory @qavajs/po-cypress
+npm install @qavajs/cypress @qavajs/cypress-runner-adapter @qavajs/memory
 ```
 
 ## Configuration
