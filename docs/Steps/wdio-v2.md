@@ -86,7 +86,7 @@ export default {
 ```
 
 ## Parameter Types
-### `playwrightLocator`
+### `wdioLocator`
 Resolves to playwright locator
 
 ### `wdioCondition` 
