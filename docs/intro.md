@@ -4,9 +4,9 @@ sidebar_position: 1
 
 # Get Started
 
-**qavajs** is a modular test automation framework designed to minimize setup time and streamline the development of test scripts. It incorporates the best test automation tools and practices into a single whole. The framework achieves efficiency through its built-in page object engine and ready-to-use sets of domain-agnostic step definitions suitable for both API and UI testing of the web and native mobile applications. Additionally, **qavajs** provides seamless integration with ReportPortal, Mobitru, and the Xray test management system right out of the box.
+The **qavajs** is a modular test automation framework designed to minimize setup time and streamline the development of test scripts. It incorporates the best test automation tools and practices into a single whole. The framework achieves efficiency through its built-in page object engine and ready-to-use sets of domain-agnostic step definitions suitable for both API and UI testing of the web and native mobile applications. Additionally, **qavajs** provides seamless integration with ReportPortal, Mobitru, and the Xray test management system right out of the box.
 
-Next, you will be shown how to build your own test automation framework based on the qavajs.
+Next, you will be shown how to build your own **qavajs** based test automation framework .
 
 ### Installation from scratch
 Once you have a clear NodeJS project run
@@ -15,7 +15,7 @@ to invoke CLI application to configure the qavajs and install modules related to
 After the process is done you will have a _config.ts(js)_ file in project root directory that is going to be used to configure test execution.
 
 ### Test development
-As the **qavajs** based on the Cucumber the test scripts are written in GHERKIN format both from of built-in steps and those you will create yourself.
+As the **qavajs** based on the Cucumber the test scripts are written in GHERKIN format both of built-in steps and those you will create yourself.
 ```gherkin
 Feature: Wikipedia
 
@@ -34,7 +34,7 @@ Feature: Wikipedia
       | JavaScript |
       | Java       |
 ```
-It worth mentioning _'$wikipediaUrl'_ in this example starting from "**\$**" sign interpreted as a **qavajs** memory variable whose values is taken from the Memory class instance in runtime. More detailed documentation can be found on [github](https://github.com/qavajs/memory).
+It is worth mentioning the expression_'$wikipediaUrl'_ in the example above starting with "**\$**" sign interpreted as a **qavajs** memory variable whose values are taken from the Memory class instance in runtime. More detailed documentation available on [github](https://github.com/qavajs/memory).
 
 Another feature is a locator alias expression **'Wikipedia > Search Input'** separated by the "**\>**" sign that describes hierarchic page structure. See how [to take advantage of it](https://qavajs.github.io/docs/v2).
 
