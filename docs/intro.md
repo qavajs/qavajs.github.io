@@ -4,12 +4,18 @@ sidebar_position: 1
 
 # Get Started
 
-## @qavajs 2 is available - [(view changes)](./v2.md)
+**qavajs** is a modular test automation framework designed to minimize setup time and streamline the development of test scripts. It incorporates the best test automation tools and practices into a single whole. The framework achieves efficiency through its built-in page object engine and ready-to-use sets of domain-agnostic step definitions suitable for both API and UI testing of the web and native mobile applications. Additionally, **qavajs** provides seamless integration with ReportPortal, Mobitru, and the Xray test management system right out of the box.
 
-https://qavajs.github.io/
+Next, you will be shown how to build your own test automation framework based on the qavajs.
 
-@qavajs framework is a framework to significantly reduces test automation project setup time due to a set of predefined steps, built-in page object solution, and OOB integrations with other test-related stuff (like EPAM ReportPortal etc.)
-        
+### Installation from scratch
+Once you have a clear NodeJS project run
+`npm init @qavajs`
+to invoke CLI application to configure the qavajs and install modules related to your testing purposes.
+After the process is done you will have a _config.ts(js)_ file in project root directory that is going to be used to configure test execution.
+
+### Test development
+As the **qavajs** based on the Cucumber the test scripts are written in GHERKIN format both from of built-in steps and those you will create yourself.
 ```gherkin
 Feature: Wikipedia
 
@@ -28,24 +34,21 @@ Feature: Wikipedia
       | JavaScript |
       | Java       |
 ```
-### Installation from scratch
-`npm init @qavajs`
+It worth mentioning _'$wikipediaUrl'_ in this example starting from "**\$**" sign interpreted as a **qavajs** memory variable whose values is taken from the Memory class instance in runtime. More detailed documentation can be found on [github](https://github.com/qavajs/memory).
 
-and select modules to install. The system will generate a config file based on your answers.
-
-### Test execution
-`npx qavajs run --config <config> --profile <profile>`
-
-- default config is cucumber.js
-- default profile is default
+Another feature is a locator alias expression **'Wikipedia > Search Input'** separated by the "**\>**" sign that describes hierarchic page structure. See how [to take advantage of it](https://qavajs.github.io/docs/v2).
 
 ### Config file
-Config file extends Cucumber [config file](https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md#options):
+In addition to the default capabilities of Cucumber [config file](https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md#options) the **qavajs** config implements following [ones](https://github.com/qavajs/core/blob/main/src/IQavajsConfig.ts) to provide the advanced flexibility.
 
-| Name             | Type     | Description                                                                       | Default |
-|------------------|----------|-----------------------------------------------------------------------------------|---------|
-| `defaultTimeout` | `number` | default timeout for step definitions                                              | 10000   |
-| `services`       | `[]`     | list of services to run before/after tests (setup/teardown selenium, appium etc.) | []      |
-| `memory`         | `object` | instance of memory object with loaded constants and computed                      | {}      |
+### Test execution
+If you have the basic config `npx qavajs` will run test execution.  
+To specify custom path to the config file use `npx qavajs run --config <config>`.  
+In case if your config exports an object with multiple properties, you can specify which property to read `npx qavajs run --profile <profile>`.
+
+### Extra
+[Code Examples](https://github.com/qavajs/demo)
+
+
 
 
