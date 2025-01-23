@@ -10,6 +10,7 @@ Next, you will be shown how to build your own low-code test automation framework
 
 ### 📦 Installation from scratch
 Once you have set up a clear Node.js project, run the command `npm init @qavajs` to launch the CLI application. This will configure qavajs and install the necessary modules for your testing purposes. After the process is completed, a config.ts (or config.js) file will be generated in the project's root directory, which will be used to configure test execution.
+
 ### 👨‍💻 Test development
 As the **qavajs** based on the Cucumber the test scripts are written in [Gherkin](https://cucumber.io/docs/gherkin/reference/) language of both built-in steps and those you will create yourself.
 With years of experience across various domains, we have implemented [numerous packages](https://github.com/orgs/qavajs/repositories?q=steps&type=all) of step definitions that you can utilize.
