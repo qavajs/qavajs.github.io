@@ -35,7 +35,7 @@ It is worth mentioning the expression **'$wikipediaUrl'** in the example above s
 Another feature is a locator alias expression like **'Wikipedia > Search Input'** separated by the '**\>**' sign that describes hierarchic page structure. See how [to organize your page object](https://qavajs.github.io/docs/Guides/page-object-v2).
 
 ### 🛠️ Configuration
-In addition to the default capabilities of Cucumber [config file](https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md#options) the **qavajs** config implements following [ones](https://github.com/qavajs/core/blob/main/src/IQavajsConfig.ts) to provide the advanced flexibility.
+In addition to the default features of Cucumber [config file](https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md#options) the **qavajs** config implements following [capabilities](https://github.com/qavajs/core/blob/main/src/IQavajsConfig.ts) to provide the advanced flexibility.
 
 ### 🔬 Test execution
 If you have the basic config `npx qavajs` will launch test execution.  
