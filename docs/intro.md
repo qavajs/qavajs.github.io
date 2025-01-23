@@ -2,14 +2,18 @@
 sidebar_position: 1
 ---
 
-# Get Started
+# 💡 Getting Started
 
-## @qavajs 2 is available - [(view changes)](./v2.md)
+The **qavajs** is a modular test automation framework designed to minimize setup time and streamline the development of test scripts. It incorporates the best test automation tools and practices into a single whole. The framework achieves efficiency through its built-in page object engine and ready-to-use sets of domain-agnostic step definitions suitable for both API and UI testing of the web and native mobile applications. Additionally, **qavajs** provides out of the box integration with ReportPortal, Mobitru, and the Xray and many more.
 
-https://qavajs.github.io/
+Next, you will be shown how to build your own low-code test automation framework with the **qavajs**.
 
-@qavajs framework is a framework to significantly reduces test automation project setup time due to a set of predefined steps, built-in page object solution, and OOB integrations with other test-related stuff (like EPAM ReportPortal etc.)
-        
+### 📦 Installation from scratch
+Once you have set up a clear Node.js project, run the command `npm init @qavajs` to launch the CLI application. This will configure qavajs and install the necessary modules for your testing purposes. After the process is completed, a config.ts (or config.js) file will be generated in the project's root directory, which will be used to configure test execution.
+
+### 👨‍💻 Test development
+As the **qavajs** based on the Cucumber the test scripts are written in [Gherkin](https://cucumber.io/docs/gherkin/reference/) language of both built-in steps and those you will create yourself.
+With years of experience across various domains, we have implemented [numerous packages](https://github.com/orgs/qavajs/repositories?q=steps&type=all) of step definitions that you can utilize.
 ```gherkin
 Feature: Wikipedia
 
@@ -28,24 +32,16 @@ Feature: Wikipedia
       | JavaScript |
       | Java       |
 ```
-### Installation from scratch
-`npm init @qavajs`
+It is worth mentioning the expression **'$wikipediaUrl'** in the example above starting with '**\$**' interpreted as a **qavajs** memory variable whose value is taken from the Memory class instance in runtime. [More details](https://qavajs.github.io/docs/Guides/memory).  
+Another feature is a locator alias expression like **'Wikipedia > Search Input'** separated by the '**\>**' sign that describes hierarchic page structure. See how [to organize your page object](https://qavajs.github.io/docs/Guides/page-object-v2).
 
-and select modules to install. The system will generate a config file based on your answers.
+### 🛠️ Configuration
+In addition to the default features of Cucumber [config file](https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md#options) the **qavajs** config implements following [capabilities](https://github.com/qavajs/core/blob/main/src/IQavajsConfig.ts) to provide the advanced flexibility.
 
-### Test execution
-`npx qavajs run --config <config> --profile <profile>`
+### 🔬 Test execution
+If you have the basic config `npx qavajs` will launch test execution.  
+To specify custom path to the config file use `npx qavajs run --config <config>`.  
+In case if your config exports an object with multiple properties, you can specify which property to read `npx qavajs run --profile <profile>`.
 
-- default config is cucumber.js
-- default profile is default
-
-### Config file
-Config file extends Cucumber [config file](https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md#options):
-
-| Name             | Type     | Description                                                                       | Default |
-|------------------|----------|-----------------------------------------------------------------------------------|---------|
-| `defaultTimeout` | `number` | default timeout for step definitions                                              | 10000   |
-| `services`       | `[]`     | list of services to run before/after tests (setup/teardown selenium, appium etc.) | []      |
-| `memory`         | `object` | instance of memory object with loaded constants and computed                      | {}      |
-
-
+### 📘 Extra
+[Code Examples](https://github.com/qavajs/demo)
