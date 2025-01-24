@@ -44,10 +44,10 @@ export default {
 }
 ```
 
-### How it works?
+## How it works?
 Plugin reads all tags in jira key format (@ABCD-123) and update corresponding scenarios in provided test execution
 
-### F.A.Q
+## F.A.Q
 - Does it work with Jira Server?
 
   Yes
