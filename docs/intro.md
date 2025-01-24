@@ -2,14 +2,18 @@
 sidebar_position: 1
 ---
 
-# 💡 Getting Started
+# Getting Started
 
 The **qavajs** is a modular test automation framework designed to minimize setup time and streamline the development of test scripts. It incorporates the best test automation tools and practices into a single whole. The framework achieves efficiency through its built-in page object engine and ready-to-use sets of domain-agnostic step definitions suitable for both API and UI testing of the web and native mobile applications. Additionally, **qavajs** provides out of the box integration with ReportPortal, Mobitru, and the Xray and many more.
 
 Next, you will be shown how to build your own low-code test automation framework with the **qavajs**.
 
 ### 📦 Installation from scratch
-Once you have set up a clear Node.js project, run the command `npm init @qavajs` to launch the CLI application. This will configure qavajs and install the necessary modules for your testing purposes. After the process is completed, a config.ts (or config.js) file will be generated in the project's root directory, which will be used to configure test execution.
+Once you have set up a clear Node.js project, run the command 
+```bash
+npm init @qavajs
+``` 
+to launch the CLI application. This will configure qavajs and install the necessary modules for your testing purposes. After the process is completed, a config.ts (or config.js) file will be generated in the project's root directory, which will be used to configure test execution.
 
 ### 👨‍💻 Test development
 As the **qavajs** based on the Cucumber the test scripts are written in [Gherkin](https://cucumber.io/docs/gherkin/reference/) language of both built-in steps and those you will create yourself.
@@ -23,8 +27,8 @@ Feature: Wikipedia
     When I type '<term>' to 'Wikipedia > Search Input'
     And I click 'Wikipedia > Search Button'
     And I expect text of 'Wikipedia Article > Title' equals '<term>'
-    And I wait until text of 'Wikipedia Article > Title' not to contain 'Python'
-    And I wait until 'Wikipedia Article > Title' to be visible
+    And I expect text of 'Wikipedia Article > Title' not to contain 'Python'
+    And I expect 'Wikipedia Article > Title' to be visible
     And I expect 'Wikipedia Article > Title' to be visible
 
     Examples:
