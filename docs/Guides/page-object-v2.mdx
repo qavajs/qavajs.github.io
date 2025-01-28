@@ -8,43 +8,6 @@ import TabItem from '@theme/TabItem';
 # Page Object v2
 qavajs provides flexible page object model that resolves plain-english selector and return element or array of elements.
 
-<Tabs>
-  <TabItem value="js" label="JavaScript" default>
-    ```javascript
-    const { When } = require('@cucumber/cucumber');
-
-    // playwright
-    When('click {playwrightLocator}'/, async function (locator) {
-        await locator.click();
-    });
-
-    // wdio
-    When('click {wdioLocator}'/, async function (locator) {
-        await locator().click();
-    });
-    ```
-  </TabItem>
-  <TabItem value="ts" label="TypeScript">
-    ```typescript
-    import { When } from '@cucumber/cucumber';
-
-    // playwright
-    When('click {playwrightLocator}'/, async function (locator) {
-        await locator.click();
-    });
-
-    // wdio
-    When('click {wdioLocator}'/, async function (locator) {
-        await locator().click();
-    });
-    ```
-  </TabItem>
-</Tabs>
-
-```gherkin
-When click 'Product > Add To Cart'
-```
-
 ## Create page object
 
 Entry point of page object is class defined as _pageObject_ property in config
@@ -170,3 +133,42 @@ Playwright example:
     ```
   </TabItem>
 </Tabs>
+
+## Using page object in custom steps
+It's possible to use page object in custom step definitions via built-in parameter types `playwrightLocator` and `wdioLocator`
+<Tabs>
+    <TabItem value="js" label="JavaScript" default>
+        ```javascript
+        const { When } = require('@cucumber/cucumber');
+
+        // playwright
+        When('click {playwrightLocator}'/, async function (locator) {
+            await locator.click();
+        });
+
+        // wdio
+        When('click {wdioLocator}'/, async function (locator) {
+            await locator().click();
+        });
+        ```
+    </TabItem>
+    <TabItem value="ts" label="TypeScript">
+        ```typescript
+        import { When } from '@cucumber/cucumber';
+
+        // playwright
+        When('click {playwrightLocator}'/, async function (locator) {
+            await locator.click();
+        });
+
+        // wdio
+        When('click {wdioLocator}'/, async function (locator) {
+            await locator().click();
+        });
+        ```
+    </TabItem>
+</Tabs>
+
+```gherkin
+When click 'Product > Add To Cart'
+```
