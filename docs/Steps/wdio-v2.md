@@ -428,6 +428,17 @@ Scroll by offset in element
 When I scroll by '0, 100' in 'Overflow Container'
 ```
 _________________________
+
+---
+### I will wait for alert/dialog
+
+Start listening for dialog
+
+```gherkin
+When I will wait for dialog
+```
+
+---
 ### I accept alert
 
 Accepts an alert

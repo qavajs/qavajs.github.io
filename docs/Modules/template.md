@@ -3,6 +3,13 @@ sidebar_position: 1
 ---
 
 # @qavajs/template
+
+:::warning
+
+@qavajs/template is discouraged. Please use built-in `this.executeStep`
+
+:::
+
 Module that allow to define step definitions on Gherkin language.
 ## Installation
 ```shell
