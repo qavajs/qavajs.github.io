@@ -2,13 +2,12 @@
 sidebar_position: 7
 ---
 
-# @qavajs/steps-accessibility v2
-Steps to perform accessibility checks using axe library.
-
-It is docs for qavajs v2. If you are looking docs for v1 go to [(v1 docs)](../Steps-v1/accessibility-v1.md)
+# @qavajs/steps-accessibility-ea
+Steps to perform accessibility checks using accessibility-checker library.
+Library can work on top of playwright and webdriverio drivers
 
 ## Installation
-`npm install @qavajs/steps-accessibility`
+`npm install @qavajs/steps-accessibility-ea`
 
 ## Configuration
 ```javascript
@@ -16,7 +15,7 @@ module.exports = {
     default: {
         require: [
             'node_modules/@qavajs/steps-wdio/index.js', //corresponding driver library should be imported first
-            'node_modules/@qavajs/steps-accessibility/index.js'
+            'node_modules/@qavajs/steps-accessibility-ea/index.js'
         ],
         format: [
             '@qavajs/html-formatter:report.html'
@@ -37,7 +36,7 @@ Feature: Accessibility
     And I perform accessibility check:
     """
     {
-      "runOnly": ["wcag2a"]
+      "outputFormat": ["json", "html"]
     }
     """
 ```

@@ -381,6 +381,15 @@ When I select 1 option from 'Registration Form > Date Of Birth' dropdown
 ```
 
 ---
+### I will wait for alert/dialog
+
+Start listening for dialog
+
+```gherkin
+When I will wait for dialog
+```
+
+---
 ### I accept alert
 
 Accepts an alert

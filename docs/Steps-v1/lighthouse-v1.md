@@ -8,7 +8,7 @@ Library can work on top of playwright and webdriverio drivers
 
 ## Installation
 ```
-npm install @qavajs/steps-lighthouse@1
+npm install @qavajs/steps-lighthouse@0.1
 ```
 
 ## Configuration
