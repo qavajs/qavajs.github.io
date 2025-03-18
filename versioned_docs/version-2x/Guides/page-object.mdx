@@ -1,0 +1,174 @@
+---
+sidebar_position: 2
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Page Object
+qavajs provides flexible page object model that resolves plain-english selector and return element or array of elements.
+
+## Create page object
+
+Entry point of page object is class defined as _pageObject_ property in config
+<Tabs>
+  <TabItem value="js" label="JavaScript" default>
+    ```javascript
+    const { locator } = require('@qavajs/steps-playwright/po'); // @qavajs/steps-wdio/po
+
+    class App {
+        SimpleLocator = locator('.single-element');
+        TemplateLocator = locator.template(text => `.class:has-text("${text}")`);
+        NativeLocator = locator.native(({ browser, context, page, argument }) => page.getByText('some text'));
+        Component = locator('.container').as(SingleComponent);
+    }
+
+    class SingleComponent {
+        ChildItem = locator('.child-item');
+    }
+
+    module.exports = App;
+    ```
+  </TabItem>
+  <TabItem value="ts" label="TypeScript">
+    ```typescript
+    import { locator } from '@qavajs/steps-playwright/po'; // @qavajs/steps-wdio/po
+
+    class App {
+        SimpleLocator = locator('.single-element');
+        TemplateLocator = locator.template(text => `.class:has-text("${text}")`);
+        NativeLocator = locator.native(({ browser, context, page, argument }) => page.getByText('some text'));
+        Component = locator('.container').as(SingleComponent);
+    }
+
+    class SingleComponent {
+        ChildItem = locator('.child-item');
+    }
+
+    export default App;
+    ```
+  </TabItem>
+</Tabs>
+
+Usage in feature file
+
+```gherkin
+Feature: Page Object Demo
+
+    Scenario: Interact with element
+        When I click 'Simple Locator'
+
+```
+
+## Template locator
+In case you need to generate selector based on some data you can use dynamic selectors
+
+<Tabs>
+  <TabItem value="js" label="JavaScript" default>
+    ```javascript
+    const { locator } = require('@qavajs/steps-playwright/po'); // @qavajs/steps-wdio/po
+
+    class Component {
+        Element = locator.template(index => `div:nth-child(${index})`); // function should return valid selector
+    }
+    ```
+  </TabItem>
+  <TabItem value="ts" label="TypeScript">
+    ```typescript
+    import { locator } from '@qavajs/steps-playwright/po'; // @qavajs/steps-wdio/po
+
+    class Component {
+        Element = locator.template(index => `div:nth-child(${index})`); // function should return valid selector
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+Then you can pass parameter to this function from Gherkin file
+
+```gherkin
+When I click 'Component > Element (2)'
+```
+
+## Working with collections
+Unlike qavajs v1, there is no built-in collection selectors. Instead you can define own way to get some certain
+element from collection using template locator.
+
+```typescript
+import { locator } from '@qavajs/steps-playwright/po'; // @qavajs/steps-wdio/po
+
+class App {
+    ElementByIndex = locator.template(index => `xpath=//div[${index}]`);
+    ElementByInnerText = locator.template(text => `div:has-text("${text}")`);
+}
+```
+
+```gherkin
+When I click 'Element By Index (1)'
+When I click 'Element By Inner Text (some text)'
+```
+
+## Native framework locator
+It is also possible to use driver-built capabilities to return element. You can pass handler that has access to
+current `page`, `browser`, `context`, `argument` to handler;
+
+Playwright example:
+<Tabs>
+  <TabItem value="js" label="JavaScript" default>
+    ```javascript
+    const { locator } = require('@qavajs/steps-playwright/po');
+
+    class Component {
+        Element = locator.native(({ page }) => page.getByText(`some text`)));
+    }
+    ```
+  </TabItem>
+  <TabItem value="ts" label="TypeScript">
+    ```typescript
+    import { locator } from '@qavajs/steps-playwright/po';
+
+    class Component {
+        Element = locator.native(({ page }) => page.getByText(`some text`)));
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+## Using page object in custom steps
+It's possible to use page object in custom step definitions via built-in parameter types `playwrightLocator` and `wdioLocator`
+<Tabs>
+    <TabItem value="js" label="JavaScript" default>
+        ```javascript
+        const { When } = require('@cucumber/cucumber');
+
+        // playwright
+        When('click {playwrightLocator}'/, async function (locator) {
+            await locator.click();
+        });
+
+        // wdio
+        When('click {wdioLocator}'/, async function (locator) {
+            await locator().click();
+        });
+        ```
+    </TabItem>
+    <TabItem value="ts" label="TypeScript">
+        ```typescript
+        import { When } from '@cucumber/cucumber';
+
+        // playwright
+        When('click {playwrightLocator}'/, async function (locator) {
+            await locator.click();
+        });
+
+        // wdio
+        When('click {wdioLocator}'/, async function (locator) {
+            await locator().click();
+        });
+        ```
+    </TabItem>
+</Tabs>
+
+```gherkin
+When click 'Product > Add To Cart'
+```
