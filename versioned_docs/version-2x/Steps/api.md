@@ -2,10 +2,8 @@
 sidebar_position: 3
 ---
 
-# @qavajs/steps-api v2
+# @qavajs/steps-api
 Step library to work with web API
-
-It is docs for qavajs v2. If you are looking docs for v1 go to [(v1 docs)](../../versioned_docs/version-1x/Steps/api-v1.md)
 
 ## Installation
 ```

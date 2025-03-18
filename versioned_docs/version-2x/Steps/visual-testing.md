@@ -2,10 +2,8 @@
 sidebar_position: 10
 ---
 
-# @qavajs/steps-visual-testing v2
+# @qavajs/steps-visual-testing
 Step library to perform visual testing using pixelmatch library
-
-It is docs for qavajs v2. If you are looking docs for v1 go to [(v1 docs)](../../versioned_docs/version-1x/Steps/visual-testing-v1.md)
 
 ## Installation
 

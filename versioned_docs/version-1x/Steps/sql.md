@@ -2,15 +2,12 @@
 sidebar_position: 6
 ---
 
-# @qavajs/steps-sql v2
+# @qavajs/steps-sql
 Step library to work with relational databases
-
-It is docs for qavajs v2. If you are looking docs for v1 go to [(v1 docs)](../../versioned_docs/version-1x/Steps/sql-v1.md)
-
 
 ## Installation
 ```
-npm install @qavajs/steps-sql
+npm install @qavajs/steps-sql@1
 ```
 
 ## Configuration

@@ -2,25 +2,24 @@
 sidebar_position: 10
 ---
 
-# @qavajs/steps-visual-testing v2
+# @qavajs/steps-visual-testing
 Step library to perform visual testing using pixelmatch library
-
-It is docs for qavajs v2. If you are looking docs for v1 go to [(v1 docs)](../../versioned_docs/version-1x/Steps/visual-testing-v1.md)
 
 ## Installation
 
 ```
-npm install @qavajs/steps-visual-testing
+npm install @qavajs/steps-visual-testing@1
 ```
 
 ## Configuration
-```typescript
-export default {
-    require: [
-        '@qavajs/steps-visual-testing/index.js'
-    ],
+```javascript
+module.exports = {
+    default: {
+        require: [
+            '@qavajs/steps-visual-testing/index.js'
+        ],
+    }
 }
-
 ```
 
 ## Steps

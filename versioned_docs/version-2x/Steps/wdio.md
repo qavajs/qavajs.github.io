@@ -2,10 +2,8 @@
 sidebar_position: 2
 ---
 
-# @qavajs/steps-wdio v2
+# @qavajs/steps-wdio
 Step library to work with webdriverio using DSL page object
-
-It is docs for qavajs v2. If you are looking docs for v1 go to [(v1 docs)](../../versioned_docs/version-1x/Steps/wdio-v1.md)
 
 ## Installation
 ```

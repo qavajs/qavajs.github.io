@@ -1,0 +1,159 @@
+---
+sidebar_position: 4
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Validation
+All @qavajs libraries use single validation system provided by @qavajs/validation package.
+
+All validations can be negated adding _not_ word.
+
+## to equal
+not strict equal (==)
+```gherkin
+Then I expect text of 'Element' to equal 'some text'
+Then I expect '$variable' not to equal '42'
+```
+
+## to strictly equal
+strict equal (===) (with type checking)
+```gherkin
+Then I expect text of 'Element' to strictly equal 'some text'
+Then I expect '$variable' not to strictly equal '$js(42)'
+```
+
+## to deeply equal
+deep equal (chai eql) to compare reference types
+```gherkin
+Then I expect '$variable' to deeply equal '$js({ x: 42 })'
+```
+
+## to contain
+contain a substring
+```gherkin
+Then I expect text of 'Element' to contain 'text'
+Then I expect '$variable' to contain 'text'
+```
+
+## to match
+match a regular expression
+```gherkin
+Then I expect text of 'Element' to match '^text$'
+Then I expect '$variable' not to match '$regexp'
+```
+
+## to be above, to be greater than
+greater than
+```gherkin
+Then I expect number of element in 'Collection' collection to be greater than '3'
+Then I expect '$variable' not to be above '5'
+```
+
+## to be below, to be less than
+less than
+```gherkin
+Then I expect number of element in 'Collection' collection to be less than '3'
+Then I expect '$variable' not to be below '5'
+```
+
+## have type
+data type validation
+```gherkin
+Then I expect '$js(42)' to have type 'number'
+```
+
+## have members
+array/object have exact members
+```gherkin
+Then I expect '$js([3, 2, 1])' to have members '$js([1, 2, 3])'
+```
+
+## include members
+array/object includes members
+```gherkin
+Then I expect '$js([3, 2, 1])' to include members '$js([1, 2])'
+```
+
+## have property
+have property
+```gherkin
+Then I expect '$js({ x: 2 })' to have property 'x'
+```
+
+## case insensitive equal
+not strict equal (==) with casting to lower case
+```gherkin
+Then I expect text of 'Element' to case insensitive equal 'some text'
+```
+
+## match schema
+match [ajv](https://www.npmjs.com/package/ajv) schema
+```gherkin
+Then I expect '$object' to match schema '$schema'
+```
+
+## Using in custom steps
+You can also use validations in custom steps
+
+<Tabs>
+  <TabItem value="js" label="JavaScript" default>
+    ```javascript
+    const { Then } = require('@cucumber/cucumber');
+    const { getValidation } = require('@qavajs/validation');
+
+    Then('I expect the answer {} {string}', async function(validationType, expected) {
+        const answer = '42';
+        const validate = getValidation(validationType);
+        validate(answer, expected);
+    });
+    ```
+  </TabItem>
+  <TabItem value="ts" label="TypeScript">
+    ```typescript
+    import { Then } from '@cucumber/cucumber';
+    import { getValidation } from '@qavajs/validation';
+
+    Then('I expect the answer {} {string}', async function(validationType: string, expected: string) {
+        const answer = '42';
+        const validate = getValidation(validationType);
+        validate(answer, expected);
+    });
+    ```
+  </TabItem>
+</Tabs>
+
+## Poll validation
+Validation with auto-retries
+
+<Tabs>
+  <TabItem value="js" label="JavaScript" default>
+    ```javascript
+    const { Then } = require('@cucumber/cucumber');
+    const { getPollValidation } = require('@qavajs/validation');
+
+    Then('I expect the answer {} {string}', async function(validationType, expected) {
+        const answer = getAnswer();
+        const validate = getPollValidation(validationType);
+        await validate(getAnswer, expected, { timeout: 2000, interval: 500 });
+    });
+    ```
+  </TabItem>
+  <TabItem value="ts" label="TypeScript">
+    ```typescript
+    import { Then } from '@cucumber/cucumber';
+    import { getPollValidation } from '@qavajs/validation';
+
+    Then('I expect the answer {} {string}', async function(validationType: string, expected: string) {
+        const answer = getAnswer();
+        const validate = getPollValidation(validationType);
+        await validate(getAnswer, expected, { timeout: 2000, interval: 500 });
+    });
+    ```
+  </TabItem>
+</Tabs>
+
+
+
+

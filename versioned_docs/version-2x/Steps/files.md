@@ -2,10 +2,8 @@
 sidebar_position: 5
 ---
 
-# @qavajs/steps-files v2
+# @qavajs/steps-files
 Step library to work with file system
-
-It is docs for qavajs v2. If you are looking docs for v1 go to [(v1 docs)](../../versioned_docs/version-1x/Steps/files-v1.md)
 
 ## Installation
 ```

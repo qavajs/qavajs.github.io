@@ -2,15 +2,12 @@
 sidebar_position: 8
 ---
 
-# @qavajs/steps-gmail v2
+# @qavajs/steps-gmail
 Step library to test emails via gmail client
-
-It is docs for qavajs v2. If you are looking docs for v1 go to [(v1 docs)](../../versioned_docs/version-1x/Steps/gmail-v1.md)
-
 
 ## Installation
 ```
-npm install @qavajs/steps-gmail
+npm install @qavajs/steps-gmail@1
 ```
 
 ## Configuration

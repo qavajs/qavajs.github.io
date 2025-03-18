@@ -2,45 +2,44 @@
 sidebar_position: 2
 ---
 
-# @qavajs/steps-wdio v2
+# @qavajs/steps-wdio
 Step library to work with webdriverio using DSL page object
-
-It is docs for qavajs v2. If you are looking docs for v1 go to [(v1 docs)](../../versioned_docs/version-1x/Steps/wdio-v1.md)
-
 ## Installation
 ```
-npm install @qavajs/steps-wdio
+npm install @qavajs/steps-wdio@1
 ```
 ## Configuration
 wdio steps provide additional configuration properties
 
-| Name         | Type     | Description                                                                        | Default |
-|--------------|----------|------------------------------------------------------------------------------------|---------|
-| `browser`    | `object` | object describing wdio config                                                      | `{}`    |
-| `pageObject` | `object` | instance of page object definitions  [(page object)](../Guides/page-object-v2.mdx) | `{}`    |
+| Name         | Type     | Description                                                                     | Default |
+|--------------|----------|---------------------------------------------------------------------------------|---------|
+| `browser`    | `object` | object describing wdio config                                                   | `{}`    |
+| `pageObject` | `object` | instance of page object definitions  [(page object)](../../../docs/Guides/page-object-v1.mdx) | `{}`    |
 
-```typescript
-import App from './page_object';
-export default {
-    require: [
-        'node_modules/@qavajs/steps-wdio/index.js'
-    ],
-    browser: {
-        timeout: {
-            present: 10000,
-            visible: 20000,
-            clickable: 15000,
-            page: 10000,
-            implicit: 0, //wdio implicit wait for element,
-            element: 2000 ,//timeout to element to be accesible,
-            value: 5000, // expect value timeout
-            valueInterval: 500 //expect value interval
+```javascript
+const App = require('./page_object');
+module.exports = {
+    default: {
+        require: [
+            'node_modules/@qavajs/steps-wdio/index.js'
+        ],
+        browser: {
+            timeout: {
+                present: 10000,
+                visible: 20000,
+                clickable: 15000,
+                page: 10000,
+                implicit: 0, //wdio implicit wait for element,
+                element: 2000 ,//timeout to element to be accesible,
+                value: 5000, // expect value timeout
+                valueInterval: 500 //expect value interval
+            },
+            capabilities: {
+                browserName: 'chrome'
+            }
         },
-        capabilities: {
-            browserName: 'chrome'
-        }
-    },
-    pageObject: App
+        pageObject: new App()
+    }
 }
 ```
 
@@ -50,13 +49,14 @@ export default {
 - beforeStep
 - afterStep
 
-```typescript
-export default {
-    browser: {
-        screenshot: ['onFail']
+```javascript
+module.exports = {
+    default: {
+        browser: {
+            screenshot: ['onFail']
+        }
     }
 }
-
 ```
 
 ## Snapshot
@@ -65,10 +65,12 @@ export default {
 - beforeStep
 - afterStep
 
-```typescript
-export default {
-    browser: {
-        snapshot: ['onFail']
+```javascript
+module.exports = {
+    default: {
+        browser: {
+            snapshot: ['onFail']
+        }
     }
 }
 ```
@@ -76,20 +78,18 @@ export default {
 ## Reuse Session
 _reuseSession_ flag allows to share driver session between tests. Browser will not be closed automatically after test.
 
-```typescript
-export default {
-    browser: {
-        reuseSession: true
+```javascript
+module.exports = {
+    default: {
+        browser: {
+            reuseSession: true
+        }
     }
 }
-
 ```
 
 ## Parameter Types
-### `wdioLocator`
-Resolves to playwright locator
-
-### `wdioCondition` 
+### wdioConditionWait 
 condition of element to wait (can be negated with _not_) 
 - to be visible
 - to be present
@@ -98,22 +98,37 @@ condition of element to wait (can be negated with _not_)
 - to be disabled
 - to be in viewport
 
-### `wdioTimeout`
+### wdioValidation
+validation of values (can be negated with _not_)
+- to equal
+- to strictly equal
+- to deeply equal
+- to have member
+- to match
+- to contain
+- to be above
+- to be below
+- to be greater than
+- to be less than
+- to have type
+
+### wdioTimeout
 optional timeout that can be passed to wait steps _(timeout: x)_, where x timeout in milliseconds
 
-### `wdioMouseButton`
+### wdioMouseButton
 mouse button to interact
 - left
 - right
 - middle
 
-## Context variables
-@qavajs/steps-wdio exposes following world variables
+## Global variables
+@qavajs/steps-wdio exposes following global variables
 
 | variable         | type             | description                          |
 |------------------|------------------|--------------------------------------|
-| `this.browser`   | `Browser`        | browser instance                     |
-| `this.driver`    | `Browser`        | browser instance (alias for browser) |
+| `browser`        | `Browser`        | browser instance                     |
+| `driver`         | `Browser`        | browser instance (alias for browser) |
+| `browserManager` | `BrowserManager` | manager for opened browsers          |
 
 ## Action Steps
 
@@ -428,17 +443,6 @@ Scroll by offset in element
 When I scroll by '0, 100' in 'Overflow Container'
 ```
 _________________________
-
----
-### I will wait for alert/dialog
-
-Start listening for dialog
-
-```gherkin
-When I will wait for dialog
-```
-
----
 ### I accept alert
 
 Accepts an alert
@@ -484,7 +488,7 @@ When I drag and drop 'Bishop' to 'E4'
 ```
 
 _________________________
-### I define \{string} as \{string} locator
+### I define \{string} as \{string} \{wdioPoType}
 
 Register selector as page object
 
@@ -492,11 +496,12 @@ Register selector as page object
 |:-----------:|:------:|:-----------------------------------------:|
 | selectorKey | string |           selector to register            |
 |  aliasKey   | string |             alias of element              |
+|   poType    | string | type of page object (element, collection) |
 
 ```gherkin
-When I define '#someId' as 'My Button' locator
+When I define '#someId' as 'My Button' element
 And I click 'My Button'
-When I define 'li.selected' as 'Selected Items' locator
+When I define 'li.selected' as 'Selected Items' collection
 And I expect number of element in 'Selected Items' collection to equal '3'
 ```
 
@@ -611,7 +616,7 @@ Then I expect 'Search Bar > Submit Button' to be clickable
 ```
 
 ---
-### I expect number of elements in \{string} collection \{validation} \{string}
+### I expect number of elements in \{string} collection \{wdioValidation} \{string}
 
 Verify that number of element in collection satisfies condition
 
@@ -628,18 +633,18 @@ Then I expect number of elements in 'Search Results' collection to be below '51'
 ```
 
 ---
-### I expect text of \{string} \{validation} \{string}
+### I expect text of \{string} \{wdioValidation} \{string}
 
 Verify that text of element satisfies condition
 
 |     param     |  type  |        description         |                example                |
 |:-------------:|:------:|:--------------------------:|:-------------------------------------:|
-|     alias     | string | element to check condition |   Label, Search Result (1) > Title    |
+|     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
 ```gherkin
-Then I expect text of 'Search Result (1)' to be equal 'google'
-Then I expect text of 'Search Result (1)' to be equal '$firstResult'
+Then I expect text of '#1 of Search Results' to be equal 'google'
+Then I expect text of '#1 of Search Results' to be equal '$firstResult'
 ```
 ---
 ### I expect value of \{string} \{playwrightValidation} \{string}
@@ -654,17 +659,17 @@ Verify that value of element satisfies condition
 
 ```gherkin
 Then I expect value of 'Input' to be equal 'google'
-Then I expect value of 'Textarea (1)' to be equal '$firstResult'
+Then I expect value of '#1 of Textareas' to be equal '$firstResult'
 ```
 ---
-### I expect \{string} property of \{string} \{validation} \{string}
+### I expect \{string} property of \{string} \{wdioValidation} \{string}
 
 Verify that property of element satisfies condition
 
 |     param     |  type  |        description         |                example                |
 |:-------------:|:------:|:--------------------------:|:-------------------------------------:|
 |   property    | string |  property check condition  |    value, href, checked, innerHTML    |
-|     alias     | string | element to check condition |   Label, Search Result (1) > Title    |
+|     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
 ```gherkin
@@ -673,14 +678,14 @@ Then I expect 'innerHTML' property of 'Label' to contain '<b>'
 Then I expect 'value' property of 'Search Input' to be equal '$inputText'
 ```
 ---
-### I expect \{string} attribute of \{string} \{validation} \{string}
+### I expect \{string} attribute of \{string} \{wdioValidation} \{string}
 
 Verify that attribute of element satisfies condition
 
 |     param     |  type  |        description         |                example                |
 |:-------------:|:------:|:--------------------------:|:-------------------------------------:|
 |   attribute   | string | attribute check condition  |             href, checked             |
-|     alias     | string | element to check condition |   Label, Search Result (1) > Title    |
+|     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
 ```gherkin
@@ -689,7 +694,7 @@ Then I expect 'href' attribute of 'Home Link' to be equal '$url'
 ```
 
 ---
-### I expect current url \{validation} \{string}
+### I expect current url \{wdioValidation} \{string}
 
 Verify that current url satisfies condition
 
@@ -703,7 +708,7 @@ Then I expect current url equals 'https://wikipedia.org'
 ```
 
 ---
-### I expect page title \{validation} \{string}
+### I expect page title \{wdioValidation} \{string}
 
 Verify that page title satisfies condition
 
@@ -730,7 +735,7 @@ Then I expect every element in 'Loading Bars' collection not to be present
 ```
 
 ---
-### I expect text of every element in \{string} collection \{validation} \{string}
+### I expect text of every element in \{string} collection \{wdioValidation} \{string}
 
 Verify that all texts in collection satisfy condition
 
@@ -747,7 +752,7 @@ Then I expect text of every element in 'Search Results' collection does not cont
 ```
 
 ---
-### I expect \{string} attribute of every element in \{string} collection \{validation} \{string}
+### I expect \{string} attribute of every element in \{string} collection \{wdioValidation} \{string}
 
 Verify that all particular attributes in collection satisfy condition
 
@@ -764,7 +769,7 @@ Then I expect 'href' attribute of every element in 'Search Results' collection t
 ```
 
 ---
-### I expect \{string} property of every element in \{string} collection \{validation} \{string}
+### I expect \{string} property of every element in \{string} collection \{wdioValidation} \{string}
 
 Verify that all particular properties in collection satisfy condition
 
@@ -780,14 +785,14 @@ Note: step passes in case of empty collection
 Then I expect 'href' property of every element in 'Search Results' collection to contain 'google'
 ```
 
-### I expect \{string} css property of \{string} \{validation} \{string}
+### I expect \{string} css property of \{string} \{wdioValidation} \{string}
 
 Verify that css property of element satisfies condition
 
 |     param     |  type  |        description         |                example                |
 |:-------------:|:------:|:--------------------------:|:-------------------------------------:|
 |   property    | string |  property check condition  |           color, font-size            |
-|     alias     | string | element to check condition |   Label, Search Result (1) > Title    |
+|     alias     | string | element to check condition |  Label, #1 of Search Results > Title  |
 |  validation   | string |      validation type       | to be equal, to contain, not to match |
 | expectedValue | string |      expected result       |                                       |
 ```gherkin
@@ -795,7 +800,7 @@ Then I expect 'color' css property of 'Search Input' to be equal 'rgb(42, 42, 42
 Then I expect 'font-family' css property of 'Label' to contain 'Fira'
 ```
 
-### I expect text of alert \{validation} \{string}
+### I expect text of alert \{wdioValidation} \{string}
 
 Verify that text of an alert meets expectation
 
@@ -816,23 +821,23 @@ Then I expect text of alert does not contain 'Are you sure you want to leave thi
 
 Save text of element to memory
 
-| param |  type  |     description      |             example              |
-|:-----:|:------:|:--------------------:|:--------------------------------:|
-| alias | string | element to get value | Label, Search Result (1) > Title |
-|  key  | string |  key to store value  |                                  |
+| param |  type  |     description      |               example               |
+|:-----:|:------:|:--------------------:|:-----------------------------------:|
+| alias | string | element to get value | Label, #1 of Search Results > Title |
+|  key  | string |  key to store value  |                                     |
 ```gherkin
-When I save text of 'Search Result (1)' as 'firstSearchResult'
+When I save text of '#1 of Search Results' as 'firstSearchResult'
 ```
 ---
 ### I save \{string} property of \{string} as \{string}
 
 Save property of element to memory
 
-|  param   |  type  |     description      |             example              |
-|:--------:|:------:|:--------------------:|:--------------------------------:|
-| property | string |  property to store   | value, href, checked, innerHTML  |
-|  alias   | string | element to get value | Label, Search Result (1) > Title |
-|   key    | string |  key to store value  |                                  |
+|  param   |  type  |     description      |               example               |
+|:--------:|:------:|:--------------------:|:-----------------------------------:|
+| property | string |  property to store   |   value, href, checked, innerHTML   |
+|  alias   | string | element to get value | Label, #1 of Search Results > Title |
+|   key    | string |  key to store value  |                                     |
 
 ```gherkin
 When I save 'checked' property of 'Checkbox' as 'checked'
@@ -843,11 +848,11 @@ When I save '$prop' property of 'Checkbox' as 'checked'
 
 Save attribute of element to memory
 
-|   param   |  type  |     description      |             example              |
-|:---------:|:------:|:--------------------:|:--------------------------------:|
-| attribute | string |  attribute to store  |          href, checked           |
-|   alias   | string | element to get value | Label, Search Result (1) > Title |
-|    key    | string |  key to store value  |                                  |
+|   param   |  type  |     description      |               example               |
+|:---------:|:------:|:--------------------:|:-----------------------------------:|
+| attribute | string |  attribute to store  |            href, checked            |
+|   alias   | string | element to get value | Label, #1 of Search Results > Title |
+|    key    | string |  key to store value  |                                     |
 ```gherkin
 When I save 'href' attribute of 'Link' as 'linkHref'
 When I save '$prop' attribute of 'Link' as 'linkHref'
@@ -967,11 +972,11 @@ When I save screenshot of 'Element' as 'screenshot'
 
 Save css property of element to memory
 
-|  param   |  type  |     description      |             example              |
-|:--------:|:------:|:--------------------:|:--------------------------------:|
-| property | string |  property to store   |   background-color, font-size    |
-|  alias   | string | element to get value | Label, Search Result (1) > Title |
-|   key    | string |  key to store value  |                                  |
+|  param   |  type  |     description      |               example               |
+|:--------:|:------:|:--------------------:|:-----------------------------------:|
+| property | string |  property to store   |     background-color, font-size     |
+|  alias   | string | element to get value | Label, #1 of Search Results > Title |
+|   key    | string |  key to store value  |                                     |
 
 ```gherkin
 When I save 'color' css property of 'Checkbox' as 'checkboxColor'
@@ -1008,8 +1013,141 @@ When I wait 1000 ms
 ```
 
 ---
+### I wait until \{string} \{wdioConditionWait} \{string}( )\{wdioTimeout}
+
+Wait for element condition
+
+|   param    |       type        |       description       |
+|:----------:|:-----------------:|:-----------------------:|
+|   alias    |      string       |         element         |
+| validation |      string       |     validation type     |
+|  timeout   | number (optional) | timeout in milliseconds |
+
+```gherkin
+When I wait until 'Header' to be visible
+When I wait until 'Loading' not to be present
+When I wait until 'Search Bar > Submit Button' to be clickable
+When I wait until 'Search Bar > Submit Button' to be clickable (timeout: 3000)
+```
+---
+### I wait until text of \{string} \{wdioValidation} \{string}( )\{wdioTimeout}
+
+Wait for element text condition
+
+|  param  |       type        |       description       |
+|:-------:|:-----------------:|:-----------------------:|
+|  alias  |      string       |         element         |
+|  wait   |      string       |     validation type     |
+|  value  |      string       |     expected result     |
+| timeout | number (optional) | timeout in milliseconds |
+
+```gherkin
+When I wait until text of 'Header' to be equal 'Javascript'
+When I wait until text of 'Header' not to be equal 'Python'
+When I wait until text of 'Header' to be equal 'Javascript' (timeout: 3000)
+```
+---
+### I wait until value of \{string} \{playwrightValueWait} \{string}( )\{playwrightTimeout}
+
+Wait for element value condition
+
+|  param  |       type        |       description       |
+|:-------:|:-----------------:|:-----------------------:|
+|  alias  |      string       |         element         |
+|  wait   |      string       |     validation type     |
+|  value  |      string       |     expected result     |
+| timeout | number (optional) | timeout in milliseconds |
+
+```gherkin
+When I wait until value of 'Input' to be equal 'Javascript'
+When I wait until value of 'Input' not to be equal 'Python'
+When I wait until value of 'Input' to be equal 'Javascript' (timeout: 3000)
+```
+---
+### I wait until number of elements in \{string} collection \{wdioValidation} \{string}( )\{wdioTimeout}
+
+Wait for collection length condition
+
+|  param  |       type        |       description       |
+|:-------:|:-----------------:|:-----------------------:|
+|  alias  |      string       |       collection        |
+|  wait   |      string       |     validation type     |
+|  value  |      string       |     expected result     |
+| timeout | number (optional) | timeout in milliseconds |
+```gherkin
+When I wait until number of elements in 'Search Results' collection to be equal '50'
+When I wait until number of elements in 'Search Results' collection to be above '49'
+When I wait until number of elements in 'Search Results' collection to be below '51'
+When I wait until number of elements in 'Search Results' collection to be below '51' (timeout: 3000)
+```
+---
+### I wait until \{string} property of \{string} \{wdioValidation} \{string}( )\{wdioTimeout}
+
+Wait for element property condition
+
+|  param   |       type        |       description       |
+|:--------:|:-----------------:|:-----------------------:|
+| property |      string       |        property         |
+|  alias   |      string       |         element         |
+|   wait   |      string       |     validation type     |
+|  value   |      string       |     expected result     |
+| timeout  | number (optional) | timeout in milliseconds |
+```gherkin
+When I wait until 'value' property of 'Search Input' to be equal 'Javascript'
+When I wait until 'value' property of 'Search Input' to be equal 'Javascript' (timeout: 3000)
+```
+---
+### I wait until \{string} attribute of \{string} \{wdioValidation} \{string}( )\{wdioTimeout}
+
+Wait for element property condition
+
+|   param   |       type        |       description       |
+|:---------:|:-----------------:|:-----------------------:|
+| attribute |      string       |        attribute        |
+|   alias   |      string       |         element         |
+|   wait    |      string       |     validation type     |
+|   value   |      string       |     expected result     |
+|  timeout  | number (optional) | timeout in milliseconds |
+```gherkin
+When I wait until 'href' attribute of 'Home Link' to be equal '/javascript'
+When I wait until 'href' attribute of 'Home Link' to be equal '/javascript' (timeout: 3000)
+```
+ 
+---
+### I wait until current url \{wdioValidation} \{string}( )\{wdioTimeout}
+
+Wait for url condition
+
+|  param  |       type        |       description       |
+|:-------:|:-----------------:|:-----------------------:|
+|  wait   |      string       |     validation type     |
+|  value  |      string       | expected value to wait  |
+| timeout | number (optional) | timeout in milliseconds |
+```gherkin
+When I wait until current url to be equal 'https://qavajs.github.io/'
+When I wait until current url not to contain 'cypress'
+When I wait until current url to be equal 'https://qavajs.github.io/' (timeout: 3000)
+```
+
+---
+### I wait until page title \{wdioValidation} \{string}( )\{wdioTimeout}
+
+Wait for title condition
+
+|  param  |       type        |       description       |
+|:-------:|:-----------------:|:-----------------------:|
+|  wait   |      string       |     validation type     |
+|  value  |      string       | expected value to wait  |
+| timeout | number (optional) | timeout in milliseconds |
+```gherkin
+When I wait until page title to be equal 'qavajs'
+When I wait until page title not to contain 'cypress'
+When I wait until page title to be equal 'qavajs' (timeout: 3000)
+```
+
+---
 ### I wait for alert
-Wait for alert to pop up
+Wait until alert to pop up
 ```gherkin
 When I wait for alert
 ```
@@ -1032,7 +1170,7 @@ When I refresh page until 'Place Order Button' to be clickable (timeout: 3000)
 ```
 -------------------------
  
-### I refresh page until text of \{string} \{validation} \{string}( )\{wdioTimeout}
+### I refresh page until text of \{string} \{wdioValidation} \{string}( )\{wdioTimeout}
 
 Refresh page until element text matches condition
 
