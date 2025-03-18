@@ -14,7 +14,7 @@ wdio steps provide additional configuration properties
 | Name         | Type     | Description                                                                     | Default |
 |--------------|----------|---------------------------------------------------------------------------------|---------|
 | `browser`    | `object` | object describing wdio config                                                   | `{}`    |
-| `pageObject` | `object` | instance of page object definitions  [(page object)](../../../docs/Guides/page-object-v1.mdx) | `{}`    |
+| `pageObject` | `object` | instance of page object definitions  [(page object)](Guides/page-object.mdx) | `{}`    |
 
 ```javascript
 const App = require('./page_object');

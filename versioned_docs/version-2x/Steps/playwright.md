@@ -13,10 +13,10 @@ npm install @qavajs/steps-playwright@2
 ## Configuration
 Playwright steps provide a couple of additional configuration properties
 
-| Name         | Type     | Description                                                                        | Default |
-|--------------|----------|------------------------------------------------------------------------------------|---------|
-| `browser`    | `object` | object describing playwright config                                                | `{}`    |
-| `pageObject` | `object` | instance of page object definitions  [(page object)](../Guides/page-object-v2.mdx) | `{}`    |
+| Name         | Type     | Description                                                                  | Default |
+|--------------|----------|------------------------------------------------------------------------------|---------|
+| `browser`    | `object` | object describing playwright config                                          | `{}`    |
+| `pageObject` | `object` | instance of page object definitions  [(page object)](Guides/page-object.mdx) | `{}`    |
 
 ```typescript
 import App from './page_object';

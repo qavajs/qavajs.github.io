@@ -23,10 +23,10 @@ qavajs uses [Gherkin](https://cucumber.io/docs/gherkin/reference) to describe te
 and JavaScript/TypeScript to define support code (test data, project specific step definitions, etc)
 
 ## Can mobile applications be tested with qavajs?
-Yes, qavajs can work on top of [webdriverio](Steps/wdio-v2.md) and use appium to run tests on mobile devices.
+Yes, qavajs can work on top of [webdriverio](Steps/wdio.md) and use appium to run tests on mobile devices.
 
 ## Can API be tested with qavajs?
-Yes, you can use [API steps](Steps/api-v2.md) to interact with REST, graphQL and websocket services.
+Yes, you can use [API steps](Steps/api.md) to interact with REST, graphQL and websocket services.
 
 ## Can I integrate qavajs into my CI workflow?
 Yes. qavajs is Node.js application so can be executed on any agent where Node.js installed.
