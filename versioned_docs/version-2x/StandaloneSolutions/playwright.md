@@ -1241,3 +1241,78 @@ And I save '$interception' response as 'response' # response will be instance of
 And I expect '$response.status()' to equal '200'
 ```
 
+## File Steps
+---
+### I expect file matching \{string} regexp appears in \{string}
+
+Verify that file matching regexp appears in directory
+
+| param |  type  |       description       |   example    |
+|:-----:|:------:|:-----------------------:|:------------:|
+| file  | string | file name regex to wait |   f.+\.txt   |
+|  dir  | string | directory path to wait  | ./yourFolder |
+
+```gherkin
+When I expect file matching 'f.+\.txt' regexp appears in './test-e2e/folder'
+When I expect file matching '$fileRegexp' regexp appears in '$folder'
+```
+
+---
+### I expect \{string} file appears
+
+Verify that file appears in provided location
+
+| param |  type  |    description    |        example        |
+|:-----:|:------:|:-----------------:|:---------------------:|
+| file  | string | file path to wait | ./yourFolder/file.txt |
+
+```gherkin
+When I expect './test-e2e/folder/file.txt' file appears
+When I expect '$filePath' file appears
+```
+
+---
+### I expect \{string} text file content \{validation} \{string}
+
+Verify that text file content satisfy validation
+
+|     param      |  type  |  description   |         example         |
+|:--------------:|:------:|:--------------:|:-----------------------:|
+|      file      | string |   file path    |  ./yourFolder/file.txt  |
+| validationType | string |   file path    | to be equal, to contain |
+| expectedValue  | string | expected value |      text, $value       |
+
+```gherkin
+When I expect './folder/file.txt' text file content to be equal 'file content'
+When I expect '$filePath' text file content to contain '$content'
+```
+
+---
+### I save \{string} file content as \{string}
+
+Save file content to memory as buffer
+
+|   param   |  type  | description |        example         |
+|:---------:|:------:|:-----------:|:----------------------:|
+|   file    | string |  file path  | ./yourFolder/file.jpeg |
+| memoryKey | string | memory key  |   fileContent, value   |
+
+```gherkin
+When I save './folder/file.txt' file content as 'fileContent'
+When I save '$filePath' file content as 'fileContent'
+```
+
+---
+### I save \{string} text file content as \{string}
+
+Save file content to memory as text (utf-8)
+
+|   param   |  type  | description |        example        |
+|:---------:|:------:|:-----------:|:---------------------:|
+|   file    | string |  file path  | ./yourFolder/file.txt |
+| memoryKey | string | memory key  |  textContent, value   |
+
+```gherkin
+When I save './folder/file.txt' text file content as 'fileContent'
+When I save '$filePath' text file as 'fileContent'
+```
