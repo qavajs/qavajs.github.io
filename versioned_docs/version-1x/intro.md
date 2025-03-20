@@ -11,7 +11,7 @@ Next, you will be shown how to build your own low-code test automation framework
 ### 📦 Installation from scratch
 Once you have set up a clear Node.js project, run the command 
 ```bash
-npm init @qavajs
+npm init @qavajs@1
 ``` 
 to launch the CLI application. This will configure qavajs and install the necessary modules for your testing purposes. After the process is completed, a config.ts (or config.js) file will be generated in the project's root directory, which will be used to configure test execution.
 
