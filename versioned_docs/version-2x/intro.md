@@ -81,6 +81,22 @@ When('I expect {string} {validation} {string}', async function(value1, validate,
 });
 ```
 
+### 🛠️ Soft Validation
+You can use the `softly` prefix before expect to continue test execution after an error.
+```gherkin
+Feature: Feature
+
+  Scenario: verify soft assert
+    # first step fails, but other steps will not be skipped
+    Then I expect '2' to softly equal '1'
+    # pass
+    And I expect '1' to softly equal '1'
+    # fail
+    And I expect '2' to softly equal '1'
+    # skip
+    And I expect '1' to softly equal '1'
+```
+
 ### 🛠️ Test Sharding
 qavajs provides ability to shard your tests between different machines. To do so pass `--shard x/y` parameter in CLI,
 where x - current shard, y - total number of shards.

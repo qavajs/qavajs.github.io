@@ -3,6 +3,15 @@ sidebar_position: 2
 ---
 
 # @qavajs/soft-assertion
+
+:::warning
+
+@qavajs/soft-assertion is discouraged. 
+Soft assertion functionality is now included into `@qavajs/core` module
+Please use built-in `softly` prefix
+
+:::
+
 Module that allow to use soft asserts in qavajs tests
 
 ## Installation
