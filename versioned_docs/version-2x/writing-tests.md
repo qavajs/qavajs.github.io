@@ -23,7 +23,7 @@ Feature: Wikipedia
 In this scenario:
 
 - `Search Input`, `Search Button`, and `Title` are aliases for corresponding [page objects](Guides/page-object.mdx).
-- `$wikipedia` is an alias for a [constant](./Guides/memory.md) URL.
+- `$wikipedia` is an alias for a [constant](./Guides/memory.mdx) URL.
 
 ## Page Objects
 Define the page objects in the page_object folder:
