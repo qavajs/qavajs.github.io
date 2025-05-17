@@ -6,6 +6,8 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Composing Steps
+
+### executeStep
 Framework provides capability to implement complex logic via `executeStep` world method
 that allow to call gherkin definitions programmatically
 
@@ -27,7 +29,7 @@ that allow to call gherkin definitions programmatically
   </TabItem>
   <TabItem value="ts" label="TypeScript">
     ```typescript
-    import { IQavajsWorld } from '@qavajs/cli';
+    import { IQavajsWorld } from '@qavajs/core';
     import { When, DataTable } from '@cucumber/cucumber';
 
     When('I do smth complex', async function(this: IQavajsWorld) {
@@ -43,3 +45,14 @@ that allow to call gherkin definitions programmatically
   </TabItem>
 </Tabs>
 
+### Template
+`Template` provides a way to define step definition using Gherkin language
+
+```typescript
+import { When, Template } from '@qavajs/core';
+
+When('I click {string} and verify {string}', Template((locator, expected) => `
+    I click '${locator}'
+    I expect '${locator} > Value' to equal '${expected}'
+`));
+```

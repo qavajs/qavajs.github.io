@@ -1,0 +1,154 @@
+---
+sidebar_position: 1
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Memory
+Framework provides the capability to transit variables between step and access them from gherkin definitions
+
+```gherkin
+When I save text of 'Answer' to equal 'answer'
+Then I expect text of 'Another Answer' to equal '$answer'
+```
+
+### Memory value parameter type
+`value` parameter type provides API to access memory
+
+```typescript
+When('Read memory {value}', async function(memoryValue) {
+    expect(memoryValue.value()).to.equal('ts');
+});
+
+When('Set memory {value} as {string}', async function(memoryKey, value) {
+    memoryKey.set(value);
+});
+```
+
+### Custom steps
+Memory value can be set and read from memory object
+
+<Tabs>
+  <TabItem value="js" label="JavaScript" default>
+    ```javascript
+    const memory = require('@qavajs/memory');
+
+    When(/^save variable as '(.+)'$/, async function (key) {
+        memory.setValue(key, 42);
+    });
+
+    Then(/^value '(.+)' should be equal to '(.+)'$/, async function (variable1, variable2) {
+        const val = memory.getValue(variable1);
+        expect(val).to.equal(variable2);
+    });
+    ```
+  </TabItem>
+  <TabItem value="ts" label="TypeScript">
+    ```typescript
+    import memory = from '@qavajs/memory';
+
+    When(/^save variable as '(.+)'$/, async function (key: string) {
+        memory.setValue(key, 42);
+    });
+
+    Then(/^value '(.+)' should be equal to '(.+)'$/, async function (variable1: string, variable2: string) {
+        const val = memory.getValue(variable1);
+        expect(val).to.equal(variable2);
+    });
+    ```
+  </TabItem>
+</Tabs>
+
+```gherkin
+When save variable as 'variable'
+# previously saved variable can be accessed via $identifier
+Then value of '$variable' should be equal to '42'
+```
+
+### Constants and computed
+
+Lib provides capability to set constant values and computed (JavaScript function references that can be called from feature file)
+
+<Tabs>
+  <TabItem value="js" label="JavaScript" default>
+    ```javascript
+    module.exports = {
+        constant: 42,
+        computed: function() {
+            return Date.now()
+        }
+    };
+    ```
+  </TabItem>
+  <TabItem value="ts" label="TypeScript">
+    ```typescript
+    export default {
+        constant: 42,
+        computed: function() {
+            return Date.now()
+        }
+    };
+    ```
+  </TabItem>
+</Tabs>
+
+```gherkin
+Then I expect text of 'Answer' to equal '$constant'
+Then I expect text of 'What Time Is It' to equal '$computed()'
+```
+
+### String interpolation
+Module also provides capability to use string interpolation in your Gherkin scenarios
+```gherkin
+When I save '42' to memory as 'variable'
+Then I expect text of 'Answer' to equal 'answer is {$variable}' #expected value will be 'answer is 42'
+```
+
+### $js
+Built-in `$js` computed provides a way to execute JavaScript code.
+
+```gherkin
+When I expect text of 'Current Date' to equal '$js(Date.now())'
+```
+
+### Escape $
+`$` can be escaped with double backslash
+
+```Gherkin
+When I expect text of 'Currency Label' to equal '\\$42'
+```
+
+### Parallel
+In case you need to assign uniq value for each Cucumber thread you can use parallel function.
+It will assign value based on `CUCUMBER_WORKER_ID` env variable.
+
+<Tabs>
+  <TabItem value="js" label="JavaScript" default>
+    ```javascript
+    const { parallel } = require('@qavajs/memory/utils');
+
+    class Memory {
+        user = parallel([
+            { username: 'user1', password: 'password' },
+            { username: 'user2', password: 'password' }
+        ]);
+    }
+
+    module.exports = Memory;
+    ```
+  </TabItem>
+  <TabItem value="ts" label="TypeScript">
+    ```typescript
+    import { parallel } from '@qavajs/memory/utils';
+
+    export class Memory {
+        user = parallel([
+            { username: 'user1', password: 'password' },
+            { username: 'user2', password: 'password' }
+        ]);
+    }
+    ```
+  </TabItem>
+</Tabs>
+

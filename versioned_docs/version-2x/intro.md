@@ -8,14 +8,14 @@ The **qavajs** is a modular test automation framework designed to minimize setup
 
 Next, you will be shown how to build your own low-code test automation framework with the **qavajs**.
 
-### 📦 Installation from scratch
+### Installation from scratch
 Once you have set up a clear Node.js project, run the command 
 ```bash
 npm init @qavajs
 ``` 
 to launch the CLI application. This will configure qavajs and install the necessary modules for your testing purposes. After the process is completed, a config.ts (or config.js) file will be generated in the project's root directory, which will be used to configure test execution.
 
-### 👨‍💻 Test development
+### Test development
 As the **qavajs** based on the Cucumber the test scripts are written in [Gherkin](https://cucumber.io/docs/gherkin/reference/) language of both built-in steps and those you will create yourself.
 With years of experience across various domains, we have implemented [numerous packages](https://github.com/orgs/qavajs/repositories?q=steps&type=all) of step definitions that you can utilize.
 ```gherkin
@@ -39,15 +39,18 @@ Feature: Wikipedia
 It is worth mentioning the expression **'$wikipediaUrl'** in the example above starting with '**\$**' interpreted as a **qavajs** memory variable whose value is taken from the Memory class instance in runtime. [More details](https://qavajs.github.io/docs/Guides/memory).  
 Another feature is a locator alias expression like **'Wikipedia > Search Input'** separated by the '**\>**' sign that describes hierarchic page structure. See how [to organize your page object](Guides/page-object).
 
-### 🛠️ Configuration
+### Configuration
 In addition to the default features of Cucumber [config file](https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md#options) the **qavajs** config implements following [capabilities](https://github.com/qavajs/core/blob/main/src/IQavajsConfig.ts) to provide the advanced flexibility.
 
-### 🔬 Test execution
+### Test execution
 If you have the basic config `npx qavajs` will launch test execution.  
 To specify custom path to the config file use `npx qavajs run --config <config>`.  
 In case if your config exports an object with multiple properties, you can specify which property to read `npx qavajs run --profile <profile>`.
 
-### 🛠️ Override memory values
+### Page object
+[Page object guide](./Guides/page-object.mdx)
+
+### Override memory values
 In case if tests need to be run with updated memory value they can be passed via CLI (e.g run scenarios on some other url)
 It can be done by passing `--memory-values` parameter which is JSON with params that need to be overridden. 
 For instance, to override `$url` value:
@@ -56,10 +59,10 @@ For instance, to override `$url` value:
 npx qavajs run --config config.ts --memory-values '{"url": "https://github.com"}'
 ```
 
-### 🛠️ Pass CLI params to workers
+### Pass CLI params to workers
 All params that you passed to qavajs cli will be available in `CLI_ARGV` environment variable in all child workers.
 
-### 🛠️ Memory value parameter type
+### Memory value parameter type
 `value` parameter type provides API to access memory
 
 ```typescript
@@ -72,7 +75,7 @@ When('Set memory {value} as {string}', async function(memoryKey, value) {
 });
 ```
 
-### 🛠️ Validation parameter type
+### Validation parameter type
 `validation` parameter type provides API to verify values by certain condition
 
 ```typescript
@@ -81,7 +84,7 @@ When('I expect {string} {validation} {string}', async function(value1, validate,
 });
 ```
 
-### 🛠️ Soft Validation
+### Soft validation
 You can use the `softly` prefix before expect to continue test execution after an error.
 ```gherkin
 Feature: Feature
@@ -97,7 +100,7 @@ Feature: Feature
     And I expect '1' to softly equal '1'
 ```
 
-### 🛠️ Test Sharding
+### Test sharding
 qavajs provides ability to shard your tests between different machines. To do so pass `--shard x/y` parameter in CLI,
 where x - current shard, y - total number of shards.
 
@@ -106,7 +109,7 @@ npx qavajs run --config config.js --shard 1/2
 npx qavajs run --config config.js --shard 2/2
 ```
 
-### 🛠️ Execute steps from other steps
+### Execute steps from other steps
 It is possible to implement complex logic using built-in qavajs steps via `executeStep` world method
 ```typescript
 When('I do smth complex', async function() {
@@ -120,7 +123,7 @@ When('I do smth complex', async function() {
 });
 ```
 
-### 🛠️ World
+### World
 Module extends CucumberJS world with additional entities
 
 | entity      | type     | description                                      | example                                                            |
@@ -131,7 +134,7 @@ Module extends CucumberJS world with additional entities
 | getValue    | function | get memory value or expression                   | `await this.getValue('$key');`                                     |
 | validation  | function | get validation function based                    | `await this.getValue('to equal');`                                 |
 
-### 🛠️ Override step definition
+### Override step definition
 `Override` function provides capability to override step implementation and avoid ambiguous exception
 
 ```typescript
@@ -144,7 +147,7 @@ Override('I do test', async function () {
 });
 ```
 
-### 🛠️ Fixture
+### Fixture
 `Fixture` provides convenient way to prepare test environment for specific test.
 
 This example will open pdp page before test and clean cart after test
@@ -170,7 +173,7 @@ Feature: feature with fixture
     Then I expect 'qavajs T-shirt cart item' to be visible
 ```
 
-### 🛠️ Template
+### Template
 `Template` provides a way to define step definition using Gherkin language
 
 ```typescript
@@ -182,7 +185,7 @@ When('I click {string} and verify {string}', Template((locator, expected) => `
 `));
 ```
 
-### 🛠️ Test Execution Hooks
+### Test execution hooks
 `BeforeExecution` and `AfterExecution` allow to define hooks that will be executed
 once before/after whole test execution
 
@@ -201,7 +204,7 @@ AfterExecution(async function () {
 });
 ```
 
-### 🛠️ Service
+### Service
 Services is an entities that can execute logic before and after whole test run.
 
 ```typescript
@@ -237,5 +240,5 @@ export default {
 }
 ```
 
-### 📘 Extra
+### Extra
 [Code Examples](https://github.com/qavajs/demo)

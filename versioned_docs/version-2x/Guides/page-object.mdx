@@ -6,11 +6,11 @@ import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
 # Page Object
-qavajs provides flexible page object model that resolves plain-english selector and return element or array of elements.
+`qavajs` provides flexible page object model that resolves plain-english selector and return element or array of elements.
 
 ## Create page object
 
-Entry point of page object is class defined as _pageObject_ property in config
+Entry point of page object is class defined as `pageObject` property in config
 <Tabs>
   <TabItem value="js" label="JavaScript" default>
     ```javascript
@@ -129,6 +129,31 @@ Playwright example:
 
     class Component {
         Element = locator.native(({ page }) => page.getByText(`some text`)));
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+## Default resolver
+`defaultResolver` provides a way to define default logic to identify element
+
+Playwright example:
+<Tabs>
+  <TabItem value="js" label="JavaScript" default>
+    ```javascript
+    class Component {
+      defaultResolver({ alias }) {
+        return ({ parent }) => parent.getByText(alias);
+      }
+    }
+    ```
+  </TabItem>
+  <TabItem value="ts" label="TypeScript">
+    ```typescript
+    class Component {
+      defaultResolver({ alias }: { alias: string }) {
+        return ({ parent }: { parent: Locator }) => parent.getByText(alias);
+      }
     }
     ```
   </TabItem>
