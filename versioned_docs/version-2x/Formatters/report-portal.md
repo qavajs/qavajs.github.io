@@ -14,28 +14,26 @@ npm install @qavajs/format-report-portal
 
 Add formatter to config.js
 ```javascript
-module.exports = {
-    default: {
-        format: [
-            ['@qavajs/format-report-portal', 'report/rp.out']
-        ],
-        formatOptions: {
-            rpConfig: {
-                enable: true,
-                debug: false,
-                apiKey: 'your token',
-                endpoint: 'https://your-rp-instance/api/v1',
-                description: 'Description',
-                tags: ['Tag'],
-                project: 'your project',
-                launch: 'your launch name',
-                mode: 'DEFAULT',
-                retry: 1, // number of retries to send result to report portal (default - 1)
-                ignoreErrors: false, // ignore RP errors (default: false)
-                showLaunchURL: true, // log report portal launch link,
-                tagsAsAttributes: true // (default: false → tags go to description)
-            },
-        }
+export default {
+    format: [
+        ['@qavajs/format-report-portal', 'report/rp.out']
+    ],
+    formatOptions: {
+        rpConfig: {
+            enable: true,
+            debug: false,
+            apiKey: 'your token',
+            endpoint: 'https://your-rp-instance/api/v1',
+            description: 'Description',
+            tags: ['Tag'],
+            project: 'your project',
+            launch: 'your launch name',
+            mode: 'DEFAULT',
+            retry: 1, // number of retries to send result to report portal (default - 1)
+            ignoreErrors: false, // ignore RP errors (default: false)
+            showLaunchURL: true, // log report portal launch link,
+            tagsAsAttributes: true // (default: false → tags go to description)
+        },
     }
 }
 ```

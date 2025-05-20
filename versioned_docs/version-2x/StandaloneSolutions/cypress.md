@@ -42,6 +42,4 @@ defineQavajs({
     pageObject: new PageObject(),
     memory: new Memory()
 });
-
-
 ```

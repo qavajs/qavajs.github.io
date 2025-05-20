@@ -5,44 +5,101 @@ sidebar_position: 2
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Page Object
-`qavajs` provides flexible page object model that resolves plain-english selector and return element or array of elements.
+# Page Object Model
 
-## Create page object
+## Introduction
 
-Entry point of page object is class defined as `pageObject` property in config
+The Page Object Model (POM) is a design pattern that creates an object repository for web UI elements. 
+qavajs provides a flexible implementation that allows you to define elements using plain English selectors, creating maintainable and readable test automation code.
+
+## Key Benefits
+
+- **Abstraction of UI elements** - Separate test logic from element selectors
+- **Reusable components** - Define element once, use it throughout your tests
+- **Improved maintainability** - When the UI changes, update only the page object, not test cases
+- **Enhanced readability** - Use descriptive names for elements in your test scenarios
+
+## Getting Started with Page Objects
+
+### Basic Setup
+
+First, configure the page object in your qavajs configuration file:
+
+```typescript
+import App from 'page_object';
+
+export default {
+  // Other configuration
+  pageObject: new App();
+};
+```
+
+### Creating Page Objects
+
+The entry point of your page object structure is the class defined in the `pageObject.pages` property of your config.
+
 <Tabs>
-  <TabItem value="js" label="JavaScript" default>
+  <TabItem value='js' label='JavaScript' default>
     ```javascript
-    const { locator } = require('@qavajs/steps-playwright/po'); // @qavajs/steps-wdio/po
+    const { locator } = require('@qavajs/steps-playwright/po'); // Use '@qavajs/steps-wdio/po' for WebdriverIO
 
     class App {
+        // Simple CSS selector
         SimpleLocator = locator('.single-element');
-        TemplateLocator = locator.template(text => `.class:has-text("${text}")`);
-        NativeLocator = locator.native(({ browser, context, page, argument }) => page.getByText('some text'));
-        Component = locator('.container').as(SingleComponent);
+        
+        // XPath selector
+        XPathElement = locator('xpath=//div[@class='example']');
+        
+        // Nested component
+        Header = locator('.header-container').as(HeaderComponent);
+        
+        // Component with multiple instances
+        ProductCards = locator('.product-card').as(ProductCard);
     }
 
-    class SingleComponent {
-        ChildItem = locator('.child-item');
+    class HeaderComponent {
+        Logo = locator('.logo');
+        SearchBar = locator('input.search');
+        UserMenu = locator('.user-menu');
+    }
+
+    class ProductCard {
+        Title = locator('.product-title');
+        Price = locator('.product-price');
+        AddToCartButton = locator('button.add-to-cart');
     }
 
     module.exports = App;
     ```
   </TabItem>
-  <TabItem value="ts" label="TypeScript">
+  <TabItem value='ts' label='TypeScript'>
     ```typescript
-    import { locator } from '@qavajs/steps-playwright/po'; // @qavajs/steps-wdio/po
+    import { locator } from '@qavajs/steps-playwright/po'; // Use '@qavajs/steps-wdio/po' for WebdriverIO
 
     class App {
+        // Simple CSS selector
         SimpleLocator = locator('.single-element');
-        TemplateLocator = locator.template(text => `.class:has-text("${text}")`);
-        NativeLocator = locator.native(({ browser, context, page, argument }) => page.getByText('some text'));
-        Component = locator('.container').as(SingleComponent);
+        
+        // XPath selector
+        XPathElement = locator('xpath=//div[@class='example']');
+        
+        // Nested component
+        Header = locator('.header-container').as(HeaderComponent);
+        
+        // Component with multiple instances
+        ProductCards = locator('.product-card').as(ProductCard);
     }
 
-    class SingleComponent {
-        ChildItem = locator('.child-item');
+    class HeaderComponent {
+        Logo = locator('.logo');
+        SearchBar = locator('input.search');
+        UserMenu = locator('.user-menu');
+    }
+
+    class ProductCard {
+        Title = locator('.product-title');
+        Price = locator('.product-price');
+        AddToCartButton = locator('button.add-to-cart');
     }
 
     export default App;
@@ -50,150 +107,721 @@ Entry point of page object is class defined as `pageObject` property in config
   </TabItem>
 </Tabs>
 
-Usage in feature file
+### Using Page Objects in Feature Files
+
+Once defined, page objects can be referenced in Gherkin scenarios using plain English:
 
 ```gherkin
 Feature: Page Object Demo
 
-    Scenario: Interact with element
-        When I click 'Simple Locator'
-
+  Scenario: Basic element interactions
+    Given I open 'https://example.com' url
+    When I click 'Simple Locator'
+    And I click 'Header > Logo'
+    And I type 'search term' to 'Header > Search Bar'
+    Then I expect 'Header > User Menu' to be visible
+    
+  Scenario: Working with component collections
+    Given I open 'https://example.com/products' url
+    When I click 'Product Cards > Add To Cart Button (2)' 
+    # This clicks the Add To Cart button on the second Product Card
+    Then I expect text of 'Cart Items Count' to contain '1'
 ```
 
-## Template locator
-In case you need to generate selector based on some data you can use dynamic selectors
+## Advanced Locator Types
+
+qavajs provides several powerful ways to define and interact with elements:
+
+### Template Locators
+
+Template locators allow you to generate selectors dynamically based on parameters passed from your Gherkin steps.
 
 <Tabs>
-  <TabItem value="js" label="JavaScript" default>
-    ```javascript
-    const { locator } = require('@qavajs/steps-playwright/po'); // @qavajs/steps-wdio/po
-
-    class Component {
-        Element = locator.template(index => `div:nth-child(${index})`); // function should return valid selector
-    }
-    ```
-  </TabItem>
-  <TabItem value="ts" label="TypeScript">
-    ```typescript
-    import { locator } from '@qavajs/steps-playwright/po'; // @qavajs/steps-wdio/po
-
-    class Component {
-        Element = locator.template(index => `div:nth-child(${index})`); // function should return valid selector
-    }
-    ```
-  </TabItem>
-</Tabs>
-
-Then you can pass parameter to this function from Gherkin file
-
-```gherkin
-When I click 'Component > Element (2)'
-```
-
-## Working with collections
-Unlike qavajs v1, there is no built-in collection selectors. Instead you can define own way to get some certain
-element from collection using template locator.
-
-```typescript
-import { locator } from '@qavajs/steps-playwright/po'; // @qavajs/steps-wdio/po
-
-class App {
-    ElementByIndex = locator.template(index => `xpath=//div[${index}]`);
-    ElementByInnerText = locator.template(text => `div:has-text("${text}")`);
-}
-```
-
-```gherkin
-When I click 'Element By Index (1)'
-When I click 'Element By Inner Text (some text)'
-```
-
-## Native framework locator
-It is also possible to use driver-built capabilities to return element. You can pass handler that has access to
-current `page`, `browser`, `context`, `argument` to handler;
-
-Playwright example:
-<Tabs>
-  <TabItem value="js" label="JavaScript" default>
+  <TabItem value='js' label='JavaScript' default>
     ```javascript
     const { locator } = require('@qavajs/steps-playwright/po');
 
-    class Component {
-        Element = locator.native(({ page }) => page.getByText(`some text`)));
+    class App {
+        // Select by index (1-based in Gherkin, converted to 0-based in implementation)
+        ElementByIndex = locator.template(index => `div.item:nth-child(${index})`);
+        
+        // Select by text content
+        ElementByText = locator.template(text => `div:has-text('${text}')`);
+        
+        // Select by attribute value
+        ElementByAttribute = locator.template(value => `[data-testid='${value}']`);
+        
+        // Multiple parameters
+        TableCell = locator.template((row, col) => `table tr:nth-child(${row}) td:nth-child(${col})`);
     }
     ```
   </TabItem>
-  <TabItem value="ts" label="TypeScript">
+  <TabItem value='ts' label='TypeScript'>
     ```typescript
     import { locator } from '@qavajs/steps-playwright/po';
 
-    class Component {
-        Element = locator.native(({ page }) => page.getByText(`some text`)));
+    class App {
+        // Select by index (1-based in Gherkin, converted to 0-based in implementation)
+        ElementByIndex = locator.template((index: number) => `div.item:nth-child(${index})`);
+        
+        // Select by text content
+        ElementByText = locator.template((text: string) => `div:has-text('${text}')`);
+        
+        // Select by attribute value
+        ElementByAttribute = locator.template((value: string) => `[data-testid='${value}']`);
     }
     ```
   </TabItem>
 </Tabs>
 
-## Default resolver
-`defaultResolver` provides a way to define default logic to identify element
+Using template locators in feature files:
 
-Playwright example:
+```gherkin
+Feature: Template Locators
+
+  Scenario: Using different template locators
+    When I click 'Element By Index (3)'
+    And I click 'Element By Text (Add to Cart)'
+    And I click 'Element By Attribute (submit-button)'
+    And I expect text of 'Element By Text (Add to Cart)' to contain 'Add to Cart'
+```
+
+### Native Framework Locators
+
+Native locators allow you to leverage the full power of your testing framework's built-in selector capabilities.
+
+#### Playwright Example:
+
 <Tabs>
-  <TabItem value="js" label="JavaScript" default>
+  <TabItem value='js' label='JavaScript' default>
     ```javascript
-    class Component {
+    const { locator } = require('@qavajs/steps-playwright/po');
+
+    class App {
+        // Using Playwright's getByRole
+        SubmitButton = locator.native(({ page }) => page.getByRole('button', { name: 'Submit' }));
+        
+        // Using Playwright's getByText with regex
+        SpecialOffer = locator.native(({ page }) => page.getByText(/Special offer/i));
+        
+        // Using Playwright's getByTestId
+        UserProfile = locator.native(({ page }) => page.getByTestId('user-profile'));
+        
+        // Combining with Playwright's filters
+        ActiveMenuItem = locator.native(({ page }) => 
+            page.getByRole('menuitem').filter({ hasText: 'Active' }));
+            
+        // Using the argument from feature file
+        DynamicElement = locator.native(({ page, argument }) => 
+            page.getByRole('button', { name: argument }));
+    }
+    ```
+  </TabItem>
+  <TabItem value='ts' label='TypeScript'>
+    ```typescript
+    import { locator } from '@qavajs/steps-playwright/po';
+    import { Page } from '@playwright/test';
+
+    class App {
+        // Using Playwright's getByRole
+        SubmitButton = locator.native(({ page }: { page: Page }) => 
+            page.getByRole('button', { name: 'Submit' }));
+        
+        // Using Playwright's getByText with regex
+        SpecialOffer = locator.native(({ page }: { page: Page }) => 
+            page.getByText(/Special offer/i));
+        
+        // Using Playwright's getByTestId
+        UserProfile = locator.native(({ page }: { page: Page }) => 
+            page.getByTestId('user-profile'));
+        
+        // Combining with Playwright's filters
+        ActiveMenuItem = locator.native(({ page }: { page: Page }) => 
+            page.getByRole('menuitem').filter({ hasText: 'Active' }));
+            
+        // Using the argument from feature file
+        DynamicElement = locator.native(({ page, argument }: { page: Page, argument: string }) => 
+            page.getByRole('button', { name: argument }));
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+#### WebdriverIO Example:
+
+<Tabs>
+  <TabItem value='js' label='JavaScript' default>
+    ```javascript
+    const { locator } = require('@qavajs/steps-wdio/po');
+
+    class App {
+        // Using WebdriverIO's custom selectors
+        SubmitButton = locator.native(({ browser }) => 
+            browser.$('button=Submit'));
+        
+        // Using WebdriverIO's shadow DOM support
+        ShadowDomElement = locator.native(({ browser }) => 
+            browser.$('host-element').shadow$('.shadow-child'));
+        
+        // Using WebdriverIO's recursive find
+        NestedElement = locator.native(({ browser, argument }) => 
+            browser.$$('div.container')[Number(argument) - 1].$('.child-element'));
+    }
+    ```
+  </TabItem>
+  <TabItem value='ts' label='TypeScript'>
+    ```typescript
+    import { locator } from '@qavajs/steps-wdio/po';
+    import { Browser } from 'webdriverio';
+
+    class App {
+        // Using WebdriverIO's custom selectors
+        SubmitButton = locator.native(({ browser }: { browser: Browser }) => 
+            browser.$('button=Submit'));
+        
+        // Using WebdriverIO's shadow DOM support
+        ShadowDomElement = locator.native(({ browser }: { browser: Browser }) => 
+            browser.$('host-element').shadow$('.shadow-child'));
+        
+        // Using WebdriverIO's recursive find
+        NestedElement = locator.native(({ browser, argument }: { browser: Browser, argument: string }) => 
+            browser.$$('div.container')[Number(argument) - 1].$('.child-element'));
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+Using native locators in feature files:
+
+```gherkin
+Feature: Native Locators
+
+  Scenario: Use native locators
+    When I click 'Submit Button'
+    And I expect 'Special Offer' to be visible
+    When I click 'Dynamic Element (Accept Terms)'
+```
+
+### Default Resolver
+
+The `defaultResolver` provides a way to define default logic for identifying elements that aren't explicitly defined in your page object. 
+This is useful for components with many similar elements.
+
+<Tabs>
+  <TabItem value='js' label='JavaScript' default>
+    ```javascript
+    const { locator } = require('@qavajs/steps-playwright/po');
+
+    class ListComponent {
+      // Define locators for specific elements
+      AddButton = locator('.add-btn');
+      
+      // Default resolver for undefined elements - will find by text
       defaultResolver({ alias }) {
         return ({ parent }) => parent.getByText(alias);
       }
     }
+
+    class App {
+      List = locator('.list-component').as(ListComponent);
+    }
     ```
   </TabItem>
-  <TabItem value="ts" label="TypeScript">
+  <TabItem value='ts' label='TypeScript'>
     ```typescript
-    class Component {
+    import { locator } from '@qavajs/steps-playwright/po';
+    import { Locator } from '@playwright/test';
+
+    class ListComponent {
+      // Define locators for specific elements
+      AddButton = locator('.add-btn');
+      
+      // Default resolver for undefined elements - will find by text
       defaultResolver({ alias }: { alias: string }) {
         return ({ parent }: { parent: Locator }) => parent.getByText(alias);
       }
+    }
+
+    class App {
+      List = locator('.list-component').as(ListComponent);
     }
     ```
   </TabItem>
 </Tabs>
 
-## Using page object in custom steps
-It's possible to use page object in custom step definitions via built-in parameter types `playwrightLocator` and `wdioLocator`
-<Tabs>
-    <TabItem value="js" label="JavaScript" default>
-        ```javascript
-        const { When } = require('@cucumber/cucumber');
-
-        // playwright
-        When('click {playwrightLocator}'/, async function (locator) {
-            await locator.click();
-        });
-
-        // wdio
-        When('click {wdioLocator}'/, async function (locator) {
-            await locator().click();
-        });
-        ```
-    </TabItem>
-    <TabItem value="ts" label="TypeScript">
-        ```typescript
-        import { When } from '@cucumber/cucumber';
-
-        // playwright
-        When('click {playwrightLocator}'/, async function (locator) {
-            await locator.click();
-        });
-
-        // wdio
-        When('click {wdioLocator}'/, async function (locator) {
-            await locator().click();
-        });
-        ```
-    </TabItem>
-</Tabs>
+Using default resolver in feature files:
 
 ```gherkin
-When click 'Product > Add To Cart'
+Feature: Default Resolver
+
+  Scenario: Using the default resolver to find elements by text
+    # Uses the specific defined locator
+    When I click 'List > Add Button'
+    
+    # These use the default resolver to find elements by their text
+    And I click 'List > Edit Item'
+    And I click 'List > Delete'
+    And I expect 'List > No items found' to be visible
 ```
+
+## Collections and Indexed Elements
+
+qavajs provides powerful ways to work with collections of elements:
+
+### Working with Collections
+
+<Tabs>
+  <TabItem value='js' label='JavaScript' default>
+    ```javascript
+    const { locator } = require('@qavajs/steps-playwright/po');
+
+    class App {
+      // Items in a list
+      ListItems = locator.template(index => `ul.list li:nth-child(${index})`);
+      
+      // Rows in a table (with 1-based indexing)
+      TableRows = locator.template(index => `table tr:nth-child(${parseInt(index) + 1})`);
+      
+      // Elements by text content
+      ElementByText = locator.template(text => `div:has-text('${text}')`);
+      
+      // Get element by partial text match
+      ElementByPartialText = locator.template(text => `xpath=//div[contains(text(), '${text}')]`);
+      
+      // Get element by multiple criteria (index and category)
+      CategoryItem = locator.template((category, index) => 
+        `div.${category}-list div.item:nth-child(${index})`);
+    }
+    ```
+  </TabItem>
+  <TabItem value='ts' label='TypeScript'>
+    ```typescript
+    import { locator } from '@qavajs/steps-playwright/po';
+
+    class App {
+      // Items in a list
+      ListItems = locator.template((index: number) => `ul.list li:nth-child(${index})`);
+      
+      // Rows in a table (with 1-based indexing)
+      TableRows = locator.template((index: string) => `table tr:nth-child(${parseInt(index) + 1})`);
+      
+      // Elements by text content
+      ElementByText = locator.template((text: string) => `div:has-text('${text}')`);
+      
+      // Get element by partial text match
+      ElementByPartialText = locator.template((text: string) => `xpath=//div[contains(text(), '${text}')]`);
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+Usage in feature files:
+
+```gherkin
+Feature: Collection Elements
+
+  Scenario: Interacting with collection elements
+    # Using index-based access
+    When I click 'List Items (3)'
+    And I expect text of 'Table Rows (2)' to contain 'Product Details'
+    
+    # Using text-based access
+    When I click 'Element By Text (View Details)'
+    
+    # Using partial text matching
+    When I click 'Element By Partial Text (Add)'
+```
+
+### Native Collection Handling
+
+Using the native locator approach for more complex collection operations:
+
+<Tabs>
+  <TabItem value='js' label='JavaScript' default>
+    ```javascript
+    const { locator } = require('@qavajs/steps-playwright/po');
+
+    class App {
+      // Find nth item with specific text
+      ItemWithText = locator.native(({ page, argument }) => {
+        return page.getByText(argument);
+      });
+      
+      // Find element by attribute value and index
+      DataItems = locator.native(({ page, argument }) => {
+        return page.locator(`[data-test='${argument}']`);
+      });
+      
+      // Filter collection and get specific item
+      FilteredItems = locator.native(({ page, argument }) => {
+        return page.locator('li.item')
+          .filter({ hasText: argument })
+          .nth(idx);
+      });
+    }
+    ```
+  </TabItem>
+  <TabItem value='ts' label='TypeScript'>
+    ```typescript
+    import { locator } from '@qavajs/steps-playwright/po';
+    import { Page } from '@playwright/test';
+
+    class App {
+      // Find nth item with specific text
+      ItemWithText = locator.native(({ page, argument }: { page: Page, argument: string }) => {
+        return page.getByText(argument);
+      });
+      
+      // Find element by attribute value and index
+      DataItems = locator.native(({ page, argument }: { page: Page, argument: string }) => {
+        return page.locator(`[data-test='${argument}']`);
+      });
+      
+      // Filter collection and get specific item
+      FilteredItems = locator.native(({ page, argument }: { page: Page, argument: string }) => {
+        return page.locator('li.item')
+          .filter({ hasText: argument })
+          .nth(idx);
+      });
+    }
+    ```
+  </TabItem>
+</Tabs>
+
+Usage in feature files:
+
+```gherkin
+Feature: Advanced Collection Handling
+
+  Scenario: Working with filtered collections
+    When I click 'Item With Text (Product)'
+    And I expect 'Data Items (user-card)' to be visible
+    And I click 'Filtered Items (Premium)'
+```
+
+## Using Page Objects in Custom Steps
+
+You can use page objects in your custom step definitions for more advanced interactions:
+
+<Tabs>
+  <TabItem value='js' label='JavaScript' default>
+    ```javascript
+    const { When, Then } = require('@cucumber/cucumber');
+    const { memory } = require('@qavajs/memory');
+
+    // For Playwright
+    When('I hover over {playwrightLocator} and click {playwrightLocator}', async function(hoverElement, clickElement) {
+        await hoverElement.hover();
+        await clickElement.click();
+    });
+
+    Then('I store text from {playwrightLocator} as {string}', async function(element, variableName) {
+        const text = await element.innerText();
+        memory.setValue(variableName, text);
+    });
+
+    // For WebdriverIO
+    When('I hover over {wdioLocator} and click {wdioLocator}', async function(hoverElement, clickElement) {
+        await hoverElement().moveTo();
+        await clickElement().click();
+    });
+
+    Then('I store text from {wdioLocator} as {string}', async function(element, variableName) {
+        const text = await element().getText();
+        memory.setValue(variableName, text);
+    });
+    ```
+  </TabItem>
+  <TabItem value='ts' label='TypeScript'>
+    ```typescript
+    import { When, Then } from '@cucumber/cucumber';
+    import { memory } from '@qavajs/memory';
+    import { Locator } from '@playwright/test';
+    import { ChainablePromiseElement } from 'webdriverio';
+
+    // For Playwright
+    When('I hover over {playwrightLocator} and click {playwrightLocator}', 
+      async function(hoverElement: Locator, clickElement: Locator) {
+        await hoverElement.hover();
+        await clickElement.click();
+    });
+
+    Then('I store text from {playwrightLocator} as {string}', 
+      async function(element: Locator, variableName: string) {
+        const text = await element.innerText();
+        memory.setValue(variableName, text);
+    });
+
+    // For WebdriverIO
+    When('I hover over {wdioLocator} and click {wdioLocator}', 
+      async function(hoverElement: () => ChainablePromiseElement<WebdriverIO.Element>, 
+                   clickElement: () => ChainablePromiseElement<WebdriverIO.Element>) {
+        await hoverElement().moveTo();
+        await clickElement().click();
+    });
+
+    Then('I store text from {wdioLocator} as {string}', 
+      async function(element: () => ChainablePromiseElement<WebdriverIO.Element>, 
+                   variableName: string) {
+        const text = await element().getText();
+        memory.setValue(variableName, text);
+    });
+    ```
+  </TabItem>
+</Tabs>
+
+Usage in feature files:
+
+```gherkin
+Feature: Custom Steps with Page Objects
+
+  Scenario: Using custom steps with page objects
+    When I hover over 'Header > User Menu' and click 'Header > Profile Link'
+    Then I store text from 'Profile > User Name' as 'username'
+    And I expect '$username' to equal 'John Doe'
+```
+
+## Combining with Memory Variables
+
+qavajs page objects can be powerfully combined with the memory module:
+
+```gherkin
+Feature: Memory Variables with Page Objects
+
+  Scenario: Using stored values with page objects
+    # Store some values
+    Given I save 'John Doe' as 'username'
+    And I save 'password123' as 'password'
+    
+    # Use them with page objects
+    When I type '$username' to 'Login > Username Field'
+    And I type '$password' to 'Login > Password Field'
+    And I click 'Login > Submit Button'
+    
+    # Use template locators with stored values
+    When I click 'Element By Text ($username)'
+```
+
+## Best Practices
+
+### Organization
+
+1. **Structure by functionality**: Organize page objects by feature or page functionality
+2. **Use nested components**: Create reusable components for repeated UI patterns
+3. **Use descriptive naming**: Name elements clearly to match their purpose
+
+### Selector Strategy
+
+1. **Prefer stable selectors**: Use IDs, data attributes, or roles over CSS classes when possible
+2. **Keep selectors simple**: Simple selectors are easier to maintain
+3. **Use template locators** for dynamic elements that follow a pattern
+4. **Use native locators** for complex selection logic
+
+### Maintainability
+
+1. **Keep page objects DRY**: Avoid duplicating selectors
+2. **Document complex selectors**: Add comments to explain complex selection strategies
+3. **Use component inheritance** for shared behavior
+
+## Complete Example
+
+<Tabs>
+  <TabItem value='js' label='JavaScript' default>
+    ```javascript
+    // App.js
+    const { locator } = require('@qavajs/steps-playwright/po');
+
+    class App {
+        Header = locator('header').as(HeaderComponent);
+        Footer = locator('footer').as(FooterComponent);
+        
+        // Dynamic page content based on current route
+        Main = locator.native(({ page }) => {
+            const url = page.url();
+            if (url.includes('/products')) return page.locator('main').as(ProductsPage);
+            if (url.includes('/cart')) return page.locator('main').as(CartPage);
+            return page.locator('main').as(HomePage);
+        });
+    }
+
+    class HeaderComponent {
+        Logo = locator('.logo');
+        SearchBar = locator('input.search');
+        SearchButton = locator('button.search-submit');
+        NavigationItem = locator.template(text => `nav a:has-text('${text}')`);
+        
+        // Handle complex navigation menu with hover
+        MenuDropdown = locator.template(category => 
+            `nav .dropdown:has-text('${category}')`);
+        SubMenuItem = locator.template((category, item) => 
+            `nav .dropdown:has-text('${category}') .submenu a:has-text('${item}')`);
+    }
+
+    class FooterComponent {
+        Copyright = locator('.copyright');
+        SocialLink = locator.template(platform => `.social-links a[title='${platform}']`);
+        LanguageSelector = locator('select.language');
+    }
+
+    class HomePage {
+        HeroImage = locator('.hero-image');
+        FeaturedProducts = locator('.featured-product').as(ProductCard);
+        NewsletterSignup = locator('form.newsletter');
+    }
+
+    class ProductsPage {
+        CategoryFilter = locator.template(category => 
+            `aside .filter-category:has-text('${category}')`);
+        ProductCards = locator('.product-card').as(ProductCard);
+        SortDropdown = locator('select.sort-by');
+        PaginationNext = locator('.pagination .next');
+    }
+
+    class ProductCard {
+        Title = locator('.product-title');
+        Price = locator('.product-price');
+        DiscountBadge = locator('.discount');
+        Rating = locator('.rating');
+        AddToCartButton = locator('button.add-to-cart');
+        QuickView = locator('button.quick-view');
+    }
+
+    class CartPage {
+        CartItems = locator('.cart-item').as(CartItem);
+        ContinueShopping = locator('a.continue-shopping');
+        CheckoutButton = locator('button.checkout');
+        CartTotal = locator('.cart-total');
+    }
+
+    class CartItem {
+        Title = locator('.item-title');
+        Price = locator('.item-price');
+        Quantity = locator('input.quantity');
+        Remove = locator('button.remove');
+    }
+
+    module.exports = App;
+    ```
+  </TabItem>
+  <TabItem value='ts' label='TypeScript'>
+    ```typescript
+    // App.ts
+    import { locator } from '@qavajs/steps-playwright/po';
+    import { Page } from '@playwright/test';
+
+    class App {
+        Header = locator('header').as(HeaderComponent);
+        Footer = locator('footer').as(FooterComponent);
+        
+        // Dynamic page content based on current route
+        Main = locator.native(({ page }: { page: Page }) => {
+            const url = page.url();
+            if (url.includes('/products')) return page.locator('main').as(ProductsPage);
+            if (url.includes('/cart')) return page.locator('main').as(CartPage);
+            return page.locator('main').as(HomePage);
+        });
+    }
+
+    class HeaderComponent {
+        Logo = locator('.logo');
+        SearchBar = locator('input.search');
+        SearchButton = locator('button.search-submit');
+        NavigationItem = locator.template((text: string) => `nav a:has-text('${text}')`);
+        
+        // Handle complex navigation menu with hover
+        MenuDropdown = locator.template((category: string) => 
+            `nav .dropdown:has-text('${category}')`);
+        SubMenuItem = locator.template((category: string, item: string) => 
+            `nav .dropdown:has-text('${category}') .submenu a:has-text('${item}')`);
+    }
+
+    class FooterComponent {
+        Copyright = locator('.copyright');
+        SocialLink = locator.template((platform: string) => `.social-links a[title='${platform}']`);
+        LanguageSelector = locator('select.language');
+    }
+
+    class HomePage {
+        HeroImage = locator('.hero-image');
+        FeaturedProducts = locator('.featured-product').as(ProductCard);
+        NewsletterSignup = locator('form.newsletter');
+    }
+
+    class ProductsPage {
+        CategoryFilter = locator.template((category: string) => 
+            `aside .filter-category:has-text('${category}')`);
+        ProductCards = locator('.product-card').as(ProductCard);
+        SortDropdown = locator('select.sort-by');
+        PaginationNext = locator('.pagination .next');
+    }
+
+    class ProductCard {
+        Title = locator('.product-title');
+        Price = locator('.product-price');
+        DiscountBadge = locator('.discount');
+        Rating = locator('.rating');
+        AddToCartButton = locator('button.add-to-cart');
+        QuickView = locator('button.quick-view');
+    }
+
+    class CartPage {
+        CartItems = locator('.cart-item').as(CartItem);
+        ContinueShopping = locator('a.continue-shopping');
+        CheckoutButton = locator('button.checkout');
+        CartTotal = locator('.cart-total');
+    }
+
+    class CartItem {
+        Title = locator('.item-title');
+        Price = locator('.item-price');
+        Quantity = locator('input.quantity');
+        Remove = locator('button.remove');
+    }
+
+    export default App;
+    ```
+  </TabItem>
+</Tabs>
+
+Example feature file using the complex page object:
+
+```gherkin
+Feature: E-commerce Website
+
+  Scenario: Search for and add product to cart
+    Given I open 'https://example-shop.com' url
+    When I type 'wireless headphones' to 'Header > Search Bar'
+    And I click 'Header > Search Button'
+    
+    # Filter results
+    When I click 'Main > Category Filter (Electronics)'
+    And I select 'Price: Low to High' option from 'Main > Sort Dropdown' dropdown
+    
+    # Add second product to cart
+    When I click 'Main > Product Cards > Add To Cart Button (2)'
+    
+    # Go to cart
+    When I click 'Header > Navigation Item (Cart)'
+    Then I expect number of elements in 'Main > Cart Items' collection to equal '1'
+    And I expect text of 'Main > Cart Total' contains '$'
+    
+    # Checkout
+    When I click 'Main > Checkout Button'
+```
+
+## Debugging Tips
+
+When page objects don't work as expected:
+
+1. **Check selector syntax**: Verify CSS selectors, XPath, or other selector formats are correct
+2. **Verify element hierarchy**: Ensure parent-child relationships are correctly defined
+3. **Check for visibility**: Some elements might be present but not visible
+4. **Add wait strategies**: If elements are loaded dynamically, consider adding explicit waits
+5. **Unique identifiers**: Ensure selectors uniquely identify elements
+6. **Framework-specific features**: Use native locators to leverage unique capabilities of your framework
+
+## Conclusion
+
+qavajs's Page Object Model implementation provides a powerful and flexible way to organize your test automation code. By separating UI element definitions from test logic, you create more maintainable, readable, and robust automated tests.
+
+For more information and advanced features, visit the [qavajs documentation](https://github.com/qava

@@ -1,5 +1,5 @@
 ---
-sidebar_position: 6
+sidebar_position: 20
 ---
 
 # @qavajs/steps-sql
@@ -11,31 +11,29 @@ npm install @qavajs/steps-sql
 ```
 
 ## Configuration
-```javascript
-const { MySQLClient, PgClient } = require('@qavajs/steps-sql/clients');
-module.exports = {
-    default: {
-        require: [
-            'node_modules/@qavajs/steps-sql/index.js'
-        ],
-        // provide map contains client that implemennts DBClient interface
-        // if only one client exist it can be defined as default property
-        dbClients: {
-            default: new MySQLClient({
-                host: 'http://127.0.0.1',
-                port: 3306,
-                database: 'qavajsdb',
-                user: 'username',
-                password: 'password'
-            }),
-            pg: new PgClient({
-                host: 'http://127.0.0.1',
-                port: 3307,
-                database: 'qavajsdb2',
-                username: 'username',
-                password: 'password'
-            }),
-        }
+```typescript
+import { MySQLClient, PgClient } from '@qavajs/steps-sql/clients';
+export default {
+    require: [
+        'node_modules/@qavajs/steps-sql/index.js'
+    ],
+    // provide map contains client that implemennts DBClient interface
+    // if only one client exist it can be defined as default property
+    dbClients: {
+        default: new MySQLClient({
+            host: 'http://127.0.0.1',
+            port: 3306,
+            database: 'qavajsdb',
+            user: 'username',
+            password: 'password'
+        }),
+        pg: new PgClient({
+            host: 'http://127.0.0.1',
+            port: 3307,
+            database: 'qavajsdb2',
+            username: 'username',
+            password: 'password'
+        }),
     }
 }
 ```

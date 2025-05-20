@@ -5,11 +5,10 @@ sidebar_position: 3
 # Parallel Execution
 Framework support parallel execution out of the box. 
 Number of parallel threads can be set in config file (by default it is config.js)
-```javascript
-module.exports = {
-    default: {
-        parallel: 6
-    }
+```typescript
+export default {
+    // other configs
+    parallel: 6
 }
 ```
 # Distributing uniq user per thread
@@ -17,17 +16,15 @@ The simplest way to assign uniq user is to use memory capabilities and environme
 
 Here is example of memory file (by default it is memory/index.js):
 
-```javascript
-const { parallel } = require('@qavajs/memory/utils');
+```typescript
+import { parallel } from '@qavajs/memory/utils';
 
-class Memory {
+expoer default class Memory {
     user = parallel([
         { username: 'user1', password: 'password' },
         { username: 'user2', password: 'password' }
     ]);
 }
-
-module.exports = Memory;
 ```
 
 Then values can be used in Gherkin scripts.
