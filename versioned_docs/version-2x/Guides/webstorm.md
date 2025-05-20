@@ -2,7 +2,7 @@
 sidebar_position: 6
 ---
 # Webstorm
-@qavajs can be integrated with Webstorm using built-in cucumberjs plugin.
+qavajs can be integrated with Webstorm using built-in cucumberjs plugin.
 First, install webstorm-adapter package
 
 `npm install @qavajs/webstorm-adapter`
