@@ -14,17 +14,16 @@ npm install @qavajs/console-formatter
 ## Configuration
 To use formatter just add formatter section in config file
 
-```javascript
-module.exports = {
-    default: {
-        format: ['@qavajs/console-formatter'],
-        formatOptions: {
-            console: {
-                showLogs: true, //show cucumber logs. Default - false
-                showProgress: true //show progress bar. Default - false
-            }
-        },
-    }
+```typescript
+export default {
+    format: ['@qavajs/console-formatter'],
+    formatOptions: {
+        console: {
+            showLogs: true, //show cucumber logs. Default - false
+            showProgress: true //show progress bar. Default - false
+        }
+    },
+}
 }
 ```
 

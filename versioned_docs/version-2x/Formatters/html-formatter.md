@@ -14,18 +14,16 @@ npm install @qavajs/html-formatter
 ## Configuration
 Add to formatter section in config file
 
-```javascript
-module.exports = {
-    default: {
-        format: [
-            ['@qavajs/html-formatter', 'report.html']
-        ],
-        formatOptions: {
-            htmlConfig: {
-                metadata: {
-                    'OS': 'macos',
-                    'OS Version': '13.1'
-                }
+```typescript
+export default {
+    format: [
+        ['@qavajs/html-formatter', 'report.html']
+    ],
+    formatOptions: {
+        htmlConfig: {
+            metadata: {
+                'OS': 'macos',
+                'OS Version': '13.1'
             }
         }
     }

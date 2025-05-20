@@ -5,123 +5,180 @@ sidebar_position: 1
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Memory
-Framework provides the capability to transit variables between step and access them from gherkin definitions
+# Test Data Management
+
+The `@qavajs/memory` module provides powerful capabilities to store, retrieve, and manipulate variables between test steps. This allows you to create more dynamic and data-driven test scenarios.
+
+## Basic Usage
+
+Memory allows you to save values during test execution and reference them later:
 
 ```gherkin
-When I save text of 'Answer' to equal 'answer'
-Then I expect text of 'Another Answer' to equal '$answer'
+When I save text of 'Answer' as 'userAnswer'
+Then I expect text of 'Another Answer' to equal '$userAnswer'
 ```
 
-### Memory value parameter type
-`value` parameter type provides API to access memory
+## Memory API
+
+### Using the Memory Value Parameter Type
+All built-in steps can consume memory params.
+
+```gherkin
+Then I expect text of 'Title' to equal '$userAnswer'
+```
+
+The `value` parameter type provides a strongly-typed API to access memory and can be used in custom step:
 
 ```typescript
+// Reading from memory
 When('Read memory {value}', async function(memoryValue) {
-    expect(memoryValue.value()).to.equal('ts');
+    // memoryValue.value() retrieves the actual value from memory
+    expect(memoryValue.value()).to.equal('stored value');
 });
 
+// Writing to memory
 When('Set memory {value} as {string}', async function(memoryKey, value) {
+    // memoryKey.set() stores a value in memory
     memoryKey.set(value);
 });
 ```
 
-### Custom steps
-Memory value can be set and read from memory object
+### Direct Memory Access in Custom Steps
+
+You can also access the memory object directly in your step definitions:
 
 <Tabs>
   <TabItem value="js" label="JavaScript" default>
     ```javascript
     const memory = require('@qavajs/memory');
 
-    When(/^save variable as '(.+)'$/, async function (key) {
-        memory.setValue(key, 42);
+    When(/^I save value '(.+)' as '(.+)'$/, async function (value, key) {
+        memory.setValue(key, value);
     });
 
-    Then(/^value '(.+)' should be equal to '(.+)'$/, async function (variable1, variable2) {
-        const val = memory.getValue(variable1);
-        expect(val).to.equal(variable2);
+    Then(/^value in '(.+)' should equal '(.+)'$/, async function (variable, expectedValue) {
+        const actualValue = memory.getValue(variable);
+        expect(actualValue).to.equal(expectedValue);
     });
     ```
   </TabItem>
   <TabItem value="ts" label="TypeScript">
     ```typescript
-    import memory = from '@qavajs/memory';
+    import memory from '@qavajs/memory';
 
-    When(/^save variable as '(.+)'$/, async function (key: string) {
-        memory.setValue(key, 42);
+    When(/^I save value '(.+)' as '(.+)'$/, async function (value: string, key: string) {
+        memory.setValue(key, value);
     });
 
-    Then(/^value '(.+)' should be equal to '(.+)'$/, async function (variable1: string, variable2: string) {
-        const val = memory.getValue(variable1);
-        expect(val).to.equal(variable2);
+    Then(/^value in '(.+)' should equal '(.+)'$/, async function (variable: string, expectedValue: string) {
+        const actualValue = memory.getValue(variable);
+        expect(actualValue).to.equal(expectedValue);
     });
     ```
   </TabItem>
 </Tabs>
 
+In your Gherkin scenarios, you can access previously saved variables using the `$` prefix:
+
 ```gherkin
-When save variable as 'variable'
-# previously saved variable can be accessed via $identifier
-Then value of '$variable' should be equal to '42'
+When I save value '42' as 'myNumber'
+Then value in 'myNumber' should equal '42'
+And I expect text of 'Result Field' to equal '$myNumber'
 ```
 
-### Constants and computed
+## Advanced Features
 
-Lib provides capability to set constant values and computed (JavaScript function references that can be called from feature file)
+### Constants and Computed Values
+
+You can define constant values and computed functions that can be referenced in your feature files:
 
 <Tabs>
   <TabItem value="js" label="JavaScript" default>
     ```javascript
+    // memory.js
     module.exports = {
-        constant: 42,
-        computed: function() {
-            return Date.now()
+        // Constants
+        maxRetries: 3,
+        baseUrl: 'https://example.com',
+        
+        // Computed values (functions that return dynamic values)
+        timestamp: function() {
+            return Date.now();
+        },
+        randomUsername: function() {
+            return 'user_' + Math.floor(Math.random() * 10000);
         }
     };
     ```
   </TabItem>
   <TabItem value="ts" label="TypeScript">
     ```typescript
+    // memory.ts
     export default {
-        constant: 42,
-        computed: function() {
-            return Date.now()
+        // Constants
+        maxRetries: 3,
+        baseUrl: 'https://example.com',
+        
+        // Computed values (functions that return dynamic values)
+        timestamp: function() {
+            return Date.now();
+        },
+        randomUsername: function() {
+            return 'user_' + Math.floor(Math.random() * 10000);
         }
     };
     ```
   </TabItem>
 </Tabs>
 
-```gherkin
-Then I expect text of 'Answer' to equal '$constant'
-Then I expect text of 'What Time Is It' to equal '$computed()'
-```
-
-### String interpolation
-Module also provides capability to use string interpolation in your Gherkin scenarios
-```gherkin
-When I save '42' to memory as 'variable'
-Then I expect text of 'Answer' to equal 'answer is {$variable}' #expected value will be 'answer is 42'
-```
-
-### $js
-Built-in `$js` computed provides a way to execute JavaScript code.
+Reference these values in your Gherkin scenarios:
 
 ```gherkin
-When I expect text of 'Current Date' to equal '$js(Date.now())'
+# Using constants
+Then I expect retry count to be '$maxRetries'
+When I navigate to '$baseUrl/login'
+
+# Using computed values
+Then I expect registration timestamp to be '$timestamp()'
+When I register with username '$randomUsername()'
 ```
 
-### Escape $
-`$` can be escaped with double backslash
+### String Interpolation
 
-```Gherkin
-When I expect text of 'Currency Label' to equal '\\$42'
+Use curly braces to interpolate memory values within strings:
+
+```gherkin
+When I save '42' as 'score'
+Then I expect text of 'Result' to equal 'Your score is {$score} points'
 ```
 
-### Parallel
-In case you need to assign uniq value for each Cucumber thread you can use parallel function.
-It will assign value based on `CUCUMBER_WORKER_ID` env variable.
+### Built-in JavaScript Execution with $js
+
+Use the built-in `$js` computed function to execute JavaScript code directly from your Gherkin scenarios:
+
+```gherkin
+# Math operations
+When I expect the result to equal '$js(42 * 2.5)'
+
+# String manipulation
+Then I expect the username to be '$js("user_" + Math.floor(Math.random() * 1000))'
+
+# Date formatting
+And I expect the date format to be '$js(new Date().toLocaleDateString())'
+```
+
+### Escaping the $ Symbol
+
+When you need to use a literal `$` character in your tests, escape it with a double backslash:
+
+```gherkin
+When I expect the price to be '\\$42.99'
+# This will expect the actual text to be "$42.99"
+```
+
+### Parallel Execution Support
+
+For parallel test execution, you can assign unique values for each Cucumber thread using the `parallel` function:
 
 <Tabs>
   <TabItem value="js" label="JavaScript" default>
@@ -129,10 +186,15 @@ It will assign value based on `CUCUMBER_WORKER_ID` env variable.
     const { parallel } = require('@qavajs/memory/utils');
 
     class Memory {
-        user = parallel([
-            { username: 'user1', password: 'password' },
-            { username: 'user2', password: 'password' }
+        // Each parallel thread will get a different user from this array
+        testUser = parallel([
+            { username: 'user1@example.com', password: 'password1' },
+            { username: 'user2@example.com', password: 'password2' },
+            { username: 'user3@example.com', password: 'password3' }
         ]);
+        
+        // You can also use parallel with primitive values
+        port = parallel([8080, 8081, 8082]);
     }
 
     module.exports = Memory;
@@ -143,12 +205,31 @@ It will assign value based on `CUCUMBER_WORKER_ID` env variable.
     import { parallel } from '@qavajs/memory/utils';
 
     export class Memory {
-        user = parallel([
-            { username: 'user1', password: 'password' },
-            { username: 'user2', password: 'password' }
+        // Each parallel thread will get a different user from this array
+        testUser = parallel([
+            { username: 'user1@example.com', password: 'password1' },
+            { username: 'user2@example.com', password: 'password2' },
+            { username: 'user3@example.com', password: 'password3' }
         ]);
+        
+        // You can also use parallel with primitive values
+        port = parallel([8080, 8081, 8082]);
     }
     ```
   </TabItem>
 </Tabs>
 
+Use these values in your scenarios:
+
+```gherkin
+When I login with username '$testUser.username' and password '$testUser.password'
+And I connect to port '$port'
+```
+
+## Best Practices
+
+1. **Use descriptive names** for your memory variables to make scenarios more readable
+2. **Prefer string interpolation** for complex strings rather than concatenating multiple parts
+3. **Create reusable computed functions** for common operations or data generation
+4. **Use TypeScript interfaces** to define the structure of complex memory objects
+5. **Document memory constants and functions** for better team collaboration
