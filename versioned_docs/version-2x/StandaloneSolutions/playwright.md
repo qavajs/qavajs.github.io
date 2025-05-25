@@ -11,7 +11,7 @@ npm init playwright
 ```              
 
 ```shell
-npm install @cucumber/cucumber @qavajs/playwright @qavajs/playwright-runner-adapter @qavajs/memory
+npm install @qavajs/core @qavajs/playwright @qavajs/playwright-runner-adapter @qavajs/memory
 ```
 
 ## Configuration

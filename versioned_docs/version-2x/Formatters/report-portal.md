@@ -42,7 +42,7 @@ Option `enable` is set to `true` even if it is not defined explicitly in rpConfi
 ## Test Level Attributes
 Test level attributes can be added via cucumber logs e.g. in Before hook
 ```javascript
-const { Before } = require('@cucumber/cucumber');
+const { Before } = require('@qavajs/core');
 
 Before(function () {
     this.log('log from before'); //just log

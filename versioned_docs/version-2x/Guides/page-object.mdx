@@ -506,7 +506,7 @@ You can use page objects in your custom step definitions for more advanced inter
 <Tabs>
   <TabItem value='js' label='JavaScript' default>
     ```javascript
-    const { When, Then } = require('@cucumber/cucumber');
+    const { When, Then } = require('@qavajs/core');
     const { memory } = require('@qavajs/memory');
 
     // For Playwright
@@ -534,7 +534,7 @@ You can use page objects in your custom step definitions for more advanced inter
   </TabItem>
   <TabItem value='ts' label='TypeScript'>
     ```typescript
-    import { When, Then } from '@cucumber/cucumber';
+    import { When, Then } from '@qavajs/core';
     import { memory } from '@qavajs/memory';
     import { Locator } from '@playwright/test';
     import { ChainablePromiseElement } from 'webdriverio';

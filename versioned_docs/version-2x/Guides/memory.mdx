@@ -48,7 +48,7 @@ When('Set memory {value} as {string}', async function(memoryKey, value) {
 You can also access the memory object directly in your step definitions:
 
 <Tabs>
-  <TabItem value="js" label="JavaScript" default>
+  <TabItem value="js" label="JavaScript">
     ```javascript
     const memory = require('@qavajs/memory');
 
@@ -62,7 +62,7 @@ You can also access the memory object directly in your step definitions:
     });
     ```
   </TabItem>
-  <TabItem value="ts" label="TypeScript">
+  <TabItem value="ts" label="TypeScript" default>
     ```typescript
     import memory from '@qavajs/memory';
 
@@ -93,7 +93,7 @@ And I expect text of 'Result Field' to equal '$myNumber'
 You can define constant values and computed functions that can be referenced in your feature files:
 
 <Tabs>
-  <TabItem value="js" label="JavaScript" default>
+  <TabItem value="js" label="JavaScript">
     ```javascript
     // memory.js
     module.exports = {
@@ -111,7 +111,7 @@ You can define constant values and computed functions that can be referenced in 
     };
     ```
   </TabItem>
-  <TabItem value="ts" label="TypeScript">
+  <TabItem value="ts" label="TypeScript" default>
     ```typescript
     // memory.ts
     export default {
@@ -181,7 +181,7 @@ When I expect the price to be '\\$42.99'
 For parallel test execution, you can assign unique values for each Cucumber thread using the `parallel` function:
 
 <Tabs>
-  <TabItem value="js" label="JavaScript" default>
+  <TabItem value="js" label="JavaScript">
     ```javascript
     const { parallel } = require('@qavajs/memory/utils');
 
@@ -200,7 +200,7 @@ For parallel test execution, you can assign unique values for each Cucumber thre
     module.exports = Memory;
     ```
   </TabItem>
-  <TabItem value="ts" label="TypeScript">
+  <TabItem value="ts" label="TypeScript" default>
     ```typescript
     import { parallel } from '@qavajs/memory/utils';
 

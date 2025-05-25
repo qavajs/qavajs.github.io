@@ -98,10 +98,15 @@ Then I expect '$object' to match schema '$schema'
 You can also use validations in custom steps
 
 <Tabs>
-  <TabItem value="js" label="JavaScript" default>
+  <TabItem value="js" label="JavaScript">
     ```javascript
-    const { Then } = require('@cucumber/cucumber');
+    const { Then } = require('@qavajs/core');
     const { getValidation } = require('@qavajs/validation');
+
+    Then('I expect the answer {validation} {string}', async function(validate, expected) {
+        const answer = '42';
+        validate(answer, expected);
+    });
 
     Then('I expect the answer {} {string}', async function(validationType, expected) {
         const answer = '42';
@@ -110,10 +115,15 @@ You can also use validations in custom steps
     });
     ```
   </TabItem>
-  <TabItem value="ts" label="TypeScript">
+  <TabItem value="ts" label="TypeScript" default>
     ```typescript
-    import { Then } from '@cucumber/cucumber';
+    import { Then } from '@qavajs/core';
     import { getValidation } from '@qavajs/validation';
+
+    Then('I expect the answer {validation} {string}', async function(validate: Validation, expected: string) {
+        const answer = '42';
+        validate(answer, expected);
+    });
 
     Then('I expect the answer {} {string}', async function(validationType: string, expected: string) {
         const answer = '42';
@@ -128,10 +138,15 @@ You can also use validations in custom steps
 Validation with auto-retries
 
 <Tabs>
-  <TabItem value="js" label="JavaScript" default>
+  <TabItem value="js" label="JavaScript">
     ```javascript
-    const { Then } = require('@cucumber/cucumber');
+    const { Then } = require('@qavajs/core');
     const { getPollValidation } = require('@qavajs/validation');
+
+    Then('I expect the answer {validation} {string}', async function(validate, expected) {
+        const answer = getAnswer();
+        await validate.poll(answer, expected, { timeout: 2000, interval: 500 });
+    });
 
     Then('I expect the answer {} {string}', async function(validationType, expected) {
         const answer = getAnswer();
@@ -140,10 +155,15 @@ Validation with auto-retries
     });
     ```
   </TabItem>
-  <TabItem value="ts" label="TypeScript">
+  <TabItem value="ts" label="TypeScript" default>
     ```typescript
-    import { Then } from '@cucumber/cucumber';
+    import { Then } from '@qavajs/core';
     import { getPollValidation } from '@qavajs/validation';
+
+    Then('I expect the answer {validation} {string}', async function(validate: Validation, expected: string) {
+        const answer = getAnswer();
+        await validate.poll(answer, expected);
+    });
 
     Then('I expect the answer {} {string}', async function(validationType: string, expected: string) {
         const answer = getAnswer();
