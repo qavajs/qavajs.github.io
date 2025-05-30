@@ -182,8 +182,7 @@ When I send "POST" request and save response as "response" to "$BASE_API_URL" wi
 ```
 
 ### I parse \{response} body as \{type}
-MANDATORY STEP THAT SHOULD BE USED AFTER SENDING REQUEST
-Parsing body in needed way and adds payload property to response
+Parse body in needed way and adds `payload` property to response
 
 |  param   |                type                 |      description       |
 |:--------:|:-----------------------------------:|:----------------------:|
@@ -191,8 +190,33 @@ Parsing body in needed way and adds payload property to response
 |   type   | [bodyParsingType](#bodyparsingtype) |    type of payload     |
 
 ```gherkin
-When I parse '$response' body as 'json'
+When I parse '$response' body as json
 Then I expect '$response.payload.foo' to equal 'bar'
+```
+
+### I parse \{response} body as \{type}
+Parse body with provided parser and adds `payload` property to response
+
+|  param   |                type                 |      description                |
+|:--------:|:-----------------------------------:|:-------------------------------:|
+| response |               string                | response key in memory          |
+|   type   |               string                | function with parser logic      |
+
+```gherkin
+When I parse "$response" body as "$soap"
+Then I expect "$response.payload['soap:envelope']" to equal "bar"
+```
+
+where `soap` is memory function
+```typescript
+import { XMLParser } from 'fast-xml-parser';
+const xml = new XMLParser();
+class Data {
+  soap = async (response: Response) => {
+    const text = await response.text();
+    return xml.parse(text);
+  }
+}
 ```
 
 ## Construction API Steps

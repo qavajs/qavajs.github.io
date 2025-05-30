@@ -6,7 +6,7 @@ sidebar_position: 5
 Step library to work with file system
 
 ## Installation
-```
+```bash
 npm install @qavajs/steps-files
 ```
 
