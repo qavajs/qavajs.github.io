@@ -11,7 +11,7 @@ npm init playwright
 ```              
 
 ```shell
-npm install @qavajs/core @qavajs/playwright @qavajs/playwright-runner-adapter @qavajs/memory
+npm install @qavajs/playwright
 ```
 
 ## Configuration
@@ -33,7 +33,7 @@ export default {
 
 playwright.config.ts
 ```typescript
-import { defineCucumber } from '@qavajs/playwright-runner-adapter';
+import { defineCucumber } from '@qavajs/playwright';
 
 export default defineConfig({
     testDir: defineCucumber({
