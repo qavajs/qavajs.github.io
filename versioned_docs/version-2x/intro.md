@@ -43,9 +43,19 @@ Another feature is a locator alias expression like **'Wikipedia > Search Input'*
 In addition to the default features of Cucumber [config file](https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md#options) the **qavajs** config implements following [capabilities](https://github.com/qavajs/core/blob/main/src/IQavajsConfig.ts) to provide the advanced flexibility.
 
 ### Test execution
-If you have the basic config `npx qavajs` will launch test execution.  
-To specify custom path to the config file use `npx qavajs run --config <config>`.  
-In case if your config exports an object with multiple properties, you can specify which property to read `npx qavajs run --profile <profile>`.
+If you have the basic config 
+```bash
+npx qavajs
+```
+will launch test execution.  
+To specify custom path to the config file use 
+```bash
+npx qavajs run --config <config>
+```
+In case if your config exports an object with multiple properties, you can specify which property to read 
+```bash
+npx qavajs run --profile <profile>
+```
 
 ### Page object
 [Page object guide](./Guides/page-object.mdx)
@@ -104,7 +114,7 @@ Feature: Feature
 qavajs provides ability to shard your tests between different machines. To do so pass `--shard x/y` parameter in CLI,
 where x - current shard, y - total number of shards.
 
-```
+```bash
 npx qavajs run --config config.js --shard 1/2
 npx qavajs run --config config.js --shard 2/2
 ```
