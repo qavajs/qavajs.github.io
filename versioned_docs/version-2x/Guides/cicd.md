@@ -4,7 +4,7 @@ sidebar_position: 6
 
 # CI/CD
 **qavajs**, is CI/CD agnostic and can be executed in any environment that satisfies following requirements:
-- [nodejs](https://nodejs.org/en) with npm > 18
+- [nodejs](https://nodejs.org/en) > 20
 - installed browsers (for UI testing)
 
 ## General Approach for qavajs in CI/CD:

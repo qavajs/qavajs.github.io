@@ -3,14 +3,16 @@ sidebar_position: 5
 ---
 
 # @qavajs/xray-formatter
-Xray formatter for cucumber framework
+[Xray](https://docs.getxray.app/) formatter for cucumber framework
 
 ### Installation
 To install formatter run
 
-`npm install @qavajs/xray-formatter`
+```bash
+npm install @qavajs/xray-formatter
+```
 
-add to formatter section in config file
+configure `formatterOption` property in config file:
 
 cloud configuration:
 ```javascript
