@@ -37,7 +37,7 @@ export default {
             browserName: 'chromium'
         }
     },
-    pageObject: App
+    pageObject: new App()
 }
 ```
 
@@ -69,6 +69,7 @@ export default {
 
 ## Screenshot
 @qavajs/steps-playwright can also take screenshot on particular event.
+
 - onFail
 - beforeStep
 - afterStep
@@ -86,6 +87,7 @@ export default {
 
 ## Traces
 @qavajs support capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
+
 Supported events:
 - onFail
 - afterScenario
@@ -106,7 +108,8 @@ export default {
 ```
 
 ## Video
-@qavajs supports video recording. https://playwright.dev/docs/next/videos
+@qavajs supports video recording https://playwright.dev/docs/next/videos
+
 Supported events:
 - onFail
 - afterScenario
@@ -126,7 +129,7 @@ export default {
 ```
 
 ## Reuse Session
-_reuseSession_ flag allows to share driver session between tests. Browser will not be closed automatically after test.
+`reuseSession` flag allows to share driver session between tests. Browser will not be closed automatically after test.
 
 ```typescript
 export default {
@@ -137,7 +140,7 @@ export default {
 ```
 
 ## Restart Browser
-_restartBrowser_ flag allows to restart browser between tests instead of default restarting context
+`restartBrowser` flag allows to restart browser between tests instead of default restarting context
 
 ```javascript
 export default {
@@ -168,7 +171,7 @@ mouse button to interact
 - right
 - middle
 
-## Context variables
+## Context properties
 @qavajs/steps-playwright exposes following world variables
 
 | variable                  | type             | description                                                     |

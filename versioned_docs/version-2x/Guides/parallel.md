@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # Parallel Execution
 Framework support parallel execution out of the box. 
-Number of parallel threads can be set in config file (by default it is config.js)
+Number of parallel threads can be set in config file (by default it is config file)
 ```typescript
 export default {
     // other configs

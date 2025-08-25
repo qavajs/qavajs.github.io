@@ -38,12 +38,13 @@ export default {
             browserName: 'chrome'
         }
     },
-    pageObject: App
+    pageObject: new App()
 }
 ```
 
 ## Screenshot
 @qavajs/steps-wdio has build-in capability to take screenshot on particular event.
+
 - onFail
 - beforeStep
 - afterStep
@@ -59,6 +60,7 @@ export default {
 
 ## Snapshot
 @qavajs/steps-wdio has build-in capability to take snapshot on particular event.
+
 - onFail
 - beforeStep
 - afterStep
@@ -72,7 +74,7 @@ export default {
 ```
 
 ## Reuse Session
-_reuseSession_ flag allows to share driver session between tests. Browser will not be closed automatically after test.
+`reuseSession` flag allows to share driver session between tests. Browser will not be closed automatically after test.
 
 ```typescript
 export default {
@@ -105,7 +107,7 @@ mouse button to interact
 - right
 - middle
 
-## Context variables
+## Context properties
 @qavajs/steps-wdio exposes following world variables
 
 | variable         | type             | description                          |

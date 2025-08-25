@@ -94,6 +94,21 @@ match [ajv](https://www.npmjs.com/package/ajv) schema
 Then I expect '$object' to match schema '$schema'
 ```
 
+## satisfy
+verify user-defined expectation provided as predicate
+
+```Gherkin
+Then I expect '$value' to satisfy '$either(1, 2)'
+```
+where `$either` is a predicate applied on first argument
+```typescript
+function either(...expected) {
+    return function (actual) {
+        return expected.includes(actual)
+    }
+}
+```
+
 ## Using in custom steps
 You can also use validations in custom steps
 
