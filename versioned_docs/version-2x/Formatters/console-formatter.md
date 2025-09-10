@@ -4,7 +4,7 @@ sidebar_position: 2
 
 # @qavajs/console-formatter
 
-Console formatter for cucumber framework
+Console formatter for qavajs framework
 
 ## Installation
 ```

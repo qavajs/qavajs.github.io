@@ -3,11 +3,9 @@ sidebar_position: 5
 ---
 
 # @qavajs/xray-formatter
-[Xray](https://docs.getxray.app/) formatter for cucumber framework
+qavajs formatter for Jira [Xray](https://docs.getxray.app/)
 
 ### Installation
-To install formatter run
-
 ```bash
 npm install @qavajs/xray-formatter
 ```

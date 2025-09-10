@@ -3,7 +3,7 @@ sidebar_position: 1
 ---
 
 # @qavajs/format-report-portal
-This package is formatter for EPAM report portal
+qavajs formatter for [Report Portal](https://reportportal.io/)
 
 ## Install
 ```
