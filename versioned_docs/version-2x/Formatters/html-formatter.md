@@ -4,7 +4,7 @@ sidebar_position: 4
 
 # @qavajs/html-formatter
 
-Single file HTML formatter for cucumber framework
+Single file HTML formatter for qavajs framework
 
 ## Installation
 ```

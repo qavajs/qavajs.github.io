@@ -75,6 +75,12 @@ const config = {
             label: 'Get Started',
           },
           {
+            href: 'https://github.com/qavajs/core/issues/new',
+            position: 'right',
+            label: 'Ask a question',
+            target: '_blank'
+          },
+          {
             href: 'https://github.com/qavajs',
             position: 'right',
             className: 'header-github-link',

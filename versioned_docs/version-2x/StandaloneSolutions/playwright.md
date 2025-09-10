@@ -2,7 +2,7 @@
 sidebar_position: 0
 ---
 # @qavajs/playwright
-qavajs that works on top of playwright runner
+qavajs implementation on top of playwright runner
 
 ## Installation
 

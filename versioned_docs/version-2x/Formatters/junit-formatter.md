@@ -3,7 +3,6 @@ sidebar_position: 5
 ---
 
 # junit formatter
-
 Junit formatter is built-in to CucumberJS so no need to install any packages
       
 ## Configuration
