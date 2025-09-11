@@ -11,7 +11,7 @@ npm install @qavajs/steps-gmail
 ```
 
 ## Configuration
-```javascript
+```typescript
 export default {
     require: [
         'node_modules/@qavajs/steps-gmail/index.js'

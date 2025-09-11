@@ -6,9 +6,9 @@ sidebar_position: 2
 
 :::warning
 
-@qavajs/soft-assertion is discouraged. 
-Soft assertion functionality is now included into `@qavajs/core` module
-Please use built-in `softly` prefix
+`@qavajs/soft-assertion` is discouraged. 
+Soft assertion functionality is now included into `@qavajs/core` module.
+Please use built-in [softly](../intro.md#soft-validation) prefix
 
 :::
 
