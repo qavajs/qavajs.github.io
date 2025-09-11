@@ -6,7 +6,8 @@ sidebar_position: 1
 
 :::warning
 
-@qavajs/template is discouraged. Please use built-in `this.executeStep`
+`@qavajs/template` is discouraged.
+Please use built-in [this.executeStep](../intro.md#execute-steps-from-other-steps) and/or [Template](../intro.md#template)
 
 :::
 

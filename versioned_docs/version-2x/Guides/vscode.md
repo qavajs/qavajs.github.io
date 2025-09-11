@@ -32,10 +32,7 @@ This extension contributes the following settings:
         "node_modules/@qavajs/**/src/*.ts",
         "step_definition/*.ts"
     ],
-    "qavajs.templates": [
-        "templates/*.feature"
-    ],
-    "qavajs.launchCommand": "npx qavajs run --config config.ts",
+    "qavajs.launchCommand": "npx qavajs run --config config.ts"
 }
 ```
 
