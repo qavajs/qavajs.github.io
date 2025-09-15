@@ -214,6 +214,9 @@ Native locators allow you to leverage the full power of your testing framework's
         // Using the argument from feature file
         DynamicElement = locator.native(({ page, argument }) => 
             page.getByRole('button', { name: argument }));
+
+        // Element in iframe
+        ElementInIframe = locator.native(({ page }) => page.frameLocator('iframe#yourIframe').locator('#element'));
     }
     ```
   </TabItem>
@@ -224,7 +227,7 @@ Native locators allow you to leverage the full power of your testing framework's
 
     class App {
         // Using Playwright's getByRole
-        SubmitButton = locator.native(({ page }: { page: Page }) => 
+        SubmitButton = locator.native(({ page }: { page: Page }) =>
             page.getByRole('button', { name: 'Submit' }));
         
         // Using Playwright's getByText with regex
@@ -242,6 +245,9 @@ Native locators allow you to leverage the full power of your testing framework's
         // Using the argument from feature file
         DynamicElement = locator.native(({ page, argument }: { page: Page, argument: string }) => 
             page.getByRole('button', { name: argument }));
+
+        // Element in iframe
+        ElementInIframe = locator.native(({ page }: { page: Page }) => page.frameLocator('iframe#yourIframe').locator('#element'));
     }
     ```
   </TabItem>
