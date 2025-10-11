@@ -5,6 +5,9 @@ sidebar_position: 3
 # @qavajs/steps-api
 Step library to work with web API
 
+Demo projects:
+- https://github.com/qavajs/demo/tree/main/web-api
+
 ## Installation
 ```
 npm install @qavajs/steps-api

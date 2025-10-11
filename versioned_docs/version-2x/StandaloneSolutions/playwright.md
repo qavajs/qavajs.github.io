@@ -4,6 +4,9 @@ sidebar_position: 0
 # @qavajs/playwright
 qavajs implementation on top of playwright runner
 
+Demo projects:
+- https://github.com/qavajs/demo/tree/main/playwright-runner-v2
+
 ## Installation
 
 ```shell
@@ -23,7 +26,7 @@ import App from './page_object';
 export default {
     paths: ['features/*.feature'],
     require: [
-        'node_modules/@qavajs/playwright/index.js', // package steps
+        'node_modules/@qavajs/playwright/steps.js', // package steps
         'step_definitions/*.ts' // custom step definitions
     ],
     memory: new Memory(),
@@ -69,6 +72,7 @@ Type text to element
 
 ```gherkin
 When I type 'wikipedia' to 'Google Input'
+When I type 'wikipedia' into 'Google Input'
 ```
 ---
 ### I type \{string} chars to \{string}

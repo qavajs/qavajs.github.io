@@ -5,6 +5,9 @@ sidebar_position: 7
 # @qavajs/steps-accessibility
 Steps to perform accessibility checks using axe library.
 
+Demo project:
+- https://github.com/qavajs/demo/tree/main/accessibility-axe
+
 ## Installation
 ```bash
 npm install @qavajs/steps-accessibility

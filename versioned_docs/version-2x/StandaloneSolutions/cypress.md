@@ -4,6 +4,9 @@ sidebar_position: 1
 # @qavajs/cypress
 qavajs implementation on top of cypress runner
 
+Demo projects:
+- https://github.com/qavajs/demo/tree/main/cypress-v2
+
 ## Installation
   
 ```
@@ -42,4 +45,19 @@ defineQavajs({
     pageObject: new PageObject(),
     memory: new Memory()
 });
+```
+
+## Tags
+Test can be filtered using Cucumber tag expressions provided via environment variable `TAGS`
+```
+TAGS='@first and @second' npx cypress run
+```
+
+## Translation Mode
+Gherkin tests can be translated in different modes
+- `describe` - default mode. Scenario will be translated as `describe`, each step will be translated as `it`
+- `it` - Scenario will be translated as `it`
+
+```bash
+MODE=it npx cypress open
 ```

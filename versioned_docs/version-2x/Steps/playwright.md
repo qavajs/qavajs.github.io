@@ -6,9 +6,14 @@ sidebar_position: 1
 
 Step library to work with playwright using DSL page object
 
+Demo projects: 
+- https://github.com/qavajs/demo/tree/main/web-playwright-v2
+- https://github.com/qavajs/demo/tree/main/web-playwright-esm-v2
+- https://github.com/qavajs/demo/tree/main/sap-ui5
+
 ## Installation
 ```
-npm install @qavajs/steps-playwright@2
+npm install @qavajs/steps-playwright
 ```
 ## Configuration
 Playwright steps provide a couple of additional configuration properties
@@ -206,6 +211,7 @@ Type text to element
 
 ```gherkin
 When I type 'wikipedia' to 'Google Input'
+When I type 'wikipedia' into 'Google Input'
 ```
 ---
 ### I type \{string} chars to \{string}
@@ -219,6 +225,7 @@ Type text to element sending fine-grained keyboard events
 
 ```gherkin
 When I type 'wikipedia' chars to 'Google Input'
+When I type 'wikipedia' chars into 'Google Input'
 ```
 ---
 ### I click \{string}
