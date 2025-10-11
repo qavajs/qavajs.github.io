@@ -9,7 +9,7 @@ The **qavajs** is a modular test automation framework designed to minimize setup
 Next, you will be shown how to build your own low-code test automation framework with the **qavajs**.
 
 ### Installation from scratch
-Once you have set up a clear Node.js project, run the command 
+Once you have set up a clear Node.js (>=20) project, run the command 
 ```bash
 npm init @qavajs
 ``` 

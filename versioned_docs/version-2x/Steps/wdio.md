@@ -5,6 +5,12 @@ sidebar_position: 2
 # @qavajs/steps-wdio
 Step library to work with webdriverio using DSL page object
 
+Demo projects:
+- https://github.com/qavajs/demo/tree/main/web-wdio-v2
+- https://github.com/qavajs/demo/tree/main/web-wdio-v2-browser-stack
+- https://github.com/qavajs/demo/tree/main/mobitru
+- https://github.com/qavajs/demo/tree/main/mobile-web-v2
+
 ## Installation
 ```
 npm install @qavajs/steps-wdio
@@ -140,6 +146,7 @@ Type text to element
 
 ```gherkin
 When I type 'wikipedia' to 'Google Input'
+When I type 'wikipedia' into 'Google Input'
 ```
 ---
 ### I click \{string}( )\{wdioDisableActionabilityCheck}

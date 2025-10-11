@@ -6,6 +6,9 @@ sidebar_position: 7
 Steps to perform accessibility checks using accessibility-checker library.
 Library can work on top of playwright and webdriverio drivers
 
+Demo project:
+- https://github.com/qavajs/demo/tree/main/accessibility-ea
+
 ## Installation
 ```bash
 npm install @qavajs/steps-accessibility-ea
