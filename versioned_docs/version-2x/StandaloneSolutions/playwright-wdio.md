@@ -1,7 +1,7 @@
 ---
 sidebar_position: 0
 ---
-# @qavajs/playwright
+# @qavajs/playwright-wdio
 qavajs implementation on top of playwright runner with special wdio fixtures
 
 Demo projects:
