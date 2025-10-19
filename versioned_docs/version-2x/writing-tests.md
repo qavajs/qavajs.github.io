@@ -139,7 +139,7 @@ export class ResultPage {
 }
 ```
 
-## Constants and Memory Management
+## Test Data Management
 
 qavajs provides a [Memory](./Guides/memory.mdx) system to store and reuse values across tests.
 
