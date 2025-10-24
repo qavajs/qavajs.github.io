@@ -149,44 +149,38 @@ When I type 'wikipedia' to 'Google Input'
 When I type 'wikipedia' into 'Google Input'
 ```
 ---
-### I click \{string}( )\{wdioDisableActionabilityCheck}
+### I click \{string}
 
 Click element
 
 |    param     |        type        |        description         |
 |:------------:|:------------------:|:--------------------------:|
 |    alias     |       string       |      element to click      |
-| disable wait | (optional) boolean | disable actionability wait |
 ```gherkin
 When I click 'Google Button'
-When I click 'Google Button' (disable actionability wait)
 ```
 ---
-### I double click \{string}( )\{wdioDisableActionabilityCheck}
+### I double click \{string}
 
 Double click element
 
 |    param     |        type        |        description         |
 |:------------:|:------------------:|:--------------------------:|
 |    alias     |       string       |      element to click      |
-| disable wait | (optional) boolean | disable actionability wait |
 ```gherkin
 When I double click 'Input Field'
-When I double click 'Input Field' (disable actionability wait)
 ```
 ---
-### I right click \{string}( )\{wdioDisableActionabilityCheck}
+### I right click \{string}
 
 Right click element
 
 |    param     |        type        |        description         |
 |:------------:|:------------------:|:--------------------------:|
 |    alias     |       string       |      element to click      |
-| disable wait | (optional) boolean | disable actionability wait |
 
 ```gherkin
 When I right click 'User Icon'
-When I right click 'User Icon' (disable actionability wait) 
 ```
 ---
 ### I clear \{string}
@@ -597,7 +591,33 @@ Force click element
 ```gherkin
 When I force click 'Google Button'
 ```
+
 ---
+### I set window size \{string}
+
+Resize browser window
+
+|   param    |  type  |                  description                  |
+|:----------:|:------:|:---------------------------------------------:|
+| windowSize | string | width and height in pixels separated by comma |
+
+```gherkin
+When I set window size '1440,900'
+```
+
+---
+### I click \{string} coordinates in \{string}
+
+Click a certain coordinate of an element
+
+|    param    |  type  |             description             |
+|:-----------:|:------:|:-----------------------------------:|
+| coordinates | string | comma separated x and y coordinates |
+|    alias    | string |          element to click           |
+
+```gherkin
+When I click '0,20' coordinates in 'Google Button'
+```
 
 ## Validation Steps
 
@@ -1362,71 +1382,4 @@ Wait for interception event and save response to memory
 When I create interception for '**/api/qavajs' as 'interception'
 When I save '$interception' response as 'response' # response will be instance of Response object
 And I expect '$response.statusCode' to equal '200'
-```
-
-## Multi-browser Steps
-
----
-### I open new browser as \{string}
-
-Open new browser
-
-|    param    |  type  | description  |
-|:-----------:|:------:|:------------:|
-| browserName | string | browser name |
-```gherkin
-When I open new browser as 'browser2'
-```
-
----
-### I switch to \{string} browser
-
-Switch to other browser by name
-
-|    param    |  type  | description  |
-|:-----------:|:------:|:------------:|
-| browserName | string | browser name |
-```gherkin
-When I open new browser as 'browser2'
-And I switch to 'browser2' browser
-And I switch to 'default' browser
-```
-
----
-### I close \{string} browser
-
-Close browser
-
-|    param    |  type  | description  |
-|:-----------:|:------:|:------------:|
-| browserName | string | browser name |
-```gherkin
-When I close to 'browser2' browser
-```
-
----
-### I set window size \{string}
-
-Resize browser window
-
-|   param    |  type  |                  description                  |
-|:----------:|:------:|:---------------------------------------------:|
-| windowSize | string | width and height in pixels separated by comma |
-
-```gherkin
-When I set window size '1440,900'
-```
-
----
-### I click \{string} coordinates in \{string}
-
-Click a certain coordinate of an element
-
-|    param    |  type  |             description             |
-|:-----------:|:------:|:-----------------------------------:|
-| coordinates | string | comma separated x and y coordinates |
-|    alias    | string |          element to click           |
-
-```gherkin
-When I click '0,20' coordinates in 'Google Button'
 ```
