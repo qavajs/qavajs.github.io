@@ -36,11 +36,11 @@ Feature: Wikipedia
       | JavaScript |
       | Java       |
 ```
-It is worth mentioning the expression **'$wikipediaUrl'** in the example above starting with '**\$**' interpreted as a **qavajs** memory variable whose value is taken from the Memory class instance in runtime. [More details](https://qavajs.github.io/docs/Guides/memory).  
-Another feature is a locator alias expression like **'Wikipedia > Search Input'** separated by the '**\>**' sign that describes hierarchic page structure. See how [to organize your page object](Guides/page-object).
+It is worth mentioning the expression **'$wikipediaUrl'** in the example above, starting with '**\$**' interpreted as a **qavajs** memory variable whose value is taken from the Memory class instance in runtime. [More details](https://qavajs.github.io/docs/Guides/memory).  
+Another feature is a locator alias expression like **'Wikipedia > Search Input'** separated by the '**\>**' sign that describes hierarchical page structure. See how [to organize your page object](Guides/page-object).
 
 ### Configuration
-In addition to the default features of Cucumber [config file](https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md#options) the **qavajs** config implements following [capabilities](https://github.com/qavajs/core/blob/main/src/IQavajsConfig.ts) to provide the advanced flexibility.
+In addition to the default features of Cucumber [config file](https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md#options), the **qavajs** config implements the following [capabilities](https://github.com/qavajs/core/blob/main/src/IQavajsConfig.ts) to provide advanced flexibility.
 
 ### Test execution
 If you have the basic config 
@@ -48,11 +48,11 @@ If you have the basic config
 npx qavajs
 ```
 will launch test execution.  
-To specify custom path to the config file use 
+To specify a custom path to the config file, use 
 ```bash
 npx qavajs run --config <config>
 ```
-In case if your config exports an object with multiple properties, you can specify which property to read 
+In case your config exports an object with multiple properties, you can specify which property to read 
 ```bash
 npx qavajs run --profile <profile>
 ```
@@ -61,19 +61,19 @@ npx qavajs run --profile <profile>
 [Page object guide](./Guides/page-object.mdx)
 
 ### Override memory values
-In case if tests need to be run with updated memory value they can be passed via CLI (e.g run scenarios on some other url)
-It can be done by passing `--memory-values` parameter which is JSON with params that need to be overridden. 
-For instance, to override `$url` value:
+In case tests need to be run with an updated memory value, they can be passed via CLI (e.g, run scenarios on some other URL)
+It can be done by passing `--memory-values` parameter, which is JSON with params that need to be overridden. 
+For instance, to override the `$url` value:
 
 ```bash
 npx qavajs run --config config.ts --memory-values '{"url": "https://github.com"}'
 ```
 
 ### Pass CLI params to workers
-All params that you passed to qavajs cli will be available in `CLI_ARGV` environment variable in all child workers.
+All params that you passed to the qavajs CLI will be available in the `CLI_ARGV` environment variable in all child workers.
 
 ### Memory value parameter type
-`value` parameter type provides API to access memory
+The `value` parameter type provides an API to access memory
 
 ```typescript
 When('Read memory {value}', async function(memoryValue) {
@@ -86,7 +86,7 @@ When('Set memory {value} as {string}', async function(memoryKey, value) {
 ```
 
 ### Validation parameter type
-`validation` parameter type provides API to verify values by certain condition
+`validation` parameter type provides an API to verify values by a certain condition
 
 ```typescript
 When('I expect {string} {validation} {string}', async function(value1, validate, value2) {
@@ -111,7 +111,7 @@ Feature: Feature
 ```
 
 ### Test sharding
-qavajs provides ability to shard your tests between different machines. To do so pass `--shard x/y` parameter in CLI,
+qavajs provides the ability to shard your tests between different machines. To do so pass `--shard x/y` parameter in CLI,
 where x - current shard, y - total number of shards.
 
 ```bash
@@ -133,8 +133,16 @@ When('I do smth complex', async function() {
 });
 ```
 
+### Execute other tests
+Also, it is possible to call other test cases via `executeTest` world method
+```typescript
+When('I do smth complex', async function() {
+    await this.executeTest('feature/Login.feature', 'Login');
+});
+```
+
 ### World
-Module extends CucumberJS world with additional entities
+Module extends the CucumberJS world with additional entities
 
 | entity      | type     | description                                      | example                                                            |
 |-------------|----------|--------------------------------------------------|--------------------------------------------------------------------|
@@ -145,7 +153,7 @@ Module extends CucumberJS world with additional entities
 | validation  | function | get validation function based                    | `await this.getValue('to equal');`                                 |
 
 ### Override step definition
-`Override` function provides capability to override step implementation and avoid ambiguous exception
+`Override` function provides the capability to override step implementation and avoid ambiguous exceptions
 
 ```typescript
 import { Override } from '@qavajs/core';
@@ -158,9 +166,9 @@ Override('I do test', async function () {
 ```
 
 ### Fixture
-`Fixture` provides convenient way to prepare test environment for specific test.
+`Fixture` provides a convenient way to prepare a test environment for a specific test.
 
-This example will open pdp page before test and clean cart after test
+This example will open the PDP page before the test and clean the cart after the test
 ```typescript
 import { Fixture } from '@qavajs/core';
 
@@ -184,7 +192,7 @@ Feature: feature with fixture
 ```
 
 ### Template
-`Template` provides a way to define step definition using Gherkin language
+`Template` provides a way to define step definitions using Gherkin language
 
 ```typescript
 import { When, Template } from '@qavajs/core';
@@ -196,7 +204,7 @@ When('I click {string} and verify {string}', Template((locator, expected) => `
 ```
 
 ### Test execution hooks
-`BeforeExecution` and `AfterExecution` allow to define hooks that will be executed
+`BeforeExecution` and `AfterExecution` allow us to define hooks that will be executed
 once before/after whole test execution
 
 ```typescript
@@ -215,7 +223,7 @@ AfterExecution(async function () {
 ```
 
 ### Service
-Services is an entities that can execute logic before and after whole test run.
+Services are entities that can execute logic before and after the whole test run.
 
 ```typescript
 import externalService from './externalService';
@@ -242,8 +250,8 @@ export default {
     ]
 }
 ```
-There is a one minute-long default timeout for a before and after test logic to prevent entire process from freezing.
-To set up a custom timeout in milliseconds use serviceTimeout property in the config file
+There is a one-minute-long default timeout for the before and after test logic to prevent the entire process from freezing.
+To set up a custom timeout in milliseconds, use `serviceTimeout` property in the config file
 ```typescript
 export default {
     serviceTimeout: 1_200_000
