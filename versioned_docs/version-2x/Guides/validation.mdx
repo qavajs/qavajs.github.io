@@ -95,12 +95,24 @@ Then I expect '$object' to match schema '$schema'
 ```
 
 ## satisfy
-verify user-defined expectation provided as predicate
+verify the user-defined expectation provided as a predicate
 
+### simple example
+```Gherkin
+Then I expect '$value' to satisfy '$isEven'
+```
+where `$isEven` is a predicate applied to the first argument
+```typescript
+function isEven(actual) {
+    return actual % 2 === 0;
+}
+```
+
+### example with an extra parameter
 ```Gherkin
 Then I expect '$value' to satisfy '$either(1, 2)'
 ```
-where `$either` is a predicate applied on first argument
+where `$either` is a predicate applied to the first argument
 ```typescript
 function either(...expected) {
     return function (actual) {
