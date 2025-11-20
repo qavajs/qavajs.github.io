@@ -24,6 +24,12 @@ Then I expect text of 'Element' to strictly equal 'some text'
 Then I expect '$variable' not to strictly equal '$js(42)'
 ```
 
+## to deeply strictly equal
+deep equal to compare reference types with [util.isDeepStrictEqual](https://nodejs.org/api/util.html#utilisdeepstrictequalval1-val2-options)
+```gherkin
+Then I expect '$variable' to deeply strictly equal '$js({ x: 42 })'
+```
+
 ## to deeply equal
 deep equal to compare reference types
 ```gherkin
