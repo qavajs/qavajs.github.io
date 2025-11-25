@@ -608,7 +608,7 @@ When I click forward button
 ```
 
 ---
-### I upload \{string} file by clicking \{string} step by
+### I upload \{string} file by clicking \{string}
 
 Provide file url to file chooser
 
@@ -619,6 +619,22 @@ Provide file url to file chooser
 
 ```gherkin
 When I upload '/folder/file.txt' file by clicking 'Upload Button'
+```
+
+---
+### I upload files by clicking \{string}:
+
+Provide multiple file urls to file chooser
+
+| param    |  type     |            description            |
+|:--------:|:---------:|:---------------------------------:|
+| alias    | string    | element that invokes file chooser |
+| files    | DataTable |     file paths                    |
+
+```Gherkin
+When I upload files by clicking 'File Input':
+  | $uploadFile  |
+  | $uploadFile2 |
 ```
 
 ---
