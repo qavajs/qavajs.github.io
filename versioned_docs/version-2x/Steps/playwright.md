@@ -32,11 +32,13 @@ export default {
     ],
     browser: {
         timeout: {
+            action: 10000, // playwright action timeout
             present: 10000,
             visible: 20000,
             page: 10000,
             value: 5000, // expect value timeout
-            valueInterval: 500 //expect value interval  
+            valueInterval: 500, // expect value interval
+            pageRefreshInterval: 2000 // refresh page for 'I refresh page...' steps
         },
         capabilities: {
             browserName: 'chromium'
@@ -47,7 +49,7 @@ export default {
 ```
 
 ## Connect to playwright server
-In order to connect to playwright server pass _wsEndpoint_ property in capabilities object
+To connect to playwright server, pass `wsEndpoint` property in the capabilities object
 ```typescript
 export default {
     browser: {
@@ -60,7 +62,7 @@ export default {
 ```
 
 ## Connect to cdp endpoint
-In order to connect to CDP endpoint pass _cdpEndpoint_ property in capabilities object
+To connect to the CDP endpoint, pass `cdpEndpoint` property inthe  capabilities object
 ```typescript
 export default {
     browser: {
@@ -73,7 +75,7 @@ export default {
 ```
 
 ## Screenshot
-@qavajs/steps-playwright can also take screenshot on particular event.
+@qavajs/steps-playwright can also take a screenshot on a particular event.
 
 - onFail
 - beforeStep
@@ -83,7 +85,7 @@ export default {
 export default {
     browser: {
         screenshot: {
-            event: ['onFail'], //event to take screenshot
+            event: ['onFail'], //event to take a screenshot
             fullPage: true // option to take full page screenshot (default false)
         }
     }
@@ -91,7 +93,7 @@ export default {
 ```
 
 ## Traces
-@qavajs support capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
+@qavajs supports capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
 
 Supported events:
 - onFail
@@ -104,7 +106,7 @@ export default {
         trace: {
             event: ['onFail'], // Events to save trace. Possible value onFail or afterScenario 
             dir: 'dirToStoreTraces', // Dir to store traces. Default - traces/
-            attach: true, // Whether trace need to be attached to cucumber report. Default - false
+            attach: true, // Whether trace needs to be attached to the cucumber report. Default - false
             screenshots: true, // Whether to capture screenshots during tracing. Screenshots are used to build a timeline preview. Default - true
             snapshots: true, // Whether to capture DOM and network activity
         }
