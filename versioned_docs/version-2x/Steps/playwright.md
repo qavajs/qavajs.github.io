@@ -168,6 +168,7 @@ condition of element to wait (can be negated with _not_)
 - to be invisible
 - to be disabled
 - to be in viewport
+- to be fully in viewport
 
 ### `playwrightTimeout`
 optional timeout that can be passed to wait steps _(timeout: x)_, where x timeout in milliseconds
