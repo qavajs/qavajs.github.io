@@ -29,7 +29,6 @@ Feature: Wikipedia
     And I expect text of 'Wikipedia Article > Title' equals '<term>'
     And I expect text of 'Wikipedia Article > Title' not to contain 'Python'
     And I expect 'Wikipedia Article > Title' to be visible
-    And I expect 'Wikipedia Article > Title' to be visible
 
     Examples:
       | term       |
