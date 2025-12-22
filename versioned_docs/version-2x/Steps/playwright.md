@@ -6,16 +6,20 @@ sidebar_position: 1
 
 Step library to work with playwright using DSL page object
 
-Demo projects: 
+Demo projects:
+
 - https://github.com/qavajs/demo/tree/main/web-playwright-v2
 - https://github.com/qavajs/demo/tree/main/web-playwright-esm-v2
 - https://github.com/qavajs/demo/tree/main/sap-ui5
 
 ## Installation
+
 ```
 npm install @qavajs/steps-playwright
 ```
+
 ## Configuration
+
 Playwright steps provide a couple of additional configuration properties
 
 | Name         | Type     | Description                                                                  | Default |
@@ -49,7 +53,9 @@ export default {
 ```
 
 ## Connect to playwright server
+
 To connect to playwright server, pass `wsEndpoint` property in the capabilities object
+
 ```typescript
 export default {
     browser: {
@@ -62,7 +68,9 @@ export default {
 ```
 
 ## Connect to cdp endpoint
-To connect to the CDP endpoint, pass `cdpEndpoint` property inthe  capabilities object
+
+To connect to the CDP endpoint, pass `cdpEndpoint` property inthe capabilities object
+
 ```typescript
 export default {
     browser: {
@@ -75,6 +83,7 @@ export default {
 ```
 
 ## Screenshot
+
 @qavajs/steps-playwright can also take a screenshot on a particular event.
 
 - onFail
@@ -93,9 +102,11 @@ export default {
 ```
 
 ## Traces
+
 @qavajs supports capturing playwright traces. https://playwright.dev/docs/next/trace-viewer-intro
 
 Supported events:
+
 - onFail
 - afterScenario
 
@@ -115,9 +126,11 @@ export default {
 ```
 
 ## Video
+
 @qavajs supports video recording https://playwright.dev/docs/next/videos
 
 Supported events:
+
 - onFail
 - afterScenario
 
@@ -128,7 +141,7 @@ export default {
         video: {
             event: ['onFail'], // Events to save video. Possible value onFail or afterScenario 
             dir: 'video', // Dir to store video. Default is video/
-            size: { width: 640, height: 480 }, // Video resolution
+            size: {width: 640, height: 480}, // Video resolution
             attach: true // Define if trace need to be attached to cucumber report. Default false
         }
     }
@@ -136,6 +149,7 @@ export default {
 ```
 
 ## Reuse Session
+
 `reuseSession` flag allows to share driver session between tests. Browser will not be closed automatically after test.
 
 ```typescript
@@ -147,6 +161,7 @@ export default {
 ```
 
 ## Restart Browser
+
 `restartBrowser` flag allows to restart browser between tests instead of default restarting context
 
 ```javascript
@@ -158,11 +173,15 @@ export default {
 ```
 
 ## Parameter Types
+
 ### `playwrightLocator`
+
 Resolves to playwright locator
 
 ### `playwrightCondition`
-condition of element to wait (can be negated with _not_) 
+
+condition of element to wait (can be negated with _not_)
+
 - to be visible
 - to be present
 - to be invisible
@@ -171,23 +190,27 @@ condition of element to wait (can be negated with _not_)
 - to be fully in viewport
 
 ### `playwrightTimeout`
+
 optional timeout that can be passed to wait steps _(timeout: x)_, where x timeout in milliseconds
 
 ### `playwrightMouseButton`
+
 mouse button to interact
+
 - left
 - right
 - middle
 
 ## Context properties
+
 @qavajs/steps-playwright exposes following world variables
 
-| variable                  | type             | description                                                     |
-|---------------------------|------------------|-----------------------------------------------------------------|
-| `this.playwright.browser` | `Browser`        | browser instance                                                |
-| `this.playwright.driver`  | `Browser`        | browser instance (alias for browser)                            |
-| `this.playwright.context` | `BrowserContext` | current browser context                                         |
-| `this.playwright.page`    | `Page`           | current context page                                            |
+| variable                  | type             | description                          |
+|---------------------------|------------------|--------------------------------------|
+| `this.playwright.browser` | `Browser`        | browser instance                     |
+| `this.playwright.driver`  | `Browser`        | browser instance (alias for browser) |
+| `this.playwright.context` | `BrowserContext` | current browser context              |
+| `this.playwright.page`    | `Page`           | current context page                 |
 
 ## Action Steps
 
@@ -202,7 +225,9 @@ Opens provided url
 ```gherkin
 When I open 'https://google.com' url
 ```
+
 ---
+
 ### I type \{string} to \{string}
 
 Type text to element
@@ -216,7 +241,9 @@ Type text to element
 When I type 'wikipedia' to 'Google Input'
 When I type 'wikipedia' into 'Google Input'
 ```
+
 ---
+
 ### I type \{string} chars to \{string}
 
 Type text to element sending fine-grained keyboard events
@@ -230,7 +257,9 @@ Type text to element sending fine-grained keyboard events
 When I type 'wikipedia' chars to 'Google Input'
 When I type 'wikipedia' chars into 'Google Input'
 ```
+
 ---
+
 ### I click \{string}
 
 Click element
@@ -242,7 +271,9 @@ Click element
 ```gherkin
 When I click 'Google Button'
 ```
+
 ---
+
 ### I clear \{string}
 
 Clear element
@@ -254,7 +285,9 @@ Clear element
 ```gherkin
 When I clear 'Search Input'
 ```
+
 ---
+
 ### I click \{string} text in \{string} collection
 
 Click on element with desired text in collection
@@ -269,6 +302,7 @@ When I click 'google' text in 'Search Engines' collection
 ```
 
 ---
+
 ### I switch to \{int} window
 
 Switch to window by index
@@ -282,6 +316,7 @@ When I switch to 2 window
 ```
 
 ---
+
 ### I switch to \{string} window
 
 Switch to window by matcher
@@ -295,6 +330,7 @@ When I switch to 'google.com' window
 ```
 
 ---
+
 ### I open new tab
 
 Open new browser tab
@@ -304,6 +340,7 @@ When I open new tab
 ```
 
 ---
+
 ### I close current tab
 
 Close current browser tab
@@ -313,6 +350,7 @@ When I close current tab
 ```
 
 ---
+
 ### I refresh page
 
 Refresh page
@@ -322,6 +360,7 @@ When I refresh page
 ```
 
 ---
+
 ### I press \{string} key
 
 Press key
@@ -335,6 +374,7 @@ When I press 'Enter' key
 ```
 
 ---
+
 ### I press \{string} key \{int} time(s)
 
 Press button given number of times
@@ -350,6 +390,7 @@ I press 'Space' key 4 times
 ```
 
 ---
+
 ### I hover over \{string}
 
 Hover over element
@@ -363,6 +404,7 @@ When I hover over 'Google Button'
 ```
 
 ---
+
 ### I select \{string} option from \{string} dropdown
 
 Select option with certain text from select element
@@ -376,8 +418,10 @@ Select option with certain text from select element
 When I select '1900' option from 'Registration Form > Date Of Birth'
 When I select '$dateOfBirth' option from 'Registration Form > Date Of Birth' dropdown
 ```
+
   
 ---
+
 ### I select \{int}(st|nd|rd|th) option from \{string} dropdown
 
 Select option with certain index from select element
@@ -392,6 +436,7 @@ When I select 1 option from 'Registration Form > Date Of Birth' dropdown
 ```
 
 ---
+
 ### I will wait for alert/dialog
 
 Start listening for dialog
@@ -401,6 +446,7 @@ When I will wait for dialog
 ```
 
 ---
+
 ### I accept alert
 
 Accepts an alert
@@ -410,6 +456,7 @@ When I accept alert
 ```
 
 ---
+
 ### I dismiss alert
 
 Dismisses an alert
@@ -419,6 +466,7 @@ When I dismiss alert
 ```
 
 ---
+
 ### I type \{string} to alert
 
 Type a text to alert
@@ -434,6 +482,7 @@ When I type 'nowadays' to alert
 ```
 
 ---
+
 ### I upload \{string} file to \{string}
 
 Provide file url to upload input
@@ -446,8 +495,10 @@ Provide file url to upload input
 ```gherkin
 When I upload '/folder/file.txt' file to 'File Input'
 ```
+
  
 ---
+
 ### I scroll by \{string}
 
 Scroll by offset
@@ -461,6 +512,7 @@ When I scroll by '0, 100'
 ```
 
 ---
+
 ### I scroll to \{string}
 
 Scroll to element
@@ -474,6 +526,7 @@ When I scroll to 'Element'
 ```
 
 ---
+
 ### I scroll by \{string} in \{string}
 
 Scroll by offset in element
@@ -488,6 +541,7 @@ When I scroll by '0, 100' in 'Overflow Container'
 ```
 
 -------------------------
+
 ### I drag and drop \{string} in \{string}
 
 Drag&Drop one element to another
@@ -502,14 +556,15 @@ When I drag and drop 'Bishop' to 'E4'
 ```
 
 _________________________
+
 ### I define \{string} as \{string} locator
 
 Register selector as page object
 
-|    param    |  type  |                description                |
-|:-----------:|:------:|:-----------------------------------------:|
-| selectorKey | string |           selector to register            |
-|  aliasKey   | string |             alias of element              |
+|    param    |  type  |     description      |
+|:-----------:|:------:|:--------------------:|
+| selectorKey | string | selector to register |
+|  aliasKey   | string |   alias of element   |
 
 ```gherkin
 When I define '#someId' as 'My Button' locator
@@ -519,6 +574,7 @@ And I expect number of element in 'Selected Items' collection to equal '3'
 ```
 
 -------------------------
+
 ### I press \{playwrightMouseButton} mouse button
 
 Press mouse button
@@ -532,6 +588,7 @@ When I press left mouse button
 ```
 
 -------------------------
+
 ### I release \{playwrightMouseButton} mouse button
 
 Release mouse button
@@ -545,6 +602,7 @@ When I release left mouse button
 ```
 
 -------------------------
+
 ### I move mouse to \{string}
 
 Move mouse to coordinates
@@ -558,6 +616,7 @@ When I move mouse to '10, 15'
 ```
 
 -------------------------
+
 ### I scroll mouse wheel by \{string}
 
 Scroll mouse wheel by x, y offset
@@ -571,6 +630,7 @@ When I scroll mouse wheel by '0, 15'
 ```
 
 -------------------------
+
 ### I hold down \{string} key
 
 Press and hold keyboard key
@@ -584,6 +644,7 @@ When I hold down 'Q' key
 ```
 
 -------------------------
+
 ### I release \{string} key
 
 Release keyboard key
@@ -597,6 +658,7 @@ When I release 'Q' key
 ```
 
 ---
+
 ### I click \{playwrightBrowserButton} button
 
 Click browser button
@@ -611,6 +673,7 @@ When I click forward button
 ```
 
 ---
+
 ### I upload \{string} file by clicking \{string}
 
 Provide file url to file chooser
@@ -625,22 +688,24 @@ When I upload '/folder/file.txt' file by clicking 'Upload Button'
 ```
 
 ---
+
 ### I upload files by clicking \{string}:
 
 Provide multiple file urls to file chooser
 
-| param    |  type     |            description            |
-|:--------:|:---------:|:---------------------------------:|
-| alias    | string    | element that invokes file chooser |
-| files    | DataTable |     file paths                    |
+| param |   type    |            description            |
+|:-----:|:---------:|:---------------------------------:|
+| alias |  string   | element that invokes file chooser |
+| files | DataTable |            file paths             |
 
 ```Gherkin
 When I upload files by clicking 'File Input':
-  | $uploadFile  |
-  | $uploadFile2 |
+| $uploadFile  |
+| $uploadFile2 |
 ```
 
 ---
+
 ### I set window size \{string}
 
 Resize browser viewport
@@ -649,12 +714,12 @@ Resize browser viewport
 |:------------:|:------:|:---------------------------------------------:|
 | viewportSize | string | width and height in pixels separated by comma |
 
-
 ```gherkin
 When I set window size '1440,900'
 ```
 
 ---
+
 ### I click \{string} coordinates in \{string}
 
 Click a certain coordinate of an element
@@ -663,7 +728,6 @@ Click a certain coordinate of an element
 |:-----------:|:------:|:-----------------------------------:|
 | coordinates | string | comma separated x and y coordinates |
 |    alias    | string |          element to click           |
-
 
 ```gherkin
 When I click '0,20' coordinates in 'Google Button'
@@ -727,6 +791,7 @@ When I save file to '/folder/file.txt' by clicking 'Download Button'
 ```
 
 ---
+
 ### I force click \{string}
 
 Force click element
@@ -738,13 +803,16 @@ Force click element
 ```gherkin
 When I force click 'Google Button'
 ```
+
 ---
 
 ---
+
 ### I grant \{string} permission
 
 Provides permission for the browser context.  
-Full list of permissions can be found in [Playwright documentation](https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions).
+Full list of permissions can be found
+in [Playwright documentation](https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions).
 
 | param |  type  |       description        |
 |:-----:|:------:|:------------------------:|
@@ -755,6 +823,7 @@ When I grant 'geolocation' permission
 ```
 
 ---
+
 ### I revoke browser permissions
 
 Clears all permission overrides for the browser context.
@@ -764,6 +833,7 @@ When I revoke browser permissions
 ```
 
 ---
+
 ### I set \{string} geolocation
 
 Sets a geolocation for a current context.  
@@ -781,6 +851,7 @@ When I set '$js({ latitude: 62.39, longitude: -96.81})' geolocation
 ## Validation Steps
 
 ---
+
 ### I expect \{string} \{playwrightCondition}
 
 Verify that element satisfies certain condition
@@ -796,6 +867,7 @@ Then I expect 'Loading' not to be present
 ```
 
 ---
+
 ### I expect number of elements in \{string} collection \{validation} \{string}
 
 Verify that number of element in collection satisfies condition
@@ -813,6 +885,7 @@ Then I expect number of elements in 'Search Results' collection to be below '51'
 ```
 
 ---
+
 ### I expect text of \{string} \{validation} \{string}
 
 Verify that text of element satisfies condition
@@ -827,7 +900,9 @@ Verify that text of element satisfies condition
 Then I expect text of 'Search Result (1)' to be equal 'google'
 Then I expect text of 'Search Result (1)' to be equal '$firstResult'
 ```
+
 ---
+
 ### I expect value of \{string} \{validation} \{string}
 
 Verify that value of element satisfies condition
@@ -842,7 +917,9 @@ Verify that value of element satisfies condition
 Then I expect value of 'Input' to be equal 'google'
 Then I expect value of 'Textarea (1)' to be equal '$firstResult'
 ```
+
 ---
+
 ### I expect \{string} property of \{string} \{validation} \{string}
 
 Verify that property of element satisfies condition
@@ -859,7 +936,9 @@ Then I expect 'value' property of 'Search Input' to be equal 'text'
 Then I expect 'innerHTML' property of 'Label' to contain '<b>'
 Then I expect 'value' property of 'Search Input' to be equal '$inputText'
 ```
+
 ---
+
 ### I expect \{string} attribute of \{string} \{validation} \{string}
 
 Verify that attribute of element satisfies condition
@@ -877,14 +956,33 @@ Then I expect 'href' attribute of 'Home Link' to be equal '$url'
 ```
 
 ---
+
+### I expect \{string} custom property of \{string} \{validation} \{string}
+
+Verify that custom property (script result) of element satisfies condition
+
+|     param     |  type  |               description                |                          example                          |
+|:-------------:|:------:|:----------------------------------------:|:---------------------------------------------------------:|
+|   property    | string | get property script (function reference) | `$js(element => e.shadowRoot.textContent)`, `$shadowRoot` |
+|     alias     | string |        element to check condition        |             Label, Search Result (1) > Title              |
+|  validation   | string |             validation type              |           to be equal, to contain, not to match           |
+| expectedValue | string |             expected result              |                                                           |
+
+```gherkin
+Then I expect '$js(element => e.shadowRoot.textContent)' custom property of 'Search Input' to equal 'text'
+Then I expect '$shadowRoot' custom property of 'Label' to contain 'text'
+```
+
+---
+
 ### I expect current url \{validation} \{string}
 
 Verify that current url satisfies condition
 
-|     param     |  type  |        description         |                example                |
-|:-------------:|:------:|:--------------------------:|:-------------------------------------:|
-|  validation   | string |      validation type       | to be equal, to contain, not to match |
-| expectedValue | string |      expected result       |                                       |
+|     param     |  type  |   description   |                example                |
+|:-------------:|:------:|:---------------:|:-------------------------------------:|
+|  validation   | string | validation type | to be equal, to contain, not to match |
+| expectedValue | string | expected result |                                       |
 
 ```gherkin
 Then I expect current url contains 'wikipedia'
@@ -892,19 +990,22 @@ Then I expect current url equals 'https://wikipedia.org'
 ```
 
 ---
+
 ### I expect page title \{validation} \{string}
 
 Verify that page title satisfies condition
 
-|     param     |  type  |        description         |                example                |
-|:-------------:|:------:|:--------------------------:|:-------------------------------------:|
-|  validation   | string |      validation type       | to be equal, to contain, not to match |
-| expectedValue | string |      expected result       |                                       |
+|     param     |  type  |   description   |                example                |
+|:-------------:|:------:|:---------------:|:-------------------------------------:|
+|  validation   | string | validation type | to be equal, to contain, not to match |
+| expectedValue | string | expected result |                                       |
 
 ```gherkin
 Then I expect page title equals 'Wikipedia'
 ```
+
 ---
+
 ### I expect every element in \{string} collection \{playwrightCondition}
 
 Verify that all elements in collection satisfy condition
@@ -920,6 +1021,7 @@ Then I expect every element in 'Loading Bars' collection not to be present
 ```
 
 ---
+
 ### I expect text of every element in \{string} collection \{validation} \{string}
 
 Verify that all texts in collection satisfy condition
@@ -938,6 +1040,7 @@ Then I expect text of every element in 'Search Results' collection does not cont
 ```
 
 ---
+
 ### I expect \{string} attribute of every element in \{string} collection \{validation} \{string}
 
 Verify that all particular attributes in collection satisfy condition
@@ -956,6 +1059,7 @@ Then I expect 'href' attribute of every element in 'Search Results' collection t
 ```
 
 ---
+
 ### I expect \{string} property of every element in \{string} collection \{validation} \{string}
 
 Verify that all particular properties in collection satisfy condition
@@ -971,6 +1075,25 @@ Note: step passes in case of empty collection
 
 ```gherkin
 Then I expect 'href' property of every element in 'Search Results' collection to contain 'google'
+```
+
+---
+
+### I expect \{string} custom property of every element in \{string} collection \{validation} \{string}
+
+Verify that all custom properties (script results) in collection satisfy condition
+
+Note: step passes in case of empty collection
+
+|     param     |  type  |               description                |                      example                      |
+|:-------------:|:------:|:----------------------------------------:|:-------------------------------------------------:|
+|   property    | string | get property script (function reference) | `$js(element => element.nodeName)`, `$shadowRoot` |
+|     alias     | string |           alias of collection            |                  Search Results                   |
+|  validation   | string |             validation type              |       to be equal, to contain, not to match       |
+| expectedValue | string |             expected result              |                                                   |
+
+```gherkin
+Then I expect '$js(element => element.nodeName)' custom property of every element in 'Collection' collection to equal 'LI'
 ```
 
 ### I expect \{string} css property of \{string} \{validation} \{string}
@@ -990,6 +1113,7 @@ Then I expect 'font-family' css property of 'Label' to contain 'Fira'
 ```
 
 ---
+
 ### I expect text of alert \{validation} \{string}
 
 Verify that text of an alert meets expectation
@@ -1006,21 +1130,40 @@ Then I expect text of alert does not contain 'Are you sure you want to leave thi
 ```
 
 ## Memory Steps
+
  
 ---
+
 ### I save text of \{string} as \{string}
 
 Save text of element to memory
 
-| param |  type  |     description      |             example              |
-|:-----:|:------:|:--------------------:|:--------------------------------:|
-| alias | string | element to get value | Label, Search Result (1) > Title |
-|  key  | string |  key to store value  |                                  |
+| param |  type  |     description     |             example              |
+|:-----:|:------:|:-------------------:|:--------------------------------:|
+| alias | string | element to get text | Label, Search Result (1) > Title |
+|  key  | string | key to store value  |                                  |
 
 ```gherkin
 When I save text of 'Search Result (1)' as 'firstSearchResult'
 ```
+
 ---
+
+### I save value of \{string} as \{string}
+
+Save value of element to memory
+
+| param |  type  |     description      |        example         |
+|:-----:|:------:|:--------------------:|:----------------------:|
+| alias | string | element to get value | Textarea, Search Input |
+|  key  | string |  key to store value  |                        |
+
+```gherkin
+When I save value of 'Search Result (1)' as 'firstSearchResult'
+```
+
+---
+
 ### I save \{string} property of \{string} as \{string}
 
 Save property of element to memory
@@ -1031,12 +1174,13 @@ Save property of element to memory
 |  alias   | string | element to get value | Label, Search Result (1) > Title |
 |   key    | string |  key to store value  |                                  |
 
-
 ```gherkin
 When I save 'checked' property of 'Checkbox' as 'checked'
 When I save '$prop' property of 'Checkbox' as 'checked'
 ```
+
 ---
+
 ### I save \{string} attribute of \{string} as \{string}
 
 Save attribute of element to memory
@@ -1051,7 +1195,9 @@ Save attribute of element to memory
 When I save 'href' attribute of 'Link' as 'linkHref'
 When I save '$prop' attribute of 'Link' as 'linkHref'
 ```
+
 ---
+
 ### I save number of elements in \{string} collection as \{string}
 
 Save number of elements in collection to memory
@@ -1066,6 +1212,7 @@ When I save number of elements in 'Search Results' collection as 'numberOfSearch
 ```
 
 ---
+
 ### I save text of every element of \{string} collection as \{string}
 
 Save array of texts of collection to memory
@@ -1080,6 +1227,22 @@ When I save text of every element of 'Search Results' collection as 'searchResul
 ```
 
 ---
+
+### I save value of every element of \{string} collection as \{string}
+
+Save array of values of collection to memory
+
+| param |  type  |       description       |   example   |
+|:-----:|:------:|:-----------------------:|:-----------:|
+| alias | string | collection to get value | Form Inputs |
+|  key  | string |   key to store value    |             |
+
+```gherkin
+When I save value of every element of 'Search Results' collection as 'searchResults'
+```
+
+---
+
 ### I save \{string} attribute of every element of \{string} collection as \{string}
 
 Save array of attributes of collection to memory
@@ -1095,6 +1258,7 @@ When I save 'checked' attribute of every element of 'Search > Checkboxes' collec
 ```
 
 ---
+
 ### I save \{string} property of every element of \{string} collection as \{string}
 
 Save array of properties of collection to memory
@@ -1110,26 +1274,29 @@ When I save 'href' property of every element of 'Search Results' collection as '
 ```
 
 ---
+
 ### I save current url as \{string}
 
 Save current url to memory
 
-|  param   |  type  |       description       |    example     |
-|:--------:|:------:|:-----------------------:|:--------------:|
-|   key    | string |   key to store value    |                |
+| param |  type  |    description     | example |
+|:-----:|:------:|:------------------:|:-------:|
+|  key  | string | key to store value |         |
 
 ```gherkin
 When I save current url as 'currentUrl'
 ```
+
  
 ---
+
 ### I save page title as \{string}
 
 Save current page title to memory
 
-|  param   |  type  |       description       |    example     |
-|:--------:|:------:|:-----------------------:|:--------------:|
-|   key    | string |   key to store value    |                |
+| param |  type  |    description     | example |
+|:-----:|:------:|:------------------:|:-------:|
+|  key  | string | key to store value |         |
 
 ```gherkin
 When I save page title as 'currentTitle'
@@ -1145,13 +1312,14 @@ Save css property of element to memory
 |  alias   | string | element to get value | Label, Search Result (1) > Title |
 |   key    | string |  key to store value  |                                  |
 
-
 ```gherkin
 When I save 'color' css property of 'Checkbox' as 'checkboxColor'
 When I save '$propertyName' property of 'Checkbox' as 'checkboxColor'
 ```
+
      
 ---
+
 ### I save screenshot as \{string}
 
 Save page screenshot into memory
@@ -1165,6 +1333,7 @@ When I save screenshot as 'screenshot'
 ```
 
 ---
+
 ### I save full page screenshot as \{string}
 
 Save full page screenshot into memory
@@ -1178,6 +1347,7 @@ When I save full page screenshot as 'screenshot'
 ```
 
 ---
+
 ### I save screenshot of \{string} as \{string}
 
 Save element screenshot into memory
@@ -1192,6 +1362,7 @@ When I save screenshot of 'Element' as 'screenshot'
 ```
 
 ---
+
 ### I save bounding rect of \{string} as \{string}
 
 Save bounding client rect to memory
@@ -1207,9 +1378,42 @@ When I save bounding rect of 'Node' as 'boundingRect'
 Then I expect '$boundingRect.width' to equal '42'
 ```
 
+---
+
+### I save \{string} custom property of \{string} as \{string}
+
+Save custom property (script result) of element to memory
+
+|  param   |  type  |               description                |                    example                     |
+|:--------:|:------:|:----------------------------------------:|:----------------------------------------------:|
+| property | string | get property script (function reference) | `$js(element => element.value)`, `$shadowRoot` |
+|  alias   | string |        element to get value from         |        Label, Search Result (1) > Title        |
+|   key    | string |            key to store value            |                                                |
+
+```gherkin
+When I save '$js(element => element.value)' custom property of 'Element' as 'value'
+```
+
+---
+
+### I save \{string} custom property of every element of \{string} collection as \{string}
+
+Save array of custom properties (script results) of collection to memory
+
+|  param   |  type  |               description                |                      example                      |
+|:--------:|:------:|:----------------------------------------:|:-------------------------------------------------:|
+| property | string | get property script (function reference) | `$js(element => element.nodeName)`, `$shadowRoot` |
+|  alias   | string |       collection to get value from       |                  Search Results                   |
+|   key    | string |            key to store value            |                                                   |
+
+```gherkin
+When I save '$js(element => element.nodeName)' custom property of every element of 'Collection' collection as 'nodeNames'
+```
+
 ## Wait Steps
 
 -------------------------
+
 ### I refresh page until \{string} \{playwrightCondition}( )\{playwrightTimeout}
 
 Refresh page until element matches condition
@@ -1225,6 +1429,7 @@ When I refresh page until 'Internal Server Error Box' to be visible
 When I refresh page until 'Submit Button' to be enabled
 When I refresh page until 'Place Order Button' to be clickable (timeout: 3000)
 ```
+
 -------------------------
 
 ### I refresh page until text of \{string} \{validation} \{string}( )\{playwrightTimeout}
@@ -1243,11 +1448,13 @@ When I refresh page until text of 'Order Status' to be equal 'Processing'
 When I refresh page until text of 'Currency' not contain '$'
 When I refresh page until text of 'My Salary' to match '/5\d{3,}/' (timeout: 3000)
 ```
+
 -------------------------
 
 ## Execute Steps
 
 ---
+
 ### I execute \{string} function
 
 Execute client function
@@ -1262,6 +1469,7 @@ When I execute 'window.scrollBy(0, 100)' function
 ```
 
 ---
+
 ### I execute \{string} function and save result as \{string}
 
 Execute client function and save result into memory
@@ -1277,6 +1485,7 @@ When I execute 'window.scrollY' function and save result as 'scroll'
 ```
 
 ---
+
 ### I execute \{string} function on \{string}
 
 Execute client function on certain element
@@ -1292,6 +1501,7 @@ When I execute 'arguments[0].scrollIntoView()' function on 'Component > Element'
 ```
 
 ---
+
 ### I execute \{string} function on \{string} and save result as \{string}
 
 Execute client function on certain element
@@ -1310,6 +1520,7 @@ When I execute 'arguments[0].innerText' function on 'Component > Element' and sa
 ## Mock Steps
 
 ---
+
 ### I create mock for \{string} as \{string}
 
 Create mock instance
@@ -1325,6 +1536,7 @@ When I create mock for '$mockUrlTemplate' as 'mock1'
 ```
 
 ---
+
 ### I set \{string} mock to respond \{string} with: [multiline]
 
 Add mocking rule to respond with desired status code and payload
@@ -1346,6 +1558,7 @@ And I set '$myServiceMock' mock to respond '200' with:
 ```
 
 ---
+
 ### I set \{string} mock to respond \{string} with \{string}
 
 Add mocking rule to respond with desired status code and payload
@@ -1362,6 +1575,7 @@ And I set '$myServiceMock' mock to respond '200' with '$response'
 ```
 
 ---
+
 ### I set \{string} mock to abort with \{string} reason
 
 Add mocking rule to abort request with certain reason
@@ -1377,19 +1591,21 @@ And I set '$myServiceMock' mock to abort with 'Failed' reason
 ```
 
 ---
+
 ### I restore \{string} mock
 
 Restore mock
 
-|  param  |  type  |                        description                         |
-|:-------:|:------:|:----------------------------------------------------------:|
-| mockKey | string |              memory key to get mock instance               |
+|  param  |  type  |           description           |
+|:-------:|:------:|:-------------------------------:|
+| mockKey | string | memory key to get mock instance |
 
 ```gherkin
 When I restore '$myServiceMock'
 ```
 
 ---
+
 ### I restore all mocks
 
 Restore all mocks
@@ -1401,6 +1617,7 @@ When I restore all mocks
 ## Cookie Steps
 
 ---
+
 ### I set \{string} cookie as \{string}
 
 Set cookie
@@ -1414,8 +1631,10 @@ Set cookie
 When I set 'userID' cookie as 'user1'
 When I set 'userID' cookie as '$userIdCookie'
 ```
+
    
 ---
+
 ### I save value of \{string} cookie as \{string}
 
 Save cookie value to memory
@@ -1432,6 +1651,7 @@ When I save value of 'auth' cookie as 'authCookie'
 ## Local/Session Storage Steps
 
 ---
+
 ### I set \{string} \{word} storage value as \{string}
 
 Set value of local/session storage
@@ -1448,6 +1668,7 @@ When I set '$sessionStorageKey' session storage value as '$sessionStorageValue'
 ```
 
 ---
+
 ### I save value of \{string} \{word} storage as \{string}
 
 Set value of local/session storage
@@ -1466,6 +1687,7 @@ When I save value of '$sessionStorageKey' session storage value as 'sessionStora
 ## Network Intercept Steps
 
 ---
+
 ### I create interception for \{string} as \{string}
 
 Create interception for url or predicate function
@@ -1481,6 +1703,7 @@ When I create interception for '$condition' as 'intercept' # where condition is 
 ```
 
 ---
+
 ### I wait for \{string} response
 
 Wait for interception event
@@ -1495,6 +1718,7 @@ And I wait for '$interception' response
 ```
 
 ---
+
 ### I save \{string} response as \{string}
 
 Wait for interception event and save response to memory
