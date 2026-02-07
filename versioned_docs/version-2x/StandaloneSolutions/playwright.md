@@ -18,12 +18,13 @@ npm install @qavajs/playwright
 ```
 
 ## Configuration
-cucumber.ts
+qavajs.config.ts
 ```typescript
+import { defineConfig } from '@qavajs/playwright';
 import Memory from './memory';
 import App from './page_object';
 
-export default {
+export default defineConfig({
     paths: ['features/*.feature'],
     require: [
         'node_modules/@qavajs/playwright/steps.js', // package steps
@@ -31,18 +32,15 @@ export default {
     ],
     memory: new Memory(),
     pageObject: new App()
-}
+});
 ```
 
 playwright.config.ts
 ```typescript
-import { defineCucumber } from '@qavajs/playwright';
+import { defineConfig } from '@playwright/test';
 
 export default defineConfig({
-    testDir: defineCucumber({
-        config: 'test-e2e/config.ts',
-        profile: 'smoke'
-    }),
+    testMatch: 'qavajs.config.ts',
     ...
 });
 ```
