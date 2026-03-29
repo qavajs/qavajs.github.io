@@ -62,7 +62,7 @@ In the scenarios above:
 ## Common qavajs Steps
 
 qavajs provides many predefined steps for different actions 
-(check corresponding [step modules](category/steps) to learn more):
+(check corresponding [step modules](../category/steps) to learn more):
 
 ### Navigation Steps
 ```gherkin
