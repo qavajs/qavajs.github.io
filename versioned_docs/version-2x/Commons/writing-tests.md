@@ -80,7 +80,7 @@ And I hover over 'Menu Icon'
 ```
 
 ### Assertion Steps
-All qavajs modules use same set of [validations](./Guides/validation.mdx)
+All qavajs modules use same set of [validations](./validation.mdx)
 ```gherkin
 Then I expect 'Search Button' to be visible
 And I expect text of 'Title' equals 'JavaScript'
@@ -96,7 +96,7 @@ When I save current url as 'url'
 
 ## Page Objects
 
-[Page Objects](./Guides/page-object.mdx) represent UI elements in a structured way, making tests more maintainable.
+[Page Objects](./page-object.mdx) represent UI elements in a structured way, making tests more maintainable.
 
 Create your page objects in the `page_object` directory:
 
@@ -141,7 +141,7 @@ export class ResultPage {
 
 ## Test Data Management
 
-qavajs provides a [Memory](./Guides/memory.mdx) system to store and reuse values across tests.
+qavajs provides a [Memory](./memory.mdx) system to store and reuse values across tests.
 
 ### Defining Constants
 

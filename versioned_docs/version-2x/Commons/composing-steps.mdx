@@ -23,7 +23,7 @@ enhanced by qavajs parameter types.
   </TabItem>
   <TabItem value="ts" label="TypeScript" default default>
     ```typescript
-    import { When } from '@qavajs/core';
+    import { When, type MemoryValue } from '@qavajs/core';
     import type { Locator } from '@playwright/test';
 
     When('I select {value} option from {playwrightLocator}', async function(option: MemoryValue, locator: Locator) {
