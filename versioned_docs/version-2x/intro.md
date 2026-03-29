@@ -35,8 +35,8 @@ Feature: Wikipedia
       | JavaScript |
       | Java       |
 ```
-It is worth mentioning the expression **'$wikipediaUrl'** in the example above, starting with '**\$**' interpreted as a **qavajs** memory variable whose value is taken from the Memory class instance in runtime. [More details](https://qavajs.github.io/docs/Guides/memory).  
-Another feature is a locator alias expression like **'Wikipedia > Search Input'** separated by the '**\>**' sign that describes hierarchical page structure. See how [to organize your page object](Guides/page-object).
+It is worth mentioning the expression **'$wikipediaUrl'** in the example above, starting with '**\$**' interpreted as a **qavajs** memory variable whose value is taken from the Memory class instance in runtime. [More details](./Commons/memory.mdx).
+Another feature is a locator alias expression like **'Wikipedia > Search Input'** separated by the '**\>**' sign that describes hierarchical page structure. See how [to organize your page object](./Commons/page-object.mdx).
 
 ### Configuration
 In addition to the default features of Cucumber [config file](https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md#options), the **qavajs** config implements the following [capabilities](https://github.com/qavajs/core/blob/main/src/IQavajsConfig.ts) to provide advanced flexibility.
@@ -57,7 +57,7 @@ npx qavajs run --profile <profile>
 ```
 
 ### Page object
-[Page object guide](./Guides/page-object.mdx)
+[Page object guide](./Commons/page-object.mdx)
 
 ### Override memory values
 In case tests need to be run with an updated memory value, they can be passed via CLI (e.g, run scenarios on some other URL)
