@@ -25,7 +25,7 @@ Playwright steps provide a couple of additional configuration properties
 | Name         | Type     | Description                                                                  | Default |
 |--------------|----------|------------------------------------------------------------------------------|---------|
 | `browser`    | `object` | object describing playwright config                                          | `{}`    |
-| `pageObject` | `object` | instance of page object definitions  [(page object)](Guides/page-object.mdx) | `{}`    |
+| `pageObject` | `object` | instance of page object definitions  [(page object)](Commons/page-object.mdx) | `{}`    |
 
 ```typescript
 import App from './page_object';
