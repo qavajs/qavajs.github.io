@@ -1,0 +1,154 @@
+---
+sidebar_position: 7
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Fixtures
+
+A `Fixture` is a reusable setup/teardown block that activates when a scenario carries a matching tag. Fixtures are a clean alternative to hooks when setup logic applies only to a specific group of scenarios.
+
+Demo projects:
+- https://github.com/qavajs/demo/tree/main/fixture
+
+## Basic Usage
+
+Define a fixture in your support code:
+
+<Tabs>
+  <TabItem value="ts" label="TypeScript" default>
+    ```typescript
+    import { Fixture } from '@qavajs/core';
+
+    Fixture('pdp', async function() {
+        await this.playwright.page.goto('/products/qavajs-t-shirt');
+    });
+    ```
+  </TabItem>
+  <TabItem value="js" label="JavaScript">
+    ```javascript
+    const { Fixture } = require('@qavajs/core');
+
+    Fixture('pdp', async function() {
+        await this.playwright.page.goto('/products/qavajs-t-shirt');
+    });
+    ```
+  </TabItem>
+</Tabs>
+
+Activate the fixture by tagging a scenario with `@<fixture-name>`:
+
+```gherkin
+@pdp
+Scenario: User adds product to cart
+  When I click 'Add To Cart Button'
+  Then I expect 'Cart Count' to equal '1'
+```
+
+## Setup and Teardown
+
+A fixture can return a teardown function that runs after the scenario completes:
+
+<Tabs>
+  <TabItem value="ts" label="TypeScript" default>
+    ```typescript
+    import { Fixture } from '@qavajs/core';
+
+    Fixture('cart', async function() {
+        // setup: navigate to PDP and add an item
+        await this.playwright.page.goto('/products/qavajs-t-shirt');
+        await this.playwright.page.click('.add-to-cart');
+
+        // teardown: remove the item after the scenario
+        return async function() {
+            await this.playwright.page.request.delete('/api/cart');
+        }
+    });
+    ```
+  </TabItem>
+  <TabItem value="js" label="JavaScript">
+    ```javascript
+    const { Fixture } = require('@qavajs/core');
+
+    Fixture('cart', async function() {
+        await this.playwright.page.goto('/products/qavajs-t-shirt');
+        await this.playwright.page.click('.add-to-cart');
+
+        return async function() {
+            await this.playwright.page.request.delete('/api/cart');
+        }
+    });
+    ```
+  </TabItem>
+</Tabs>
+
+## Accessing Memory
+
+Fixtures run in the world context and have full access to memory values and world properties:
+
+<Tabs>
+  <TabItem value="ts" label="TypeScript" default>
+    ```typescript
+    import { Fixture } from '@qavajs/core';
+
+    Fixture('authenticated', async function() {
+        const username = await this.getValue('$username');
+        const password = await this.getValue('$password');
+
+        await this.playwright.page.goto('/login');
+        await this.playwright.page.fill('#username', username);
+        await this.playwright.page.fill('#password', password);
+        await this.playwright.page.click('#submit');
+        await this.playwright.page.waitForURL('/dashboard');
+
+        return async function() {
+            await this.playwright.page.goto('/logout');
+        }
+    });
+    ```
+  </TabItem>
+  <TabItem value="js" label="JavaScript">
+    ```javascript
+    const { Fixture } = require('@qavajs/core');
+
+    Fixture('authenticated', async function() {
+        const username = await this.getValue('$username');
+        const password = await this.getValue('$password');
+
+        await this.playwright.page.goto('/login');
+        await this.playwright.page.fill('#username', username);
+        await this.playwright.page.fill('#password', password);
+        await this.playwright.page.click('#submit');
+
+        return async function() {
+            await this.playwright.page.goto('/logout');
+        }
+    });
+    ```
+  </TabItem>
+</Tabs>
+
+## Combining Multiple Fixtures
+
+Apply multiple fixtures to a single scenario by stacking tags:
+
+```gherkin
+@authenticated @cart
+Scenario: Logged-in user completes checkout
+  When I click 'Checkout Button'
+  Then I expect 'Order Confirmation' to be visible
+```
+
+Both fixtures will run in the order they are defined, and both teardown functions will run after the scenario.
+
+## Fixtures vs Hooks
+
+| | Fixture | Before/After Hook |
+|---|---|---|
+| Activation | Tag on the scenario | All scenarios (or filtered by tag expression) |
+| Teardown | Return a function from the fixture body | Separate `After` hook |
+| Visibility | Tag is visible in the feature file | Setup is invisible from the feature |
+| Best for | Scenario-specific prerequisites | Cross-cutting concerns (screenshots, cookies) |
+
+Use fixtures when the setup belongs to a specific scenario group. Use [hooks](./hooks.mdx) for infrastructure concerns that apply broadly across the suite.
