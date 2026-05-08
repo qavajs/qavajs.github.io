@@ -1,0 +1,227 @@
+---
+sidebar_position: 6
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Hooks
+
+qavajs supports two layers of hooks: Cucumber's scenario-level hooks (`Before`/`After`) and qavajs execution-level hooks (`BeforeExecution`/`AfterExecution`).
+
+## Scenario Hooks
+
+Scenario hooks run before or after each individual scenario and are imported from `@qavajs/core`.
+
+### Before / After
+
+<Tabs>
+  <TabItem value="ts" label="TypeScript" default>
+    ```typescript
+    import { Before, After } from '@qavajs/core';
+
+    Before(async function() {
+        await this.playwright.page.goto('/');
+    });
+
+    After(async function() {
+        await this.playwright.context.clearCookies();
+    });
+    ```
+  </TabItem>
+  <TabItem value="js" label="JavaScript">
+    ```javascript
+    const { Before, After } = require('@qavajs/core');
+
+    Before(async function() {
+        await this.playwright.page.goto('/');
+    });
+
+    After(async function() {
+        await this.playwright.context.clearCookies();
+    });
+    ```
+  </TabItem>
+</Tabs>
+
+### BeforeAll / AfterAll
+
+Run once per worker process — before the first scenario and after the last scenario in that worker.
+
+<Tabs>
+  <TabItem value="ts" label="TypeScript" default>
+    ```typescript
+    import { BeforeAll, AfterAll } from '@qavajs/core';
+
+    BeforeAll(async function() {
+        // runs once in this worker before any scenarios
+    });
+
+    AfterAll(async function() {
+        // runs once in this worker after all scenarios
+    });
+    ```
+  </TabItem>
+  <TabItem value="js" label="JavaScript">
+    ```javascript
+    const { BeforeAll, AfterAll } = require('@qavajs/core');
+
+    BeforeAll(async function() {});
+    AfterAll(async function() {});
+    ```
+  </TabItem>
+</Tabs>
+
+## Execution Hooks
+
+Execution hooks run once in the main process, outside of any worker. Use them for services shared across all tests.
+
+<Tabs>
+  <TabItem value="ts" label="TypeScript" default>
+    ```typescript
+    import { BeforeExecution, AfterExecution } from '@qavajs/core';
+
+    BeforeExecution(async function() {
+        await mockServer.start();
+    });
+
+    AfterExecution(async function() {
+        await mockServer.stop();
+    });
+    ```
+  </TabItem>
+  <TabItem value="js" label="JavaScript">
+    ```javascript
+    const { BeforeExecution, AfterExecution } = require('@qavajs/core');
+
+    BeforeExecution(async function() {
+        await mockServer.start();
+    });
+
+    AfterExecution(async function() {
+        await mockServer.stop();
+    });
+    ```
+  </TabItem>
+</Tabs>
+
+## Tagged Hooks
+
+Restrict a hook to scenarios with a specific tag using a tag expression:
+
+<Tabs>
+  <TabItem value="ts" label="TypeScript" default>
+    ```typescript
+    import { Before, After } from '@qavajs/core';
+
+    Before({ tags: '@authenticated' }, async function() {
+        await this.playwright.page.goto('/login');
+        await this.playwright.page.fill('#username', 'admin');
+        await this.playwright.page.fill('#password', 'password');
+        await this.playwright.page.click('#submit');
+    });
+
+    After({ tags: '@db-cleanup' }, async function() {
+        await this.playwright.page.request.delete('/api/test-data');
+    });
+    ```
+  </TabItem>
+  <TabItem value="js" label="JavaScript">
+    ```javascript
+    const { Before, After } = require('@qavajs/core');
+
+    Before({ tags: '@authenticated' }, async function() {
+        await this.playwright.page.goto('/login');
+        await this.playwright.page.fill('#username', 'admin');
+        await this.playwright.page.fill('#password', 'password');
+        await this.playwright.page.click('#submit');
+    });
+    ```
+  </TabItem>
+</Tabs>
+
+Feature file:
+```gherkin
+@authenticated
+Scenario: Admin views dashboard
+  Then I expect 'Dashboard Header' to be visible
+```
+
+## World Context in Hooks
+
+Hooks run in the same world context as steps, giving access to `this.playwright`, `this.wdio`, `this.getValue`, `this.setValue`, etc.
+
+```typescript
+import { Before, After } from '@qavajs/core';
+
+Before(async function() {
+    const baseUrl = await this.getValue('$baseUrl');
+    await this.playwright.page.goto(baseUrl);
+});
+
+After(async function() {
+    if (this.result?.status === 'FAILED') {
+        const screenshot = await this.playwright.page.screenshot();
+        this.attach(screenshot, 'image/png');
+    }
+});
+```
+
+## Common Patterns
+
+### Screenshot on failure
+
+```typescript
+import { After } from '@qavajs/core';
+
+After(async function() {
+    if (this.result?.status === 'FAILED') {
+        const screenshot = await this.playwright.page.screenshot({ fullPage: true });
+        this.attach(screenshot, 'image/png');
+    }
+});
+```
+
+### Reset browser state between scenarios
+
+```typescript
+import { Before } from '@qavajs/core';
+
+Before(async function() {
+    await this.playwright.context.clearCookies();
+    await this.playwright.context.clearPermissions();
+    await this.playwright.page.goto('about:blank');
+});
+```
+
+### Seed and clean database
+
+```typescript
+import { Before, After } from '@qavajs/core';
+import { db } from './support/database';
+
+Before({ tags: '@seed' }, async function() {
+    await db.seed('test-fixtures');
+});
+
+After({ tags: '@seed' }, async function() {
+    await db.truncate('test-fixtures');
+});
+```
+
+### Start a local server
+
+```typescript
+import { BeforeExecution, AfterExecution } from '@qavajs/core';
+import { createServer } from './support/server';
+
+const server = createServer();
+
+BeforeExecution(async function() {
+    await server.listen(3000);
+});
+
+AfterExecution(async function() {
+    await server.close();
+});
+```

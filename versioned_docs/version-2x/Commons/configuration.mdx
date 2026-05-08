@@ -1,0 +1,376 @@
+---
+sidebar_position: 5
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+# Configuration Reference
+
+The qavajs configuration file extends [Cucumber JS configuration](https://github.com/cucumber/cucumber-js/blob/main/docs/configuration.md) with additional options. By default qavajs looks for `config.ts` (or `config.js`) in the project root.
+
+```bash
+npx qavajs run --config path/to/config.ts
+```
+
+## Profiles
+
+A single config file can export multiple named profiles:
+
+```typescript
+export default { /* default config */ }
+export const ci = { /* ci config */ }
+```
+
+Select a profile at runtime:
+
+```bash
+npx qavajs run --profile ci
+```
+
+## Core Options
+
+### `paths`
+
+| Type | Default |
+|------|---------|
+| `string[]` | `['features/**/*.feature']` |
+
+Glob patterns pointing to feature files.
+
+```typescript
+paths: ['features/**/*.feature']
+```
+
+---
+
+### `require`
+
+| Type | Default |
+|------|---------|
+| `string[]` | `[]` |
+
+Paths to step definition files and support code loaded before tests run.
+
+```typescript
+require: [
+    'node_modules/@qavajs/steps-playwright/index.js',
+    'step_definitions/**/*.ts'
+]
+```
+
+---
+
+### `format`
+
+| Type | Default |
+|------|---------|
+| `(string \| [string, string])[]` | `[]` |
+
+Formatter configurations. Use a string for stdout output or a `[formatter, output-path]` tuple to write to a file.
+
+```typescript
+format: [
+    '@qavajs/console-formatter',
+    ['@qavajs/html-formatter', 'reports/report.html'],
+    ['junit', 'reports/junit.xml']
+]
+```
+
+---
+
+### `formatOptions`
+
+| Type | Default |
+|------|---------|
+| `object` | `{}` |
+
+Options passed to formatters.
+
+```typescript
+formatOptions: {
+    console: {
+        showLogs: true
+    }
+}
+```
+
+---
+
+### `parallel`
+
+| Type | Default |
+|------|---------|
+| `number` | `1` |
+
+Number of parallel worker processes. See [Parallel Execution](./parallel.md).
+
+```typescript
+parallel: 4
+```
+
+---
+
+### `defaultTimeout`
+
+| Type | Default |
+|------|---------|
+| `number` | `30000` |
+
+Default step timeout in milliseconds.
+
+```typescript
+defaultTimeout: 60000
+```
+
+---
+
+### `retry`
+
+| Type | Default |
+|------|---------|
+| `number` | `0` |
+
+Number of times to retry a failing scenario. See [Retries](../Guides/retries.md).
+
+```typescript
+retry: 2
+```
+
+---
+
+### `tags`
+
+| Type | Default |
+|------|---------|
+| `string` | `undefined` |
+
+Tag expression to filter which scenarios to run. Overridden by `--tags` CLI flag. See [Tags & Filtering](../Guides/tags.md).
+
+```typescript
+tags: '@smoke and not @wip'
+```
+
+---
+
+### `pageObject`
+
+| Type | Default |
+|------|---------|
+| `object` | `{}` |
+
+Instance of the root page object class. See [Page Object Model](./page-object.mdx).
+
+```typescript
+import App from './page_object';
+
+pageObject: new App()
+```
+
+---
+
+### `memory`
+
+| Type | Default |
+|------|---------|
+| `object` | `{}` |
+
+Instance of the memory class that provides constants and computed values. See [Test Data Management](./memory.mdx).
+
+```typescript
+import Memory from './memory';
+
+memory: new Memory()
+```
+
+---
+
+## Browser Options
+
+The `browser` object configures the browser driver (Playwright or WebdriverIO).
+
+### `browser.logLevel`
+
+| Type | Default |
+|------|---------|
+| `'trace' \| 'debug' \| 'info' \| 'warn' \| 'error' \| 'silent'` | `'warn'` |
+
+Log verbosity for the browser driver.
+
+---
+
+### `browser.capabilities`
+
+| Type | Default |
+|------|---------|
+| `object` | `{}` |
+
+Browser capabilities passed to Playwright or WebdriverIO.
+
+```typescript
+capabilities: {
+    browserName: 'chromium' // 'chromium' | 'firefox' | 'webkit'
+}
+```
+
+---
+
+### `browser.timeout`
+
+Fine-grained timeouts for UI step interactions.
+
+| Property | Type | Default | Description |
+|---|---|---|---|
+| `action` | `number` | `10000` | Timeout for user actions (click, type, etc.) |
+| `present` | `number` | `10000` | Timeout for an element to appear in the DOM |
+| `visible` | `number` | `20000` | Timeout for an element to become visible |
+| `page` | `number` | `10000` | Page navigation timeout |
+| `value` | `number` | `5000` | Polling timeout for value assertions |
+| `valueInterval` | `number` | `500` | Polling interval for value assertions |
+| `pageRefreshInterval` | `number` | `2000` | Page refresh interval for polling steps |
+
+```typescript
+timeout: {
+    action: 10000,
+    present: 10000,
+    visible: 20000,
+    page: 15000,
+    value: 5000,
+    valueInterval: 500
+}
+```
+
+---
+
+### `browser.wsEndpoint`
+
+Connect to a running Playwright server over WebSocket.
+
+```typescript
+capabilities: {
+    browserName: 'chromium',
+    wsEndpoint: 'ws://127.0.0.1:9222/...'
+}
+```
+
+---
+
+### `browser.cdpEndpoint`
+
+Connect to a running Chrome instance via CDP.
+
+```typescript
+capabilities: {
+    browserName: 'chromium',
+    cdpEndpoint: 'http://localhost:9222/'
+}
+```
+
+---
+
+## Complete Example
+
+<Tabs>
+  <TabItem value="ts" label="TypeScript" default>
+    ```typescript
+    import App from './page_object';
+    import Memory from './memory';
+
+    // default profile — local development
+    export default {
+        paths: ['features/**/*.feature'],
+        require: [
+            'node_modules/@qavajs/steps-playwright/index.js',
+            'step_definitions/**/*.ts'
+        ],
+        format: [
+            '@qavajs/console-formatter',
+            ['@qavajs/html-formatter', 'reports/report.html']
+        ],
+        parallel: 1,
+        defaultTimeout: 30000,
+        browser: {
+            logLevel: 'warn',
+            timeout: {
+                action: 10000,
+                present: 10000,
+                visible: 20000,
+                page: 15000,
+                value: 5000,
+                valueInterval: 500
+            },
+            capabilities: {
+                browserName: 'chromium'
+            }
+        },
+        pageObject: new App(),
+        memory: new Memory()
+    }
+
+    // ci profile — used in CI/CD pipelines
+    export const ci = {
+        paths: ['features/**/*.feature'],
+        require: [
+            'node_modules/@qavajs/steps-playwright/index.js',
+            'step_definitions/**/*.ts'
+        ],
+        format: [
+            '@qavajs/console-formatter',
+            ['@qavajs/html-formatter', 'reports/report.html'],
+            ['junit', 'reports/junit.xml']
+        ],
+        parallel: 6,
+        defaultTimeout: 30000,
+        retry: 1,
+        browser: {
+            logLevel: 'error',
+            timeout: {
+                action: 15000,
+                present: 15000,
+                visible: 30000,
+                page: 20000
+            },
+            capabilities: {
+                browserName: 'chromium'
+            }
+        },
+        pageObject: new App(),
+        memory: new Memory()
+    }
+    ```
+  </TabItem>
+  <TabItem value="js" label="JavaScript">
+    ```javascript
+    const App = require('./page_object');
+    const Memory = require('./memory');
+
+    module.exports = {
+        paths: ['features/**/*.feature'],
+        require: [
+            'node_modules/@qavajs/steps-playwright/index.js',
+            'step_definitions/**/*.js'
+        ],
+        format: [
+            '@qavajs/console-formatter',
+            ['@qavajs/html-formatter', 'reports/report.html']
+        ],
+        parallel: 1,
+        defaultTimeout: 30000,
+        browser: {
+            logLevel: 'warn',
+            timeout: {
+                action: 10000,
+                present: 10000,
+                visible: 20000,
+                page: 15000
+            },
+            capabilities: {
+                browserName: 'chromium'
+            }
+        },
+        pageObject: new App(),
+        memory: new Memory()
+    }
+    ```
+  </TabItem>
+</Tabs>
