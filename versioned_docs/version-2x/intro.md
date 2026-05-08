@@ -221,41 +221,5 @@ AfterExecution(async function () {
 });
 ```
 
-### Service
-Services are entities that can execute logic before and after the whole test run.
-
-```typescript
-import externalService from './externalService';
-
-export default {
-    service: [
-        {
-            options: {
-                data: 42
-            },
-            before() {
-                console.log(this.options.data);
-            },
-            after(result) {
-                if (!result.success) process.exitCode = 1;
-            }
-        },
-        {
-            options: {
-                data: 42
-            },
-            ...externalService
-        }
-    ]
-}
-```
-There is a one-minute-long default timeout for the before and after test logic to prevent the entire process from freezing.
-To set up a custom timeout in milliseconds, use `serviceTimeout` property in the config file
-```typescript
-export default {
-    serviceTimeout: 1_200_000
-}
-```
-
 ### Extra
 [Code Examples](https://github.com/qavajs/demo)

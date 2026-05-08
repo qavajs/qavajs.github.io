@@ -8,10 +8,10 @@ Step library to work with webdriverio using DSL page object
 
 Demo projects:
 
-- https://github.com/qavajs/demo/tree/main/web-wdio-v2
-- https://github.com/qavajs/demo/tree/main/web-wdio-v2-browser-stack
+- https://github.com/qavajs/demo/tree/main/web-wdio
+- https://github.com/qavajs/demo/tree/main/web-wdio-browser-stack
 - https://github.com/qavajs/demo/tree/main/mobitru
-- https://github.com/qavajs/demo/tree/main/mobile-web-v2
+- https://github.com/qavajs/demo/tree/main/mobile-web
 
 ## Installation
 

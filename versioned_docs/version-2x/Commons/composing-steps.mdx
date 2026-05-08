@@ -74,6 +74,33 @@ Demo project:
   </TabItem>
 </Tabs>
 
+## executeTest
+Framework provides capability to reuse entire scenarios via `executeTest` world method
+that allows to call a scenario from another scenario programmatically
+
+<Tabs>
+  <TabItem value="js" label="JavaScript">
+    ```javascript
+    const { When } = require('@qavajs/core');
+
+    When('I complete checkout', async function() {
+        await this.executeTest('features/Login.feature', 'User logs in');
+        await this.executeTest('features/Cart.feature', 'User adds item to cart');
+    });
+    ```
+  </TabItem>
+  <TabItem value="ts" label="TypeScript" default default>
+    ```typescript
+    import { IQavajsWorld, When } from '@qavajs/core';
+
+    When('I complete checkout', async function(this: IQavajsWorld) {
+        await this.executeTest('features/Login.feature', 'User logs in');
+        await this.executeTest('features/Cart.feature', 'User adds item to cart');
+    });
+    ```
+  </TabItem>
+</Tabs>
+
 ## Template
 `Template` provides a way to define step definition using Gherkin language
 

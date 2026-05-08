@@ -8,8 +8,8 @@ Step library to work with playwright using DSL page object
 
 Demo projects:
 
-- https://github.com/qavajs/demo/tree/main/web-playwright-v2
-- https://github.com/qavajs/demo/tree/main/web-playwright-esm-v2
+- https://github.com/qavajs/demo/tree/main/web-playwright
+- https://github.com/qavajs/demo/tree/main/web-playwright-esm
 - https://github.com/qavajs/demo/tree/main/sap-ui5
 
 ## Installation

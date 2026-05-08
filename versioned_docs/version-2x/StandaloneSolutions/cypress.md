@@ -4,8 +4,10 @@ sidebar_position: 1
 # @qavajs/cypress
 qavajs implementation on top of cypress runner
 
+![](../../../static/img/cypress.png)
+
 Demo projects:
-- https://github.com/qavajs/demo/tree/main/cypress-v2
+- https://github.com/qavajs/demo/tree/main/cypress
 
 ## Installation
   

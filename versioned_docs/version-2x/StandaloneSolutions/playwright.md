@@ -4,8 +4,10 @@ sidebar_position: 0
 # @qavajs/playwright
 qavajs implementation on top of playwright runner
 
+![](../../../static/img/playwright.png)
+
 Demo projects:
-- https://github.com/qavajs/demo/tree/main/playwright-runner-v2
+- https://github.com/qavajs/demo/tree/main/playwright-runner
 
 ## Installation
 
