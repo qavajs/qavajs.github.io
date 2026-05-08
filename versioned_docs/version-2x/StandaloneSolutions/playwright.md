@@ -1474,7 +1474,7 @@ Parsing body in needed way and adds payload property to response
 |  param   |                type                 |      description       |
 |:--------:|:-----------------------------------:|:----------------------:|
 | response |               string                | response key in memory |
-|   type   | [bodyParsingType](#bodyparsingtype) |    type of payload     |
+|   type   | bodyParsingType |    type of payload     |
 
 ```gherkin
 When I parse '$response' body as 'json'
@@ -1632,7 +1632,7 @@ Add GraphQL property
 
 |   param    |                   type                    |      description       |
 |:----------:|:-----------------------------------------:|:----------------------:|
-|  property  | [gqlRequestProperty](#gqlrequestproperty) |   query or variables   |
+|  property  | gqlRequestProperty|   query or variables   |
 | requestKey |                  string                   | memory key of request  |
 |   value    |            string (Multiline)             | value multiline string |
 
