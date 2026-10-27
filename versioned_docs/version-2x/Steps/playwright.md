@@ -24,7 +24,7 @@ Playwright steps provide a couple of additional configuration properties
 
 | Name         | Type     | Description                                                                  | Default |
 |--------------|----------|------------------------------------------------------------------------------|---------|
-| `browser`    | `object` | object describing playwright config                                          | `{}`    |
+| `browser`    | `object` | object describing playwright config (`driver` can be used as alias)          | `{}`    |
 | `pageObject` | `object` | instance of page object definitions  [(page object)](Commons/page-object.mdx) | `{}`    |
 
 ```typescript
@@ -40,8 +40,10 @@ export default {
             present: 10000,
             visible: 20000,
             page: 10000,
+            networkIdle: 500, // network inactivity period for 'I wait for network idle' step
             value: 5000, // expect value timeout
             valueInterval: 500, // expect value interval
+            actionInterval: 1000, // interval to repeat action for 'I click ... until ...' steps
             pageRefreshInterval: 2000 // refresh page for 'I refresh page...' steps
         },
         capabilities: {
@@ -69,7 +71,7 @@ export default {
 
 ## Connect to cdp endpoint
 
-To connect to the CDP endpoint, pass `cdpEndpoint` property inthe capabilities object
+To connect to the CDP endpoint, pass `cdpEndpoint` property in the capabilities object
 
 ```typescript
 export default {
@@ -142,7 +144,7 @@ export default {
             event: ['onFail'], // Events to save video. Possible value onFail or afterScenario 
             dir: 'video', // Dir to store video. Default is video/
             size: {width: 640, height: 480}, // Video resolution
-            attach: true // Define if trace need to be attached to cucumber report. Default false
+            attach: true // Define if video need to be attached to cucumber report. Default false
         }
     }
 }
@@ -172,6 +174,33 @@ export default {
 }
 ```
 
+## Typed Config
+
+`IQavajsPlaywrightConfig` type describes all supported options
+
+```typescript
+import type { IQavajsConfig } from '@qavajs/core';
+import type { IQavajsPlaywrightConfig } from '@qavajs/steps-playwright';
+
+const config: IQavajsConfig & IQavajsPlaywrightConfig = {
+    browser: {
+        capabilities: {
+            browserName: 'chromium'
+        }
+    }
+};
+
+export default config;
+```
+
+Resolved config (with default values applied) is available in custom steps as `this.config.driverConfig`
+
+```typescript
+When('I do something', async function () {
+    const timeout = this.config.driverConfig.timeout.visible;
+});
+```
+
 ## Parameter Types
 
 ### `playwrightLocator`
@@ -185,9 +214,13 @@ condition of element to wait (can be negated with _not_)
 - to be visible
 - to be present
 - to be invisible
+- to be enabled
 - to be disabled
+- to be clickable (visible and enabled)
 - to be in viewport
 - to be fully in viewport
+
+Condition can be checked softly (_to be softly visible_)
 
 ### `playwrightTimeout`
 
@@ -201,16 +234,23 @@ mouse button to interact
 - right
 - middle
 
+### `playwrightBrowserButton`
+
+browser navigation button
+
+- back
+- forward
+
 ## Context properties
 
 @qavajs/steps-playwright exposes following world variables
 
-| variable                  | type             | description                          |
-|---------------------------|------------------|--------------------------------------|
-| `this.playwright.browser` | `Browser`        | browser instance                     |
-| `this.playwright.driver`  | `Browser`        | browser instance (alias for browser) |
-| `this.playwright.context` | `BrowserContext` | current browser context              |
-| `this.playwright.page`    | `Page`           | current context page                 |
+| variable                  | type                            | description                          |
+|---------------------------|---------------------------------|--------------------------------------|
+| `this.playwright.browser` | `Browser \| ElectronApplication` | browser instance                     |
+| `this.playwright.driver`  | `Browser \| ElectronApplication` | browser instance (alias for browser) |
+| `this.playwright.context` | `BrowserContext`                | current browser context              |
+| `this.playwright.page`    | `Page`                          | current context page                 |
 
 ## Action Steps
 
@@ -228,7 +268,7 @@ When I open 'https://google.com' url
 
 ---
 
-### I type \{string} to \{string}
+### I type \{string} (in)to \{string}
 
 Type text to element
 
@@ -244,7 +284,7 @@ When I type 'wikipedia' into 'Google Input'
 
 ---
 
-### I type \{string} chars to \{string}
+### I type \{string} chars (in)to \{string}
 
 Type text to element sending fine-grained keyboard events
 
@@ -270,6 +310,48 @@ Click element
 
 ```gherkin
 When I click 'Google Button'
+```
+
+---
+
+### I right click \{string}
+
+Right click element
+
+| param |  type  |   description    |
+|:-----:|:------:|:----------------:|
+| alias | string | element to click |
+
+```gherkin
+When I right click 'Google Button'
+```
+
+---
+
+### I double click \{string}
+
+Double click element
+
+| param |  type  |   description    |
+|:-----:|:------:|:----------------:|
+| alias | string | element to click |
+
+```gherkin
+When I double click 'Google Button'
+```
+
+---
+
+### I tap \{string}
+
+Tap element
+
+| param |  type  |  description   |
+|:-----:|:------:|:--------------:|
+| alias | string | element to tap |
+
+```gherkin
+When I tap 'Google Button'
 ```
 
 ---
@@ -361,7 +443,7 @@ When I refresh page
 
 ---
 
-### I press \{string} key
+### I press \{string} key(s)
 
 Press key
 
@@ -371,11 +453,12 @@ Press key
 
 ```gherkin
 When I press 'Enter' key
+When I press 'Control+C' keys
 ```
 
 ---
 
-### I press \{string} key \{int} time(s)
+### I press \{string} key(s) \{int} time(s)
 
 Press button given number of times
 
@@ -385,8 +468,8 @@ Press button given number of times
 | number | number | number of times |
 
 ```gherkin
-I press 'Enter' key 5 times
-I press 'Space' key 4 times
+When I press 'Enter' key 5 times
+When I press 'Control+V' keys 5 times
 ```
 
 ---
@@ -447,38 +530,39 @@ When I will wait for dialog
 
 ---
 
-### I accept alert
+### I accept alert/dialog
 
-Accepts an alert
+Accepts an alert (requires `I will wait for alert/dialog` step to be called before)
 
 ```gherkin
+When I will wait for alert
 When I accept alert
 ```
 
 ---
 
-### I dismiss alert
+### I dismiss alert/dialog
 
-Dismisses an alert
+Dismisses an alert (requires `I will wait for alert/dialog` step to be called before)
 
 ```gherkin
+When I will wait for alert
 When I dismiss alert
 ```
 
 ---
 
-### I type \{string} to alert
+### I type \{string} to alert/dialog
 
-Type a text to alert
+Type a text to alert (requires `I will wait for alert/dialog` step to be called before)
 
 | param |  type  |  description  |
 |:-----:|:------:|:-------------:|
 | value | string | value to type |
 
 ```gherkin
-When I type 'Alerts are' to alert
-When I type 'not a good practice' to alert
-When I type 'nowadays' to alert
+When I will wait for alert
+When I type 'coffee' to alert
 ```
 
 ---
@@ -542,7 +626,36 @@ When I scroll by '0, 100' in 'Overflow Container'
 
 -------------------------
 
-### I drag and drop \{string} in \{string}
+### I scroll until \{string} to be visible
+
+Scroll page by mouse wheel until element becomes visible
+
+| param |  type  |   description   |
+|:-----:|:------:|:---------------:|
+| alias | string | target element  |
+
+```gherkin
+When I scroll until 'Row 99' to be visible
+```
+
+---
+
+### I scroll in \{string} until \{string} to be visible
+
+Scroll in container by mouse wheel until element becomes visible
+
+|  param  |  type  |    description    |
+|:-------:|:------:|:-----------------:|
+| scroll  | string | scroll container  |
+| target  | string |  target element   |
+
+```gherkin
+When I scroll in 'List' until 'Row 99' to be visible
+```
+
+---
+
+### I drag and drop \{string} to \{string}
 
 Drag&Drop one element to another
 
@@ -802,50 +915,6 @@ Force click element
 
 ```gherkin
 When I force click 'Google Button'
-```
-
----
-
----
-
-### I grant \{string} permission
-
-Provides permission for the browser context.  
-Full list of permissions can be found
-in [Playwright documentation](https://playwright.dev/docs/api/class-browsercontext#browser-context-grant-permissions).
-
-| param |  type  |       description        |
-|:-----:|:------:|:------------------------:|
-| alias | string | permission name or alias |
-
-```gherkin
-When I grant 'geolocation' permission
-```
-
----
-
-### I revoke browser permissions
-
-Clears all permission overrides for the browser context.
-
-```gherkin
-When I revoke browser permissions
-```
-
----
-
-### I set \{string} geolocation
-
-Sets a geolocation for a current context.  
-Geolocation param should conform to a JavaScript object \{ latitude: number, longitude: number}
-
-|      param       |  type  |            description             |
-|:----------------:|:------:|:----------------------------------:|
-| geolocationAlias | string | memory alias of geolocation object |
-
-```gherkin
-When I set '$sweden' geolocation
-When I set '$js({ latitude: 62.39, longitude: -96.81})' geolocation
 ```
 
 ## Validation Steps
@@ -1114,7 +1183,25 @@ Then I expect 'font-family' css property of 'Label' to contain 'Fira'
 
 ---
 
-### I expect text of alert \{validation} \{string}
+### I expect \{string} css property of every element in \{string} collection \{validation} \{string}
+
+Verify that css property of every element in collection satisfies condition
+
+|     param     |  type  |         description          |                example                |
+|:-------------:|:------:|:----------------------------:|:-------------------------------------:|
+|   property    | string |      property to verify      |              color, font              |
+|     alias     | string |     collection to verify     |              Table > Rows             |
+|  validation   | string | function to verify condition | to be equal, to be above, to be below |
+| expectedValue | string |       expected result        |                                       |
+
+```gherkin
+Then I expect 'color' css property of every element in 'Table > Rows' collection to be equal 'rgb(42, 42, 42)'
+Then I expect 'font-family' css property of every element in 'Labels' collection to contain 'Fira'
+```
+
+---
+
+### I expect text of alert/dialog \{validation} \{string}
 
 Verify that text of an alert meets expectation
 
@@ -1124,9 +1211,9 @@ Verify that text of an alert meets expectation
 | expectedValue | string |       expected result        |                                       |
 
 ```gherkin
+When I will wait for alert
 Then I expect text of alert does not contain 'coffee'
-Then I expect text of alert does not contain 'hello world'
-Then I expect text of alert does not contain 'Are you sure you want to leave this page?'
+Then I expect text of dialog to equal 'Are you sure you want to leave this page?'
 ```
 
 ## Memory Steps
@@ -1224,21 +1311,6 @@ Save array of texts of collection to memory
 
 ```gherkin
 When I save text of every element of 'Search Results' collection as 'searchResults'
-```
-
----
-
-### I save value of every element of \{string} collection as \{string}
-
-Save array of values of collection to memory
-
-| param |  type  |       description       |   example   |
-|:-----:|:------:|:-----------------------:|:-----------:|
-| alias | string | collection to get value | Form Inputs |
-|  key  | string |   key to store value    |             |
-
-```gherkin
-When I save value of every element of 'Search Results' collection as 'searchResults'
 ```
 
 ---
@@ -1451,11 +1523,79 @@ When I refresh page until text of 'My Salary' to match '/5\d{3,}/' (timeout: 300
 
 -------------------------
 
+### I click \{string} until text of \{string} \{validation} \{string}( )\{playwrightTimeout}
+
+Repeatedly click an element until text of another element matches condition
+
+|    param     |       type        |       description       |
+|:------------:|:-----------------:|:-----------------------:|
+| aliasToClick |      string       |    element to click     |
+| aliasToCheck |      string       |    element to check     |
+|  condition   |      string       |    condition to wait    |
+|   expected   |      string       |     expected value      |
+|   timeout    | number (optional) | timeout in milliseconds |
+
+```gherkin
+When I click 'Send Message Button' until text of 'Information Alert' to be equal 'Your account has been banned'
+When I click 'Add To Cart Button' until text of 'Shopping Cart Total' to match '/\$5\d{3,}/' (timeout: 3000)
+```
+
+-------------------------
+
+### I click \{string} until value of \{string} \{validation} \{string}( )\{playwrightTimeout}
+
+Repeatedly click an element until value of another element matches condition
+
+|    param     |       type        |       description       |
+|:------------:|:-----------------:|:-----------------------:|
+| aliasToClick |      string       |    element to click     |
+| aliasToCheck |      string       |    element to check     |
+|  condition   |      string       |    condition to wait    |
+|   expected   |      string       |     expected value      |
+|   timeout    | number (optional) | timeout in milliseconds |
+
+```gherkin
+When I click 'Plus Button' until value of 'Quantity Input' to be equal '9'
+When I click 'Suggest Button' until value of 'Repository Name Input' to match '/\w{5,}/' (timeout: 30000)
+```
+
+-------------------------
+
+### I wait \{int} ms
+
+Wait for specified number of milliseconds
+
+| param |  type  | description  |
+|:-----:|:------:|:------------:|
+|  ms   | number | milliseconds |
+
+```gherkin
+When I wait 1000 ms
+```
+
+-------------------------
+
+### I wait for network idle \{playwrightTimeout}
+
+Wait for absence of network activity during specified period of time (`networkIdle` timeout by default).
+Fails if network is not idle within `page` timeout
+
+|  param  |       type        |                 description                  |
+|:-------:|:-----------------:|:--------------------------------------------:|
+| timeout | number (optional) | period of network inactivity in milliseconds |
+
+```gherkin
+When I wait for network idle
+When I wait for network idle (timeout: 1000)
+```
+
+-------------------------
+
 ## Execute Steps
 
 ---
 
-### I execute \{string} function
+### I execute \{string} function/script
 
 Execute client function
 
@@ -1470,7 +1610,7 @@ When I execute 'window.scrollBy(0, 100)' function
 
 ---
 
-### I execute \{string} function and save result as \{string}
+### I execute \{string} function/script and save result as \{string}
 
 Execute client function and save result into memory
 
@@ -1486,7 +1626,7 @@ When I execute 'window.scrollY' function and save result as 'scroll'
 
 ---
 
-### I execute \{string} function on \{string}
+### I execute \{string} function/script on \{string}
 
 Execute client function on certain element
 
@@ -1502,7 +1642,7 @@ When I execute 'arguments[0].scrollIntoView()' function on 'Component > Element'
 
 ---
 
-### I execute \{string} function on \{string} and save result as \{string}
+### I execute \{string} function/script on \{string} and save result as \{string}
 
 Execute client function on certain element
 
@@ -1515,6 +1655,65 @@ Execute client function on certain element
 ```gherkin
 When I execute '$fn' function on 'Component > Element' and save result as 'innerText' # fn is function reference
 When I execute 'arguments[0].innerText' function on 'Component > Element' and save result as 'innerText'
+```
+
+## Electron Steps
+
+Electron application can be launched by setting `electron` as `browserName` and providing app entry point via `args`
+
+```typescript
+export default {
+    browser: {
+        capabilities: {
+            browserName: 'electron',
+            args: ['main.js'],
+            cwd: 'path/to/electron/app'
+        }
+    }
+}
+```
+
+---
+
+### I execute \{string} function/script on electron app
+
+Execute function on electron main process
+
+|    param    |  type  |          description           |
+|:-----------:|:------:|:------------------------------:|
+| functionKey | string | function memory key to execute |
+
+```gherkin
+When I execute '$js(async ({ app }) => app.getAppPath())' function on electron app
+```
+
+---
+
+### I execute \{string} function/script on electron app and save result as \{string}
+
+Execute function on electron main process and save result into memory
+
+|    param    |  type  |          description           |
+|:-----------:|:------:|:------------------------------:|
+| functionKey | string | function memory key to execute |
+|  memoryKey  | string |    memory key to save value    |
+
+```gherkin
+When I execute '$js(async ({ app }) => app.getAppPath())' function on electron app and save result as 'path'
+```
+
+---
+
+### I click \{string} electron menu
+
+Click electron application menu item
+
+| param |  type  |         description          |
+|:-----:|:------:|:----------------------------:|
+| menu  | string | menu path separated with `>` |
+
+```gherkin
+When I click 'File > Edit' electron menu
 ```
 
 ## Mock Steps

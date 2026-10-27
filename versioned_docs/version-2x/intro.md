@@ -56,6 +56,36 @@ In case your config exports an object with multiple properties, you can specify 
 npx qavajs run --profile <profile>
 ```
 
+Before the run qavajs prints a table with the resolved configuration.
+
+#### CLI options
+
+| Flag                   | Type     | Description                                      |
+|------------------------|----------|--------------------------------------------------|
+| `--config`             | string   | Config file path                                 |
+| `--profile`            | string   | Profile name to run                              |
+| `--paths`              | string[] | Paths to feature files                           |
+| `--tags`, `-t`         | string[] | Tag expression filter (multiple flags are ANDed) |
+| `--format`, `-f`       | string[] | Formatter name/path and optional output file     |
+| `--format-options`     | string   | JSON options for formatters                      |
+| `--import`, `-i`       | string[] | Support code paths (ESM)                         |
+| `--require`, `-r`      | string[] | Support code paths (CJS)                         |
+| `--require-module`     | string[] | Transpilation modules to load via `require()`    |
+| `--name`               | string[] | Scenario name regex filters                      |
+| `--order`              | string   | Run order (`defined` or `random`)                |
+| `--parallel`           | number   | Number of worker processes                       |
+| `--retry`              | number   | Retry failing tests N times                      |
+| `--retry-tag-filter`   | string[] | Tag expression for retryable scenarios           |
+| `--dry-run`, `-d`      | boolean  | Prepare run without executing                    |
+| `--backtrace`, `-b`    | boolean  | Show full error backtraces                       |
+| `--fail-fast`          | boolean  | Stop on first failure                            |
+| `--force-exit`         | boolean  | Call `process.exit()` after run                  |
+| `--strict`             | boolean  | Fail on pending steps                            |
+| `--shard`              | string   | Shard tests (`x/y`)                              |
+| `--world-parameters`   | string   | JSON parameters passed to World                  |
+| `--memory-values`      | string   | JSON values to override in memory                |
+| `--no-error-exit`      | boolean  | Suppress non-zero exit code on test failure      |
+
 ### Page object
 [Page object guide](./Commons/page-object.mdx)
 
@@ -76,7 +106,7 @@ The `value` parameter type provides an API to access memory
 
 ```typescript
 When('Read memory {value}', async function(memoryValue) {
-    expect(memoryValue.value()).to.equal('ts');
+    expect(await memoryValue.value()).to.equal('ts');
 });
 
 When('Set memory {value} as {string}', async function(memoryKey, value) {
@@ -110,7 +140,7 @@ Feature: Feature
 ```
 
 ### Test sharding
-qavajs provides the ability to shard your tests between different machines. To do so pass `--shard x/y` parameter in CLI,
+qavajs supports cucumber-js built-in sharding to split your tests between different machines. To do so pass `--shard x/y` parameter in CLI,
 where x - current shard, y - total number of shards.
 
 ```bash
@@ -171,7 +201,7 @@ This example will open the PDP page before the test and clean the cart after the
 ```typescript
 import { Fixture } from '@qavajs/core';
 
-Fixture('pdp', async function() {
+Fixture({ name: 'pdp', tags: '@pdp' }, async function() {
     await this.playwright.page.goto('https://my-site/pdp');
     // fixture may return function that will be executed after test
     return async function() {

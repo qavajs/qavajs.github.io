@@ -126,7 +126,7 @@ select smth from some_table where smth = 42
 ```
 
 ---
-### I execute SQL query in \{string} and save result as \{string}: [multiline]
+### I execute SQL query in \{string} db and save result as \{string}: [multiline]
 
 Execute sql query in specified db provided as multiline string and save result
 

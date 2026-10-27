@@ -7,7 +7,7 @@ import TabItem from '@theme/TabItem';
 
 # Fixtures
 
-A `Fixture` is a reusable setup/teardown block that activates when a scenario carries a matching tag. Fixtures are a clean alternative to hooks when setup logic applies only to a specific group of scenarios.
+A `Fixture` is a reusable setup/teardown block that activates when a scenario matches the fixture tag expression. Fixtures are a clean alternative to hooks when setup logic applies only to a specific group of scenarios.
 
 Demo projects:
 - https://github.com/qavajs/demo/tree/main/fixture
@@ -21,7 +21,7 @@ Define a fixture in your support code:
     ```typescript
     import { Fixture } from '@qavajs/core';
 
-    Fixture('pdp', async function() {
+    Fixture({ name: 'pdp', tags: '@pdp' }, async function() {
         await this.playwright.page.goto('/products/qavajs-t-shirt');
     });
     ```
@@ -30,14 +30,21 @@ Define a fixture in your support code:
     ```javascript
     const { Fixture } = require('@qavajs/core');
 
-    Fixture('pdp', async function() {
+    Fixture({ name: 'pdp', tags: '@pdp' }, async function() {
         await this.playwright.page.goto('/products/qavajs-t-shirt');
     });
     ```
   </TabItem>
 </Tabs>
 
-Activate the fixture by tagging a scenario with `@<fixture-name>`:
+`Fixture` accepts an options object:
+
+| Property | Type | Description |
+|---|---|---|
+| `name` | `string` | fixture name (required), used in report as `setup <name>` / `teardown <name>` hook names |
+| `tags` | `string` | [tag expression](https://github.com/cucumber/tag-expressions) that defines scenarios where the fixture is applied. If omitted, fixture is applied to **all** scenarios |
+
+Activate the fixture by tagging a scenario with a tag matching the fixture tag expression:
 
 ```gherkin
 @pdp
@@ -55,7 +62,7 @@ A fixture can return a teardown function that runs after the scenario completes:
     ```typescript
     import { Fixture } from '@qavajs/core';
 
-    Fixture('cart', async function() {
+    Fixture({ name: 'cart', tags: '@cart' }, async function() {
         // setup: navigate to PDP and add an item
         await this.playwright.page.goto('/products/qavajs-t-shirt');
         await this.playwright.page.click('.add-to-cart');
@@ -71,7 +78,7 @@ A fixture can return a teardown function that runs after the scenario completes:
     ```javascript
     const { Fixture } = require('@qavajs/core');
 
-    Fixture('cart', async function() {
+    Fixture({ name: 'cart', tags: '@cart' }, async function() {
         await this.playwright.page.goto('/products/qavajs-t-shirt');
         await this.playwright.page.click('.add-to-cart');
 
@@ -92,7 +99,7 @@ Fixtures run in the world context and have full access to memory values and worl
     ```typescript
     import { Fixture } from '@qavajs/core';
 
-    Fixture('authenticated', async function() {
+    Fixture({ name: 'authenticated', tags: '@authenticated' }, async function() {
         const username = await this.getValue('$username');
         const password = await this.getValue('$password');
 
@@ -112,7 +119,7 @@ Fixtures run in the world context and have full access to memory values and worl
     ```javascript
     const { Fixture } = require('@qavajs/core');
 
-    Fixture('authenticated', async function() {
+    Fixture({ name: 'authenticated', tags: '@authenticated' }, async function() {
         const username = await this.getValue('$username');
         const password = await this.getValue('$password');
 
@@ -146,7 +153,7 @@ Both fixtures will run in the order they are defined, and both teardown function
 
 | | Fixture | Before/After Hook |
 |---|---|---|
-| Activation | Tag on the scenario | All scenarios (or filtered by tag expression) |
+| Activation | Scenarios matching fixture tag expression | All scenarios (or filtered by tag expression) |
 | Teardown | Return a function from the fixture body | Separate `After` hook |
 | Visibility | Tag is visible in the feature file | Setup is invisible from the feature |
 | Best for | Scenario-specific prerequisites | Cross-cutting concerns (screenshots, cookies) |

@@ -24,8 +24,9 @@ export default {
 ```
 
 ## Usage
-Module provides `I perform lighthouse audit as save results as {variable}`
-step that performs audit, attaches html report and save results as \{variable} variable
+Module provides `I perform lighthouse audit and save results as {value}`
+step that performs audit, attaches html report and save results as \{value} variable.
+Config can be provided as docstring or as memory value via `I perform lighthouse audit with {value} config and save results as {value}` step
 
 ```gherkin
 Feature: Lighthouse
@@ -51,4 +52,6 @@ Feature: Lighthouse
         }
     }
     """
+    # with config from memory
+    And I perform lighthouse audit with '$lhConfig' config and save results as 'lh'
 ```

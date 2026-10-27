@@ -53,7 +53,7 @@ Then I expect every element in '$arr' array to be above '$expectedValue'
 Then I expect every element in '$arr' array to be above '50'
 ```
 ---
-### I expect at least \{int} elements in \{string} array \{validation} \{string}
+### I expect at least \{int} element(s) in \{string} array \{validation} \{string}
 
 Verify that at least x elements in array pass validation
 
@@ -188,6 +188,24 @@ When I expect '$arr' array to be sorted by '$ascending'
 class Memory {
     ascending = (a, b) => a - b; //implementation of comparator function
 }
+```
+
+---
+### I expect \{string} array \{validation}: [DataTable]
+
+Verify that array value from memory satisfies validation against other array provided as data table
+
+|   param    |   type    |         description          |              example               |
+|:----------:|:---------:|:----------------------------:|:----------------------------------:|
+|    arr     |  string   |     memory key of array      |                $arr                |
+| validation |  string   | function to verify condition | to have members, to include members |
+|  expected  | DataTable |        expected array        |                                    |
+
+```gherkin
+Then I expect '$arr' array to have members:
+  | uno  |
+  | dos  |
+  | tres |
 ```
 
 ---

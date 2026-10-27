@@ -19,14 +19,13 @@ export default {
     format: ['@qavajs/console-formatter'],
     formatOptions: {
         console: {
-            showLogs: true, //show cucumber logs. Default - false
-            showProgress: true //show progress bar. Default - false
+            showLogs: true, // print this.log() entries below each step. Default - false
+            showProgress: false // show progress bar during execution. Default - false
         }
     },
 }
-}
 ```
 
-or pass `--format @qavajs/console-formatter in cli`
+or pass `--format @qavajs/console-formatter` in cli
 
 ![](https://raw.githubusercontent.com/qavajs/console-formatter/master/assets/report_example.png)

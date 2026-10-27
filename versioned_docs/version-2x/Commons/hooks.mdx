@@ -76,6 +76,10 @@ Run once per worker process — before the first scenario and after the last sce
 
 Execution hooks run once in the main process, outside of any worker. Use them for services shared across all tests.
 
+:::note
+`service` and `serviceTimeout` config options were removed in `@qavajs/core` 2.17.0. Use `BeforeExecution`/`AfterExecution` hooks instead.
+:::
+
 <Tabs>
   <TabItem value="ts" label="TypeScript" default>
     ```typescript

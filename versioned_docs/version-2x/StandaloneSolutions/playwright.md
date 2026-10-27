@@ -47,6 +47,79 @@ export default defineConfig({
 });
 ```
 
+:::note
+Requires Node.js 22 or later. Only `@qavajs/playwright`, `@qavajs/playwright/steps.js` and `@qavajs/playwright/lib/electron.js` entry points can be imported.
+:::
+
+## Page Object
+
+```typescript
+import { locator } from '@qavajs/playwright';
+
+class LoginPage {
+    UsernameInput = locator('#username');
+    // template selector - argument is passed via 'ElementName(arg)' syntax in steps
+    RowByText = locator.template((text: string) => `tr:has-text("${text}")`);
+    // native playwright locator
+    ActiveTab = locator.native(({ page }) => page.locator('.tab.active'));
+}
+
+export default class App {
+    LoginPage = locator('#login').as(LoginPage);
+}
+```
+
+More details in [page object](../Commons/page-object.mdx) section.
+
+## Parameter Types
+
+| type                 | description                                                                                                                                |
+|----------------------|--------------------------------------------------------------------------------------------------------------------------------------------|
+| `{value}`            | quoted string resolved via memory                                                                                                          |
+| `{locator}`          | quoted page object alias resolved to playwright locator                                                                                    |
+| `{validation}`       | validation (e.g. _to equal_, _not to contain_, _to softly match_) [(validation)](../Commons/validation.mdx)                                 |
+| `{state}`            | element state: _present_, _clickable_, _visible_, _invisible_, _enabled_, _disabled_, _in viewport_ (e.g. _to be visible_, _not to be softly present_) |
+| `{mouseButton}`      | `left`, `right` or `middle`                                                                                                                |
+| `{browserButton}`    | `back` or `forward`                                                                                                                        |
+| `{storageType}`      | `local` or `session`                                                                                                                       |
+| `{bodyParsingType}`  | `json`, `text` or `buffer`                                                                                                                 |
+| `{gqlRequestProperty}` | `query` or `variables`                                                                                                                   |
+
+## Custom Steps
+
+Custom steps are defined with `Given`/`When`/`Then` exported from `@qavajs/playwright` and can reuse built-in parameter types and world helpers
+
+| World member                                                  | Description                                            |
+|---------------------------------------------------------------|--------------------------------------------------------|
+| `this.page`, `this.context`, `this.browser`, `this.request`   | Playwright objects of current scenario                 |
+| `this.element(path)`                                          | Resolve page object path to `Locator`                  |
+| `this.value(expression)`                                      | Resolve memory expression (`'$user'`, `'$js(1 + 1)'`)  |
+| `this.setValue(key, value)`                                   | Save value to memory                                   |
+| `this.expect`                                                 | Playwright `expect` extended with qavajs matchers      |
+| `this.waitForDialog()`                                        | Get open dialog or wait for next one                   |
+| `this.log(data)`, `this.attach(data, details)`                | Add log or attachment to report                        |
+
+```typescript
+import { When, Then, type QavajsPlaywrightWorld, type MemoryValue, type Validation } from '@qavajs/playwright';
+import type { Locator } from '@playwright/test';
+
+When('I log in as {value}', async function (this: QavajsPlaywrightWorld, user: MemoryValue) {
+    const { username, password } = await user.value();
+    await this.element('LoginPage > UsernameInput').fill(username);
+    await this.element('LoginPage > PasswordInput').fill(password);
+});
+
+Then('I expect placeholder of {locator} {validation} {value}', async function (
+    this: QavajsPlaywrightWorld,
+    locator: Locator,
+    validation: Validation,
+    expected: MemoryValue
+) {
+    // poll retries until validation passes or expect timeout is reached
+    await validation.poll(() => locator.getAttribute('placeholder'), await expected.value());
+});
+```
+
 ## Action Steps
 
 ### I open \{string} url
@@ -61,7 +134,7 @@ Opens provided url
 When I open 'https://google.com' url
 ```
 ---
-### I type \{string} to \{string}
+### I type \{string} (in)to \{string}
 
 Type text to element
 
@@ -75,7 +148,7 @@ When I type 'wikipedia' to 'Google Input'
 When I type 'wikipedia' into 'Google Input'
 ```
 ---
-### I type \{string} chars to \{string}
+### I type \{string} chars (in)to \{string}
 
 Type text to element sending fine-grained keyboard events
 
@@ -86,6 +159,7 @@ Type text to element sending fine-grained keyboard events
 
 ```gherkin
 When I type 'wikipedia' chars to 'Google Input'
+When I type 'wikipedia' chars into 'Google Input'
 ```
 ---
 ### I click \{string}
@@ -98,6 +172,42 @@ Click element
 
 ```gherkin
 When I click 'Google Button'
+```
+---
+### I right click \{string}
+
+Right click element
+
+| param |  type  |   description    |
+|:-----:|:------:|:----------------:|
+| alias | string | element to click |
+
+```gherkin
+When I right click 'Google Button'
+```
+---
+### I double click \{string}
+
+Double click element
+
+| param |  type  |   description    |
+|:-----:|:------:|:----------------:|
+| alias | string | element to click |
+
+```gherkin
+When I double click 'Google Button'
+```
+---
+### I tap \{string}
+
+Tap element
+
+| param |  type  |  description   |
+|:-----:|:------:|:--------------:|
+| alias | string | element to tap |
+
+```gherkin
+When I tap 'Google Button'
 ```
 ---
 ### I clear \{string}
@@ -123,41 +233,6 @@ Click on element with desired text in collection
 
 ```gherkin
 When I click 'google' text in 'Search Engines' collection
-```
-
----
-### I switch to parent frame
-
-Switch to parent frame
-
-```gherkin
-When I switch to parent frame
-```
-
----
-### I switch to \{int} frame
-
-Switch to frame by index
-
-| param |  type  |      description      |
-|:-----:|:------:|:---------------------:|
-| index | number | frame index to switch |
-
-```gherkin
-When I switch to 2 frame
-```
-
----
-### I switch to \{string} frame
-
-Switch to frame by page object alias
-
-| param |  type  |       description        |
-|:-----:|:------:|:------------------------:|
-| alias | string | Iframe page object alias |
-
-```gherkin
-When I switch to 'Checkout Iframe' frame
 ```
 
 ---
@@ -214,7 +289,7 @@ When I refresh page
 ```
 
 ---
-### I press \{string} key
+### I press \{string} key(s)
 
 Press key
 
@@ -227,7 +302,7 @@ When I press 'Enter' key
 ```
 
 ---
-### I press \{string} key \{int} time(s)
+### I press \{string} key(s) \{int} time(s)
 
 Press button given number of times
 
@@ -311,9 +386,7 @@ Type a text to alert
 | value | string | value to type |
 
 ```gherkin
-When I type 'Alerts are' to alert
-When I type 'not a good practice' to alert
-When I type 'nowadays' to alert
+When I type 'coffee' to alert
 ```
 
 ---
@@ -371,7 +444,34 @@ When I scroll by '0, 100' in 'Overflow Container'
 ```
 
 -------------------------
-### I drag and drop \{string} in \{string}
+### I scroll until \{string} to be visible
+
+Scroll page by mouse wheel until element becomes visible (limited by expect timeout)
+
+| param |  type  |  description   |
+|:-----:|:------:|:--------------:|
+| alias | string | target element |
+
+```gherkin
+When I scroll until 'Row 99' to be visible
+```
+
+---
+### I scroll in \{string} until \{string} to be visible
+
+Scroll in container by mouse wheel until element becomes visible (limited by expect timeout)
+
+| param  |  type  |   description    |
+|:------:|:------:|:----------------:|
+| scroll | string | scroll container |
+| target | string |  target element  |
+
+```gherkin
+When I scroll in 'List' until 'Row 99' to be visible
+```
+
+---
+### I drag and drop \{string} to \{string}
 
 Drag&Drop one element to another
 
@@ -385,25 +485,25 @@ When I drag and drop 'Bishop' to 'E4'
 ```
 
 _________________________
-### I define \{string} as \{string} \{playwrightPoType}
+### I define \{string} as \{string} locator
 
-Register selector as page object
+Register selector as page object element in the root of page object.
+The alias stays available to scenarios that run later in the same worker.
 
-|    param    |  type  |                description                |
-|:-----------:|:------:|:-----------------------------------------:|
-| selectorKey | string |           selector to register            |
-|  aliasKey   | string |             alias of element              |
-|   poType    | string | type of page object (element, collection) |
+|    param    |  type  |     description      |
+|:-----------:|:------:|:--------------------:|
+| selectorKey | string | selector to register |
+|  aliasKey   | string |   alias of element   |
 
 ```gherkin
-When I define '#someId' as 'My Button' element
+When I define '#someId' as 'My Button' locator
 And I click 'My Button'
-When I define 'li.selected' as 'Selected Items' collection
-And I expect number of element in 'Selected Items' collection to equal '3'
+When I define 'li.selected' as 'Selected Items' locator
+And I expect number of elements in 'Selected Items' collection to equal '3'
 ```
 
 -------------------------
-### I press \{playwrightMouseButton} mouse button
+### I press \{mouseButton} mouse button
 
 Press mouse button
 
@@ -416,7 +516,7 @@ When I press left mouse button
 ```
 
 -------------------------
-### I release \{playwrightMouseButton} mouse button
+### I release \{mouseButton} mouse button
 
 Release mouse button
 
@@ -481,7 +581,7 @@ When I release 'Q' key
 ```
 
 ---
-### I click \{playwrightBrowserButton} button
+### I click \{browserButton} button
 
 Click browser button
 
@@ -495,7 +595,7 @@ When I click forward button
 ```
 
 ---
-### I upload \{string} file by clicking \{string} step by
+### I upload \{string} file by clicking \{string}
 
 Provide file url to file chooser
 
@@ -506,6 +606,36 @@ Provide file url to file chooser
 
 ```gherkin
 When I upload '/folder/file.txt' file by clicking 'Upload Button'
+```
+
+---
+### I upload files by clicking \{string}: [DataTable]
+
+Provide multiple files to file chooser
+
+|   param   |   type    |            description            |
+|:---------:|:---------:|:---------------------------------:|
+|   alias   |  string   | element that invokes file chooser |
+| dataTable | DataTable |          list of file paths       |
+
+```gherkin
+When I upload files by clicking 'Upload Button':
+  | /folder/file1.txt |
+  | /folder/file2.txt |
+```
+
+---
+### I save file to \{string} by clicking \{string}
+
+Save downloaded file to certain path
+
+| param |  type  |           description            |
+|:-----:|:------:|:--------------------------------:|
+| path  | string |            file path             |
+| alias | string | element that invokes downloading |
+
+```gherkin
+When I save file to './folder/file.pdf' by clicking 'Download Button'
 ```
 
 ---
@@ -554,7 +684,7 @@ When I force click 'Google Button'
 ## Validation Steps
 
 ---
-### I expect \{string} \{playwrightConditionWait}
+### I expect \{string} \{state}
 
 Verify that element satisfies certain condition
 
@@ -569,7 +699,7 @@ Then I expect 'Loading' not to be present
 ```
 
 ---
-### I expect number of elements in \{string} collection \{playwrightValidation} \{string}
+### I expect number of elements in \{string} collection \{validation} \{string}
 
 Verify that number of element in collection satisfies condition
 
@@ -586,7 +716,7 @@ Then I expect number of elements in 'Search Results' collection to be below '51'
 ```
 
 ---
-### I expect text of \{string} \{playwrightValidation} \{string}
+### I expect text of \{string} \{validation} \{string}
 
 Verify that text of element satisfies condition
 
@@ -601,7 +731,7 @@ Then I expect text of '#1 of Search Results' to be equal 'google'
 Then I expect text of '#1 of Search Results' to be equal '$firstResult'
 ```
 ---
-### I expect value of \{string} \{playwrightValidation} \{string}
+### I expect value of \{string} \{validation} \{string}
 
 Verify that value of element satisfies condition
 
@@ -616,7 +746,7 @@ Then I expect value of 'Input' to be equal 'google'
 Then I expect value of '#1 of Textareas' to be equal '$firstResult'
 ```
 ---
-### I expect \{string} property of \{string} \{playwrightValidation} \{string}
+### I expect \{string} property of \{string} \{validation} \{string}
 
 Verify that property of element satisfies condition
 
@@ -633,7 +763,7 @@ Then I expect 'innerHTML' property of 'Label' to contain '<b>'
 Then I expect 'value' property of 'Search Input' to be equal '$inputText'
 ```
 ---
-### I expect \{string} attribute of \{string} \{playwrightValidation} \{string}
+### I expect \{string} attribute of \{string} \{validation} \{string}
 
 Verify that attribute of element satisfies condition
 
@@ -650,7 +780,23 @@ Then I expect 'href' attribute of 'Home Link' to be equal '$url'
 ```
 
 ---
-### I expect current url \{playwrightValidation} \{string}
+### I expect \{string} custom property of \{string} \{validation} \{string}
+
+Verify that result of custom function executed on element satisfies validation
+
+|     param     |  type  |                 description                  |                example                |
+|:-------------:|:------:|:--------------------------------------------:|:-------------------------------------:|
+|   property    | string | function that accepts element as argument    |  $js(element => element.value)        |
+|     alias     | string |              element to verify               |                Search Input           |
+|  validation   | string |         function to verify condition         | to be equal, to be above, to be below |
+| expectedValue | string |               expected result                |                                       |
+
+```gherkin
+Then I expect '$js(element => element.value)' custom property of 'Element' to be equal '123'
+```
+
+---
+### I expect current url \{validation} \{string}
 
 Verify that current url satisfies condition
 
@@ -665,7 +811,7 @@ Then I expect current url equals 'https://wikipedia.org'
 ```
 
 ---
-### I expect page title \{playwrightValidation} \{string}
+### I expect page title \{validation} \{string}
 
 Verify that page title satisfies condition
 
@@ -678,7 +824,7 @@ Verify that page title satisfies condition
 Then I expect page title equals 'Wikipedia'
 ```
 ---
-### I expect every element in \{string} collection \{playwrightConditionWait}
+### I expect every element in \{string} collection \{state}
 
 Verify that all elements in collection satisfy condition
 
@@ -693,7 +839,7 @@ Then I expect every element in 'Loading Bars' collection not to be present
 ```
 
 ---
-### I expect text of every element in \{string} collection \{playwrightValidation} \{string}
+### I expect text of every element in \{string} collection \{validation} \{string}
 
 Verify that all texts in collection satisfy condition
 
@@ -711,7 +857,7 @@ Then I expect text of every element in 'Search Results' collection does not cont
 ```
 
 ---
-### I expect \{string} attribute of every element in \{string} collection \{playwrightValidation} \{string}
+### I expect \{string} attribute of every element in \{string} collection \{validation} \{string}
 
 Verify that all particular attributes in collection satisfy condition
 
@@ -729,7 +875,7 @@ Then I expect 'href' attribute of every element in 'Search Results' collection t
 ```
 
 ---
-### I expect \{string} property of every element in \{string} collection \{playwrightValidation} \{string}
+### I expect \{string} property of every element in \{string} collection \{validation} \{string}
 
 Verify that all particular properties in collection satisfy condition
 
@@ -746,7 +892,23 @@ Note: step passes in case of empty collection
 Then I expect 'href' property of every element in 'Search Results' collection to contain 'google'
 ```
 
-### I expect \{string} css property of \{string} \{playwrightValidation} \{string}
+### I expect \{string} custom property of every element in \{string} collection \{validation} \{string}
+
+Verify that result of custom function executed on every element in collection satisfies validation
+
+|     param     |  type  |                 description                  |                example                |
+|:-------------:|:------:|:--------------------------------------------:|:-------------------------------------:|
+|   property    | string | function that accepts element as argument    |   $js(element => element.nodeName)    |
+|     alias     | string |             collection to verify             |              Search Results           |
+|  validation   | string |         function to verify condition         | to be equal, to be above, to be below |
+| expectedValue | string |               expected result                |                                       |
+
+```gherkin
+Then I expect '$js(element => element.nodeName)' custom property of every element in 'Collection' collection to equal 'LI'
+```
+
+---
+### I expect \{string} css property of \{string} \{validation} \{string}
 
 Verify that css property of element satisfies condition
 
@@ -763,7 +925,7 @@ Then I expect 'font-family' css property of 'Label' to contain 'Fira'
 ```
 
 ---
-### I expect text of alert \{playwrightValidation} \{string}
+### I expect text of alert \{validation} \{string}
 
 Verify that text of an alert meets expectation
 
@@ -776,6 +938,101 @@ Verify that text of an alert meets expectation
 Then I expect text of alert does not contain 'coffee'
 Then I expect text of alert does not contain 'hello world'
 Then I expect text of alert does not contain 'Are you sure you want to leave this page?'
+```
+
+---
+### I expect \{string} \{validation} \{string}
+
+Verify that value from memory satisfies validation against other value
+
+|   param    |   type   |         description          |                example                |
+|:----------:|:--------:|:----------------------------:|:-------------------------------------:|
+|   value1   |   any    |            value1            |      42, $value, $currentDate()       |
+| validation | Function | function to verify condition | to be equal, to be above, to be below |
+|   value2   |   any    |            value2            |      42, $value, $currentDate()       |
+
+```gherkin
+Then I expect '$value' to equal '$anotherValue'
+Then I expect '$value' not to contain '56'
+```
+
+---
+### I expect every element in \{string} array \{validation} \{string}
+
+Verify that every element in array satisfies validation against other value
+
+```gherkin
+Then I expect every element in '$arr' array to be above '50'
+```
+
+---
+### I expect at least \{int} element(s) in \{string} array \{validation} \{string}
+
+Verify that at least x elements in array pass validation
+
+```gherkin
+Then I expect at least 2 elements in '$arr' array to be above '50'
+```
+
+---
+### I expect \{string} array to be sorted by \{string}
+
+Verify that array is sorted by provided comparator function
+
+```gherkin
+Then I expect '$arr' array to be sorted by '$ascending'
+```
+
+---
+### I expect \{string} array \{validation}: [DataTable]
+
+Verify that array satisfies validation against array provided as data table
+
+```gherkin
+Then I expect '$arr' array to have members:
+  | uno  |
+  | dos  |
+  | tres |
+```
+
+---
+### I expect \{string} \{validation} at least one of \{string}
+
+Verify that value satisfies validation with at least one value from the array
+
+```gherkin
+Then I expect '$value' to equal at least one of '$js([1, 2, 3])'
+```
+
+---
+### I expect \{string} \{validation} at least one of: [DataTable]
+
+Verify that value satisfies validation with at least one value from the data table
+
+```gherkin
+Then I expect '$value' to equal at least one of:
+  | 1 |
+  | 2 |
+```
+
+---
+### I expect \{string} \{validation} all of \{string}
+
+Verify that value satisfies validation with all values from the array
+
+```gherkin
+Then I expect '$value' not to equal all of '$js([1, 2, 3])'
+```
+
+---
+### I expect \{string} \{validation} all of: [DataTable]
+
+Verify that value satisfies validation with all values from the data table
+
+```gherkin
+Then I expect '$value' to contain all of:
+  | a |
+  | b |
 ```
 
 ## Memory Steps
@@ -793,6 +1050,20 @@ Save text of element to memory
 ```gherkin
 When I save text of '#1 of Search Results' as 'firstSearchResult'
 ```
+---
+### I save value of \{string} as \{string}
+
+Save value of input element to memory
+
+| param |  type  |       description       |   example    |
+|:-----:|:------:|:-----------------------:|:------------:|
+| alias | string | element to get value    | Search Input |
+|  key  | string |   key to store value    |    query     |
+
+```gherkin
+When I save value of 'Search Input' as 'query'
+```
+
 ---
 ### I save \{string} property of \{string} as \{string}
 
@@ -880,6 +1151,24 @@ Save array of properties of collection to memory
 
 ```gherkin
 When I save 'href' property of every element of 'Search Results' collection as 'hrefs'
+```
+
+---
+### I save \{string} custom property of \{string} as \{string}
+
+Save result of custom function executed on element to memory
+
+```gherkin
+When I save '$js(element => element.value)' custom property of 'Element' as 'value'
+```
+
+---
+### I save \{string} custom property of every element of \{string} collection as \{string}
+
+Save array of results of custom function executed on every element of collection to memory
+
+```gherkin
+When I save '$js(element => element.nodeName)' custom property of every element of 'Collection' collection as 'nodeNames'
 ```
 
 ---
@@ -980,6 +1269,130 @@ When I save bounding rect of 'Node' as 'boundingRect'
 Then I expect '$boundingRect.width' to equal '42'
 ```
 
+---
+### I save \{string} to memory as \{string}
+
+Save value to memory
+
+```gherkin
+When I save '42' to memory as 'answer'
+When I save '$js(Date.now())' to memory as 'timestamp'
+```
+
+---
+### I set \{string} = \{string}
+
+Save value to memory (alias of `I save {value} to memory as {value}`)
+
+```gherkin
+When I set 'answer' = '42'
+```
+
+---
+### I save multiline string to memory as \{string}: [Multiline]
+
+Save multiline string to memory
+
+```gherkin
+When I save multiline string to memory as 'text':
+  """
+  first line
+  second line
+  """
+```
+
+---
+### I save json to memory as \{string}: [Multiline]
+
+Parse json and save it to memory
+
+```gherkin
+When I save json to memory as 'payload':
+  """
+  { "name": "qavajs" }
+  """
+```
+
+---
+### I save key-value pairs to memory as \{string}: [DataTable]
+
+Save data table as object to memory
+
+```gherkin
+When I save key-value pairs to memory as 'user':
+  | name | qavajs |
+  | role | admin  |
+```
+
+## Wait Steps
+
+---
+### I wait \{int} ms
+
+Wait for specified number of milliseconds
+
+```gherkin
+When I wait 1000 ms
+```
+
+:::note
+`until` steps repeat action every 5 seconds until condition is met, up to 60 seconds.
+:::
+
+---
+### I click \{string} until \{string} \{state}
+
+Repeatedly click element until other element matches state
+
+```gherkin
+When I click 'Refresh Button' until 'Order Status' to be visible
+```
+
+---
+### I click \{string} until text of \{string} \{validation} \{string}
+
+Repeatedly click element until text of other element matches condition
+
+```gherkin
+When I click 'Send Message Button' until text of 'Information Alert' to be equal 'Your account has been banned'
+```
+
+---
+### I click \{string} until value of \{string} \{validation} \{string}
+
+Repeatedly click element until value of other element matches condition
+
+```gherkin
+When I click 'Plus Button' until value of 'Quantity Input' to be equal '9'
+```
+
+---
+### I refresh page until \{string} \{state}
+
+Refresh page until element matches state
+
+```gherkin
+When I refresh page until 'Internal Server Error Box' to be visible
+```
+
+---
+### I refresh page until text of \{string} \{validation} \{string}
+
+Refresh page until element text matches condition
+
+```gherkin
+When I refresh page until text of 'Order Status' to be equal 'Processing'
+```
+
+---
+### I refresh page until value of \{string} \{validation} \{string}
+
+Refresh page until element value matches condition
+
+```gherkin
+When I refresh page until value of 'Order Status Input' to be equal 'Processing'
+```
+
 ## Execute Steps
 
 ---
@@ -1040,6 +1453,78 @@ Execute client function on certain element
 ```gherkin
 When I execute '$fn' function on 'Component > Element' and save result as 'innerText' # fn is function reference
 When I execute 'arguments[0].innerText' function on 'Component > Element' and save result as 'innerText'
+```
+
+## Electron Steps
+
+Electron apps are tested with the same steps as web pages, plus electron steps.
+The app is launched by `QavajsPlaywrightElectronWorld` using `launchOptions` of the Playwright project,
+and `this.page` is the first window of the app.
+
+qavajs.config.ts
+```typescript
+export default defineConfig({
+    require: [
+        'node_modules/@qavajs/playwright/steps.js', // built-in step definitions
+        'node_modules/@qavajs/playwright/lib/electron.js', // electron step definitions
+        'step_definitions/*.ts' // custom step definitions incl. world setup (must go after steps.js)
+    ],
+});
+```
+
+step_definitions/setup.ts
+```typescript
+import { setWorldConstructor, QavajsPlaywrightElectronWorld } from '@qavajs/playwright';
+
+setWorldConstructor(QavajsPlaywrightElectronWorld);
+```
+
+playwright.config.ts
+```typescript
+import { defineConfig } from '@playwright/test';
+
+export default defineConfig({
+    testMatch: 'qavajs.config.ts',
+    projects: [
+        {
+            name: 'electron',
+            use: {
+                launchOptions: {
+                    args: ['path/to/main.js']
+                }
+            },
+        }
+    ]
+});
+```
+
+In custom steps, the Electron main process is available as `this.electron`.
+
+---
+### I execute \{string} function/script on electron app
+
+Execute function on electron main process
+
+```gherkin
+When I execute '$js(async ({ app }) => app.getAppPath())' function on electron app
+```
+
+---
+### I execute \{string} function/script on electron app and save result as \{string}
+
+Execute function on electron main process and save result into memory
+
+```gherkin
+When I execute '$js(async ({ app }) => app.getAppPath())' function on electron app and save result as 'path'
+```
+
+---
+### I click \{string} electron menu
+
+Click electron application menu item
+
+```gherkin
+When I click 'File > Edit' electron menu
 ```
 
 ## Mock Steps
@@ -1167,7 +1652,7 @@ When I save value of 'auth' cookie as 'authCookie'
 ## Local/Session Storage Steps
 
 ---
-### I set \{string} \{word} storage value as \{string}
+### I set \{string} \{storageType} storage value as \{string}
 
 Set value of local/session storage
 
@@ -1183,7 +1668,7 @@ When I set '$sessionStorageKey' session storage value as '$sessionStorageValue'
 ```
 
 ---
-### I save value of \{string} \{word} storage as \{string}
+### I save value of \{string} \{storageType} storage as \{string}
 
 Set value of local/session storage
 
@@ -1247,9 +1732,9 @@ And I expect '$response.status()' to equal '200'
 
 ## File Steps
 ---
-### I expect file matching \{string} regexp appears in \{string}
+### I expect file matching \{string} regexp exists in \{string}
 
-Verify that file matching regexp appears in directory
+Verify that file matching regexp exists in directory
 
 | param |  type  |       description       |   example    |
 |:-----:|:------:|:-----------------------:|:------------:|
@@ -1257,22 +1742,22 @@ Verify that file matching regexp appears in directory
 |  dir  | string | directory path to wait  | ./yourFolder |
 
 ```gherkin
-When I expect file matching 'f.+\.txt' regexp appears in './test-e2e/folder'
-When I expect file matching '$fileRegexp' regexp appears in '$folder'
+When I expect file matching 'f.+\.txt' regexp exists in './test-e2e/folder'
+When I expect file matching '$fileRegexp' regexp exists in '$folder'
 ```
 
 ---
-### I expect \{string} file appears
+### I expect \{string} file exists
 
-Verify that file appears in provided location
+Verify that file exists in provided location
 
 | param |  type  |    description    |        example        |
 |:-----:|:------:|:-----------------:|:---------------------:|
 | file  | string | file path to wait | ./yourFolder/file.txt |
 
 ```gherkin
-When I expect './test-e2e/folder/file.txt' file appears
-When I expect '$filePath' file appears
+When I expect './test-e2e/folder/file.txt' file exists
+When I expect '$filePath' file exists
 ```
 
 ---
@@ -1283,7 +1768,7 @@ Verify that text file content satisfy validation
 |     param      |  type  |  description   |         example         |
 |:--------------:|:------:|:--------------:|:-----------------------:|
 |      file      | string |   file path    |  ./yourFolder/file.txt  |
-| validationType | string |   file path    | to be equal, to contain |
+| validationType | string |   validation   | to be equal, to contain |
 | expectedValue  | string | expected value |      text, $value       |
 
 ```gherkin
@@ -1318,170 +1803,10 @@ Save file content to memory as text (utf-8)
 
 ```gherkin
 When I save './folder/file.txt' text file content as 'fileContent'
-When I save '$filePath' text file as 'fileContent'
+When I save '$filePath' text file content as 'fileContent'
 ```
 
-## Web API Steps
-
-### I send \{method} request to \{url} and save response as \{key}
-
-Send request to the endpoint
-
-|  param  |  type  |                 description                 |
-|:-------:|:------:|:-------------------------------------------:|
-| method  | string |               request method                |
-|   url   | string |                endpoint url                 |
-|   key   | string | key that should be used for saving response |
-
-```gherkin
-When I send "GET" request to "$BASE_API_URL" and save response as "response"
-```
----
-### I send \{method} request to \{url} with headers \{headers} and save response as \{key}
-
-Send request to the endpoint
-
-|  param  |  type  |                 description                 |
-|:-------:|:------:|:-------------------------------------------:|
-| method  | string |               request method                |
-|   url   | string |                endpoint url                 |
-| headers | string |           memory key with headers           |
-|   key   | string | key that should be used for saving response |
-
-```gherkin
-When I send "GET" request to "$BASE_API_URL" with headers "$headers" and save response as "response"
-```
----
-### I send \{method} request to \{url} with qs \{params} and save response as \{key}
-
-Send request to the endpoint with query string
-
-|  param  |  type  |                 description                 |
-|:-------:|:------:|:-------------------------------------------:|
-| method  | string |               request method                |
-|   url   | string |                endpoint url                 |
-| params  | string |           query string parameters           |
-|   key   | string | key that should be used for saving response |
-
-```gherkin
-When I send "GET" request to "$BASE_API_URL" with qs "?category=HR&name=test" and save response as "response"
-```
----
-### I send \{method} request to \{url} with headers \{headers} with qs \{params} and save response as \{key}
-
-Send request to the endpoint with query string
-
-|  param  |  type  |                 description                 |
-|:-------:|:------:|:-------------------------------------------:|
-| method  | string |               request method                |
-|   url   | string |                endpoint url                 |
-| headers | string |           memory key with headers           |
-| params  | string |           query string parameters           |
-|   key   | string | key that should be used for saving response |
-
-```gherkin
-When I send "GET" request to "$BASE_API_URL" with headers "$headers" with qs "?category=HR&name=test" and save response as "response"
-```
----
-### I send \{method} request to \{url} with Body \{requestBody} and save response as \{key}
-
-Send request with body
-
-|    param    |  type  |                 description                 |
-|:-----------:|:------:|:-------------------------------------------:|
-|   method    | string |               request method                |
-|     url     | string |                endpoint url                 |
-| requestBody |  JSON  |                request body                 |
-|     key     | string | key that should be used for saving response |
-
-```gherkin
-When I send "POST" request to "$BASE_API_URL" with Body "test_data_file.json" and save response as "response"
-```
----
-### I send \{method} request to \{url} with headers \{headers} with Body \{requestBody} and save response as \{key}
-
-Send request with body
-
-|    param    |  type  |                 description                 |
-|:-----------:|:------:|:-------------------------------------------:|
-|   method    | string |               request method                |
-|     url     | string |                endpoint url                 |
-|   headers   | string |           memory key with headers           |
-| requestBody |  JSON  |                request body                 |
-|     key     | string | key that should be used for saving response |
-
-```gherkin
-When I send "POST" request to "$BASE_API_URL" with headers "$json('headers.json')" with Body "test_data_file.json" and save response as "response"
-```
----
-### I send \{method} request to \{url} with qs \{params} and Body \{requestBody} and save response as \{key}
-
-Send request with body and query string
-
-|    param    |  type  |                 description                 |
-|:-----------:|:------:|:-------------------------------------------:|
-|   method    | string |               request method                |
-|     url     | string |                endpoint url                 |
-|   params    | string |           query string parameters           |
-| requestBody |  JSON  |                request body                 |
-|     key     | string | key that should be used for saving response |
-
-```gherkin
-When I send "PUT" request to "https://www.some_service.com/some_endpoint/" with qs "?category=HR&name=test" and Body "test_data_file.json" and save response as "response"
-```
----
-### I send \{method} request to \{url} with headers \{headers} with qs \{params} and Body \{requestBody} and save response as \{key}
-
-Send request with body and query string
-
-|    param    |  type  |                 description                 |
-|:-----------:|:------:|:-------------------------------------------:|
-|   method    | string |               request method                |
-|     url     | string |                endpoint url                 |
-|   headers   | string |           memory key with headers           |
-|   params    | string |           query string parameters           |
-| requestBody |  JSON  |                request body                 |
-|     key     | string | key that should be used for saving response |
-
-```gherkin
-When I send "PUT" request to "https://www.some_service.com/some_endpoint/" with headers "$headers" with qs "?category=HR&name=test" and Body "test_data_file.json" and save response as "response"
-```
----
-### I send \{method} request and save response as \{key} to \{url} with Body: [requestBody]
-
-Send request with body that given as part of Cucumber step
-
-|    param    |        type        |                 description                 |
-|:-----------:|:------------------:|:-------------------------------------------:|
-|   method    |       string       |               request method                |
-|     key     |       string       | key that should be used for saving response |
-|     url     |       string       |                endpoint url                 |
-| requestBody | string (Multiline) |                request body                 |
-
-```gherkin
-When I send "POST" request and save response as "response" to "$BASE_API_URL" with Body:
-   """
-   {
-      "title": "Test Post Request with Body passed as string"
-   }
-   """
-```
-
-### I parse \{response} body as \{type}
-MANDATORY STEP THAT SHOULD BE USED AFTER SENDING REQUEST
-Parsing body in needed way and adds payload property to response
-
-|  param   |                type                 |      description       |
-|:--------:|:-----------------------------------:|:----------------------:|
-| response |               string                | response key in memory |
-|   type   | bodyParsingType |    type of payload     |
-
-```gherkin
-When I parse '$response' body as 'json'
-Then I expect '$response.payload.foo' to equal 'bar'
-```
-
-## Construction API Steps
+## HTTP Steps
 
 ---
 ### I create \{method} request \{requestKey}
@@ -1654,4 +1979,19 @@ And I add variables to GraphQL '$request':
   "value": 42
 }
 """
+```
+
+---
+### I parse \{response} body as \{bodyParsingType}
+MANDATORY STEP THAT SHOULD BE USED AFTER SENDING REQUEST
+Parsing body in needed way and adds payload property to response
+
+|  param   |                type                 |      description       |
+|:--------:|:-----------------------------------:|:----------------------:|
+| response |               string                | response key in memory |
+|   type   | bodyParsingType | type of payload (json, text, buffer) |
+
+```gherkin
+When I parse '$response' body as json
+Then I expect '$response.payload.foo' to equal 'bar'
 ```

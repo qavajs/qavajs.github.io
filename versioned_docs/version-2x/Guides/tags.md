@@ -110,12 +110,12 @@ After({ tags: '@db-cleanup' }, async function() {
 
 ## Tags and Fixtures
 
-Fixtures are activated by tags. Define the fixture name to match the tag (without `@`):
+Fixtures are activated by tag expression provided in `tags` property:
 
 ```typescript
 import { Fixture } from '@qavajs/core';
 
-Fixture('cart', async function() {
+Fixture({ name: 'cart', tags: '@cart' }, async function() {
     await this.playwright.page.goto('/products');
     await this.playwright.page.click('.add-to-cart');
 

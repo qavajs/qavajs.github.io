@@ -187,7 +187,8 @@ memory: new Memory()
 
 ## Browser Options
 
-The `browser` object configures the browser driver (Playwright or WebdriverIO).
+The `browser` object configures the browser driver (Playwright or WebdriverIO). `driver` can be used as an alias of `browser`.
+Resolved config (with defaults applied) is available in custom steps as `this.config.driverConfig`.
 
 ### `browser.logLevel`
 
@@ -195,7 +196,7 @@ The `browser` object configures the browser driver (Playwright or WebdriverIO).
 |------|---------|
 | `'trace' \| 'debug' \| 'info' \| 'warn' \| 'error' \| 'silent'` | `'warn'` |
 
-Log verbosity for the browser driver.
+Log verbosity for the browser driver (WebdriverIO only). With WebdriverIO, all other [WebdriverIO options](https://webdriver.io/docs/configuration) (e.g. `strictSelectors`) can also be provided in the `browser` object.
 
 ---
 
@@ -209,7 +210,7 @@ Browser capabilities passed to Playwright or WebdriverIO.
 
 ```typescript
 capabilities: {
-    browserName: 'chromium' // 'chromium' | 'firefox' | 'webkit'
+    browserName: 'chromium' // playwright: 'chromium' | 'firefox' | 'webkit' | 'electron'; wdio: 'chrome' | 'firefox' | ...
 }
 ```
 
@@ -221,13 +222,18 @@ Fine-grained timeouts for UI step interactions.
 
 | Property | Type | Default | Description |
 |---|---|---|---|
-| `action` | `number` | `10000` | Timeout for user actions (click, type, etc.) |
+| `action` | `number` | `10000` | Timeout for user actions (click, type, etc.) _(Playwright only)_ |
 | `present` | `number` | `10000` | Timeout for an element to appear in the DOM |
-| `visible` | `number` | `20000` | Timeout for an element to become visible |
+| `visible` | `number` | `10000` | Timeout for an element to become visible |
+| `clickable` | `number` | `10000` | Timeout for an element to become clickable _(WebdriverIO only)_ |
 | `page` | `number` | `10000` | Page navigation timeout |
+| `networkIdle` | `number` | `500` | Network inactivity period for `I wait for network idle` step _(Playwright only)_ |
+| `implicit` | `number` | `0` | WebdriverIO implicit wait _(WebdriverIO only)_ |
+| `element` | `number` | `2000` | Timeout for an element to be accessible _(WebdriverIO only)_ |
 | `value` | `number` | `5000` | Polling timeout for value assertions |
 | `valueInterval` | `number` | `500` | Polling interval for value assertions |
-| `pageRefreshInterval` | `number` | `2000` | Page refresh interval for polling steps |
+| `actionInterval` | `number` | `1000` | Interval to repeat action for `I click ... until ...` steps |
+| `pageRefreshInterval` | `number` | `2000` | Page refresh interval for `I refresh page until ...` steps |
 
 ```typescript
 timeout: {
@@ -239,6 +245,18 @@ timeout: {
     valueInterval: 500
 }
 ```
+
+---
+
+### `browser.screenshot`, `browser.trace`, `browser.video`, `browser.snapshot`
+
+Report artifacts collected on particular events. See [Playwright steps](../Steps/playwright.md) and [WebdriverIO steps](../Steps/wdio.md) for details.
+
+---
+
+### `browser.reuseSession`, `browser.restartBrowser`
+
+Share browser session between scenarios / restart browser instead of context between scenarios (`restartBrowser` is Playwright only).
 
 ---
 

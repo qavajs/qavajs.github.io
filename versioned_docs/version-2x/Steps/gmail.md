@@ -75,3 +75,20 @@ If query returns multiple message only first one will be saved.
 When I save email matching 'subject:some subject' as 'email'
 Then I expect '$email.subject' to equal 'some subject'
 ```
+
+--------------
+### I \{gmailAction} \{string} label to email(s) matching \{string}
+
+Add or remove label of email(s) matching advanced search syntax query (e.g. mark email as read/unread or move it to trash).
+If query returns multiple message only first one will be modified.
+
+|    param    |  type  |                                              description                                               | 
+|:-----------:|:------:|:------------------------------------------------------------------------------------------------------:|
+|   action    | string |                                       `add` or `remove`                                        |
+|    label    | string | label to add or remove https://developers.google.com/gmail/api/guides/labels#types_of_labels |
+| searchQuery | string |                advanced search syntax query https://support.google.com/mail/answer/7190                |
+
+```gherkin
+When I remove "UNREAD" label to email matching 'is:unread'
+When I add "TRASH" label to emails matching 'is:read'
+```

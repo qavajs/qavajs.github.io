@@ -10,7 +10,7 @@ qavajs formatter for Jira [Xray](https://docs.getxray.app/)
 npm install @qavajs/xray-formatter
 ```
 
-configure `formatterOption` property in config file:
+configure `formatOptions` property in config file:
 
 cloud configuration:
 ```javascript
@@ -21,7 +21,8 @@ export default {
             client_id: 'client_id', // generated client_id from xray cloud
             client_secret: 'client_secret', // generated client_id from xray client_secret
             testExecutionKey: 'ABC-12', // test execution jira key to send result
-            tagRegexp: 'TEST_(.+)' // optional, parse tag regexp. default /@(.+-\d+)/
+            tagRegexp: 'TEST_(.+)', // optional, parse tag regexp. default /@(.+-\d+)/
+            requestsPerSecond: 1 // optional, requests to Xray per second (to prevent rate limit error)
         }
     }
 }
@@ -36,7 +37,8 @@ export default {
             endpoint: 'https://your.jira.instance/jira', //jira api endpoint
             client_secret: 'client_secret', // personal access key from jira instance
             testExecutionKey: 'ABC-12', // test execution jira key to send result
-            tagRegexp: 'TEST_(.+)' // optional, parse tag regexp
+            tagRegexp: 'TEST_(.+)', // optional, parse tag regexp
+            requestsPerSecond: 1 // optional, requests to Xray per second (to prevent rate limit error)
         }
     }
 }
