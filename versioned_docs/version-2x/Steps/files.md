@@ -28,9 +28,9 @@ export default {
 
 ## Wait Steps
 ---
-### I expect file matching \{string} regexp appears in \{string}
+### I expect file matching \{string} regexp exists in \{string}
 
-Verify that file matching regexp appears in directory
+Wait until file matching regexp exists in directory
 
 | param |  type  |       description       |   example    |
 |:-----:|:------:|:-----------------------:|:------------:|
@@ -38,22 +38,22 @@ Verify that file matching regexp appears in directory
 |  dir  | string | directory path to wait  | ./yourFolder |
 
 ```gherkin
-When I expect file matching 'f.+\.txt' regexp appears in './test-e2e/folder'
-When I expect file matching '$fileRegexp' regexp appears in '$folder'
+When I expect file matching 'f.+\.txt' regexp exists in './test-e2e/folder'
+When I expect file matching '$fileRegexp' regexp exists in '$folder'
 ```
 
 ---
-### I expect \{string} file appears
+### I expect \{string} file exists
 
-Verify that file appears in provided location
+Wait until file exists in provided location
 
 | param |  type  |    description    |        example        |
 |:-----:|:------:|:-----------------:|:---------------------:|
 | file  | string | file path to wait | ./yourFolder/file.txt |
 
 ```gherkin
-When I expect './test-e2e/folder/file.txt' file appears
-When I expect '$filePath' file appears
+When I expect './test-e2e/folder/file.txt' file exists
+When I expect '$filePath' file exists
 ```
 
 ## Validation Steps
@@ -65,7 +65,7 @@ Verify that text file content satisfy validation
 |     param      |  type  |  description   |         example         |
 |:--------------:|:------:|:--------------:|:-----------------------:|
 |      file      | string |   file path    |  ./yourFolder/file.txt  |
-| validationType | string |   file path    | to be equal, to contain |
+| validationType | string |   validation   | to be equal, to contain |
 | expectedValue  | string | expected value |      text, $value       |
 
 ```gherkin

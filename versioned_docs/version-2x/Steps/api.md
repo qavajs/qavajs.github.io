@@ -165,6 +165,7 @@ When I send "PUT" request to "https://www.some_service.com/some_endpoint/" with 
 ```
 ---
 ### I send \{method} request and save response as \{key} to \{url} with Body: [requestBody]
+### I send \{method} request and save response as \{key} to \{url} with headers \{headers} with Body: [requestBody]
 
 Send request with body that given as part of Cucumber step
 
@@ -173,10 +174,17 @@ Send request with body that given as part of Cucumber step
 |   method    |       string       |               request method                |
 |     key     |       string       | key that should be used for saving response |
 |     url     |       string       |                endpoint url                 |
+|   headers   | string (optional)  |        memory key of request headers        |
 | requestBody | string (Multiline) |                request body                 |
 
 ```gherkin
 When I send "POST" request and save response as "response" to "$BASE_API_URL" with Body:
+   """
+   {
+      "title": "Test Post Request with Body passed as string"
+   }
+   """
+When I send "POST" request and save response as "response" to "$BASE_API_URL" with headers "$headers" with Body:
    """
    {
       "title": "Test Post Request with Body passed as string"
@@ -197,7 +205,7 @@ When I parse '$response' body as json
 Then I expect '$response.payload.foo' to equal 'bar'
 ```
 
-### I parse \{response} body as \{type}
+### I parse \{response} body as \{parser}
 Parse body with provided parser and adds `payload` property to response
 
 |  param   |                type                 |      description                |
@@ -220,6 +228,20 @@ class Data {
     return xml.parse(text);
   }
 }
+```
+
+---
+### I clone/copy \{response} response as \{key}
+Clone response (e.g. to read body multiple times)
+
+|  param   |  type  |        description         |
+|:--------:|:------:|:--------------------------:|
+| response | string |   response key in memory   |
+|   key    | string | memory key to save clone   |
+
+```gherkin
+When I clone '$response' response as 'copiedResponse'
+When I copy '$response' response as 'copiedResponse'
 ```
 
 ## Construction API Steps
@@ -397,6 +419,70 @@ And I add variables to GraphQL '$request':
 """
 ```
 
+## Verification Steps
+
+:::note
+Response body has to be parsed via `I parse ... body as ...` step before verification
+:::
+
+---
+### Response \{path} \{validation} \{expected}
+Verify that value of response property satisfies validation
+
+|   param    |  type  |               description               |
+|:----------:|:------:|:---------------------------------------:|
+|    path    | string |  path to property of parsed response    |
+| validation | string |              validation                 |
+|  expected  | string |             expected value              |
+
+```gherkin
+Then Response "$response.payload.data.items[0].title" to equal "TEST"
+```
+
+---
+### Response \{path} size \{validation} \{expected}
+Verify that array size satisfies validation
+
+|   param    |  type  |               description               |
+|:----------:|:------:|:---------------------------------------:|
+|    path    | string |       path to array in response         |
+| validation | string |              validation                 |
+|  expected  | string |         expected array size             |
+
+```gherkin
+Then Response "$response.payload.data.items" size to be above "0"
+```
+
+---
+### Response type \{path} \{validation} \{type}
+Verify that `typeof` of response property satisfies validation
+
+|   param    |  type  |                  description                   |
+|:----------:|:------:|:----------------------------------------------:|
+|    path    | string |      path to property of parsed response       |
+| validation | string |                  validation                    |
+|    type    | string | expected type (e.g. string, number, object...) |
+
+```gherkin
+Then Response type "$response.payload.data.title" to equal "string"
+```
+
+---
+### Response \{path} contains: [DataTable]
+Verify that each object in response contains all properties provided in data table
+
+| param |   type    |               description               |
+|:-----:|:---------:|:---------------------------------------:|
+| path  |  string   | path to object or array of objects      |
+| props | DataTable |         list of property names          |
+
+```gherkin
+Then Response "$response.payload.data.items" contains:
+  | _id             |
+  | appId           |
+  | serviceCategory |
+```
+
 ## Websocket Steps
 
 ---
@@ -429,7 +515,7 @@ And I save message from '$ws' ws endpoint as 'message'
 ```
 
 ---
-### I save message matching \{string} from \{string} ws endpoint as \{string}'
+### I save message matching \{string} from \{string} ws endpoint as \{string}
 
 Save message matching regexp from websocket connection to memory
 

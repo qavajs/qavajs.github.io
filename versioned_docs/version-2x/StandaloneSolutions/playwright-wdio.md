@@ -20,7 +20,7 @@ npm install @qavajs/playwright-wdio
 ## Configuration
 qavajs.config.ts
 ```typescript
-import { defineConfig } from '@qavajs/playwright';
+import { defineConfig } from '@qavajs/playwright-wdio';
 import Memory from './memory';
 import App from './page_object';
 
@@ -38,8 +38,9 @@ export default defineConfig({
 playwright.config.ts
 ```typescript
 import { defineConfig } from '@playwright/test';
+import { WdioOptions } from '@qavajs/playwright-wdio';
 
-export default defineConfig({
+export default defineConfig<WdioOptions>({
     testMatch: 'qavajs.config.ts',
     projects: [
         {

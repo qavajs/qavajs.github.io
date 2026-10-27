@@ -142,7 +142,7 @@ Template locators allow you to generate selectors dynamically based on parameter
     const { locator } = require('@qavajs/steps-playwright/po');
 
     class App {
-        // Select by index (1-based in Gherkin, converted to 0-based in implementation)
+        // Select by index (argument is passed as string)
         ElementByIndex = locator.template(index => `div.item:nth-child(${index})`);
         
         // Select by text content
@@ -151,8 +151,11 @@ Template locators allow you to generate selectors dynamically based on parameter
         // Select by attribute value
         ElementByAttribute = locator.template(value => `[data-testid='${value}']`);
         
-        // Multiple parameters
-        TableCell = locator.template((row, col) => `table tr:nth-child(${row}) td:nth-child(${col})`);
+        // Multiple parameters (template receives single string argument that can be split)
+        TableCell = locator.template(arg => {
+            const [row, col] = arg.split(/\s*,\s*/);
+            return `table tr:nth-child(${row}) td:nth-child(${col})`;
+        });
     }
     ```
   </TabItem>
@@ -161,8 +164,8 @@ Template locators allow you to generate selectors dynamically based on parameter
     import { locator } from '@qavajs/steps-playwright/po';
 
     class App {
-        // Select by index (1-based in Gherkin, converted to 0-based in implementation)
-        ElementByIndex = locator.template((index: number) => `div.item:nth-child(${index})`);
+        // Select by index (argument is passed as string)
+        ElementByIndex = locator.template((index: string) => `div.item:nth-child(${index})`);
         
         // Select by text content
         ElementByText = locator.template((text: string) => `div:has-text('${text}')`);
@@ -183,6 +186,7 @@ Feature: Template Locators
     When I click 'Element By Index (3)'
     And I click 'Element By Text (Add to Cart)'
     And I click 'Element By Attribute (submit-button)'
+    And I click 'Table Cell (2, 3)'
     And I expect text of 'Element By Text (Add to Cart)' to contain 'Add to Cart'
 ```
 

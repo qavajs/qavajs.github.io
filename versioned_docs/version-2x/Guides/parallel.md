@@ -38,7 +38,7 @@ Feature: Parallel
 ```
 
 ### Test Sharding
-qavajs provides ability to shard your tests between different machines. To do so pass `--shard x/y` parameter in CLI,
+qavajs supports cucumber-js built-in sharding to split your tests between different machines. To do so pass `--shard x/y` parameter in CLI,
 where x - current shard, y - total number of shards.
 
 ```
