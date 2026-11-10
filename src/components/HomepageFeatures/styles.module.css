@@ -1,11 +1,132 @@
 .features {
-  display: flex;
-  align-items: center;
-  padding: 2rem 0;
-  width: 100%;
+  --f-border: rgba(15, 23, 42, 0.1);
+  --f-surface: #ffffff;
+  --f-muted: #475569;
+  padding: 5.5rem 0;
+  background: var(--f-surface);
 }
 
-.featureSvg {
-  height: 200px;
-  width: 200px;
+:global([data-theme='dark']) .features {
+  --f-border: rgba(255, 255, 255, 0.08);
+  --f-surface: #101215;
+  --f-muted: #9aa4b2;
+}
+
+.head {
+  text-align: center;
+  max-width: 40rem;
+  margin: 0 auto 3rem;
+}
+
+.head h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+  letter-spacing: -0.02em;
+  margin-bottom: 0.6rem;
+}
+
+.head p {
+  color: var(--f-muted);
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.eyebrow {
+  display: inline-block;
+  margin-bottom: 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ifm-color-primary);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.6rem;
+  border: 1px solid var(--f-border);
+  border-radius: 18px;
+  background: var(--f-surface);
+  color: inherit;
+  overflow: hidden;
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(400px 160px at 0% 0%, rgba(37, 194, 160, 0.12), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  pointer-events: none;
+}
+
+.card:hover {
+  text-decoration: none;
+  color: inherit;
+  transform: translateY(-4px);
+  border-color: var(--ifm-color-primary);
+  box-shadow: 0 24px 48px -28px var(--ifm-color-primary);
+}
+
+.card:hover::before {
+  opacity: 1;
+}
+
+.icon {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  color: var(--ifm-color-primary);
+  background: rgba(37, 194, 160, 0.12);
+}
+
+.icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+.card h3 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  color: var(--f-muted);
+  line-height: 1.6;
+  font-size: 0.95rem;
+  flex: 1;
+}
+
+.more {
+  margin-top: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--ifm-color-primary);
+}
+
+@media (max-width: 996px) {
+  .features {
+    padding: 4rem 0;
+  }
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
