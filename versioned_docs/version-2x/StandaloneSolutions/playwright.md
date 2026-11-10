@@ -47,6 +47,38 @@ export default defineConfig({
 });
 ```
 
+### Logging
+
+Steps log resolved memory values (`$url -> https://...`, `$key <- value`) and resolved locators (`Form > Button -> locator(...)`).
+Use `logger` option in `qavajs.config.ts` to control where logs are written and which values are masked:
+
+```typescript
+export default defineConfig({
+    // ...
+    logger: {
+        output: 'step', // 'console' (default) | 'step' | 'off'
+        mask: /password|token|ssn/i // keys whose values are masked, false disables masking
+    }
+});
+```
+
+- `console` - logs are printed to stdout (prefixed with worker index when tests run in parallel)
+- `step` - logs of a step are attached to that step in the report as a single `log` attachment
+- `off` - logs are not written
+
+Values of memory keys, object properties, query parameters and headers matching `mask` pattern are replaced with `***`.
+Masked values are remembered and masked wherever they appear later (e.g. interpolated into a url).
+Default pattern (`defaultSecretPattern`, exported from `@qavajs/playwright`) covers password, secret, token, api key, authorization, credential, private key and cookie.
+Extend it as `new RegExp(defaultSecretPattern.source + '|ssn', 'i')`.
+
+:::caution
+Keep secrets in memory rather than in step text: step titles and Playwright action titles are not masked.
+:::
+
+:::note
+Since 4.4.0 step logs are printed to console by default instead of being attached to steps. Set `logger.output: 'step'` to attach them to the report.
+:::
+
 :::note
 Requires Node.js 22 or later. Only `@qavajs/playwright`, `@qavajs/playwright/steps.js` and `@qavajs/playwright/lib/electron.js` entry points can be imported.
 :::
@@ -95,7 +127,7 @@ Custom steps are defined with `Given`/`When`/`Then` exported from `@qavajs/playw
 | `this.element(path)`                                          | Resolve page object path to `Locator`                  |
 | `this.value(expression)`                                      | Resolve memory expression (`'$user'`, `'$js(1 + 1)'`)  |
 | `this.setValue(key, value)`                                   | Save value to memory                                   |
-| `this.expect`                                                 | Playwright `expect` extended with qavajs matchers      |
+| `this.expect`                                                 | Playwright `expect` extended with qavajs matchers (see below) |
 | `this.waitForDialog()`                                        | Get open dialog or wait for next one                   |
 | `this.log(data)`, `this.attach(data, details)`                | Add log or attachment to report                        |
 
@@ -116,9 +148,46 @@ Then('I expect placeholder of {locator} {validation} {value}', async function (
     expected: MemoryValue
 ) {
     // poll retries until validation passes or expect timeout is reached
-    await validation.poll(() => locator.getAttribute('placeholder'), await expected.value());
+    // locator and property are printed in the error message
+    await validation.poll(
+        () => locator.getAttribute('placeholder'),
+        await expected.value(),
+        { locator, property: 'placeholder' }
+    );
 });
 ```
+
+`validation.poll(getter, expected, options?)` accepts optional `{ locator, property, timeout }`. The getter receives `{ timeout }` of the current attempt.
+A polled validation produces a single report step (instead of a step per attempt), and on failure prints the locator, timeout and Playwright call log.
+
+### Custom matchers
+All validations are implemented as Playwright custom matchers, so they produce native Playwright error messages. They are available via `this.expect`:
+
+| Matcher                       | Validation               |
+|-------------------------------|--------------------------|
+| `toSimpleEqual`               | `equal`                  |
+| `toStrictlyEqual`             | `strictly equal`         |
+| `toDeepEqual`                 | `deeply equal`           |
+| `toCaseInsensitiveEqual`      | `case insensitive equal` |
+| `toInclude`                   | `contain`                |
+| `toMatchRegExp`               | `match`                  |
+| `toHaveMembers`               | `have members`           |
+| `toIncludeMembers`            | `include members`        |
+| `toHavePropertyPath`          | `have property`          |
+| `toBeAbove`                   | `above` / `greater than` |
+| `toBeBelow`                   | `below` / `less than`    |
+| `toHaveType`                  | `have type`              |
+| `toSatisfy`                   | `satisfy`                |
+| `toBeClickable`               | `clickable` state (locator) |
+
+```typescript
+Then('I expect {locator} to be ready', async function (this: QavajsPlaywrightWorld, locator: Locator) {
+    await this.expect(locator).toBeClickable();
+    await this.expect(await locator.textContent()).toInclude('Ready');
+});
+```
+
+Window switching, file existence and `scroll until visible` waits use the same matchers: a single report step and the actual state in the error message.
 
 ## Action Steps
 
