@@ -27,11 +27,23 @@ Use `--tags` to run only the scenario you are investigating:
 npx qavajs run --tags "@debug"
 ```
 
-Or target a specific feature file and scenario by name:
+Or target a specific feature file, optionally with the line number of a scenario:
 
 ```bash
-npx qavajs run --config config.ts --paths features/login.feature
+npx qavajs run --config config.ts features/login.feature
+npx qavajs run --config config.ts features/login.feature:12
 ```
+
+## UI Mode
+
+`qavajs ui` opens an interactive runner in the browser where you can run a single scenario, filter by tag or status,
+inspect step errors and attachments, and re-run after editing features or step definitions:
+
+```bash
+npx qavajs ui --config config.ts
+```
+
+See [UI mode](../intro.md#ui-mode) for details.
 
 ## Node.js Inspector
 

@@ -168,11 +168,15 @@ Execute tests using the qavajs CLI:
 # Run all tests
 npx qavajs run
 
-# Run specific feature
-npx qavajs run --feature features/wikipedia.feature
+# Run specific feature (optionally a scenario at line number)
+npx qavajs run features/wikipedia.feature
+npx qavajs run features/wikipedia.feature:5
 
 # Run with specific tags
 npx qavajs run --tags @smoke
+
+# Open interactive UI mode
+npx qavajs ui
 ```
 
 ## Summary

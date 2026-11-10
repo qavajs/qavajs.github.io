@@ -55,8 +55,17 @@ In case your config exports an object with multiple properties, you can specify 
 ```bash
 npx qavajs run --profile <profile>
 ```
+If `--config` is omitted, `config.ts`, `config.js`, `config.mjs` or `config.cjs` from the current directory is used.
 
-Before the run qavajs prints a table with the resolved configuration.
+Feature files can be passed as positional arguments (with optional line numbers); they are added to `--paths`:
+```bash
+npx qavajs run features/login.feature:12 features/cart.feature
+```
+
+Run `npx qavajs --help` to see all options and `npx qavajs --version` to print the installed version.
+
+Before the run qavajs prints a table with the resolved configuration (use `--quiet` to hide it).
+The table is printed without colors when output is not a terminal or `NO_COLOR` is set (`FORCE_COLOR` overrides this).
 
 #### CLI options
 
@@ -67,7 +76,7 @@ Before the run qavajs prints a table with the resolved configuration.
 | `--paths`              | string[] | Paths to feature files                           |
 | `--tags`, `-t`         | string[] | Tag expression filter (multiple flags are ANDed) |
 | `--format`, `-f`       | string[] | Formatter name/path and optional output file     |
-| `--format-options`     | string   | JSON options for formatters                      |
+| `--format-options`     | string[] | JSON options for formatters (merged)             |
 | `--import`, `-i`       | string[] | Support code paths (ESM)                         |
 | `--require`, `-r`      | string[] | Support code paths (CJS)                         |
 | `--require-module`     | string[] | Transpilation modules to load via `require()`    |
@@ -82,9 +91,41 @@ Before the run qavajs prints a table with the resolved configuration.
 | `--force-exit`         | boolean  | Call `process.exit()` after run                  |
 | `--strict`             | boolean  | Fail on pending steps                            |
 | `--shard`              | string   | Shard tests (`x/y`)                              |
-| `--world-parameters`   | string   | JSON parameters passed to World                  |
+| `--world-parameters`   | string[] | JSON parameters passed to World (merged)         |
 | `--memory-values`      | string   | JSON values to override in memory                |
 | `--no-error-exit`      | boolean  | Suppress non-zero exit code on test failure      |
+| `--quiet`, `-q`        | boolean  | Do not print the config table                    |
+| `--help`, `-h`         | boolean  | Show help                                        |
+| `--version`, `-v`      | boolean  | Show version                                     |
+
+`--format-options` and `--world-parameters` can be passed multiple times; the JSON objects are merged.
+Unknown options are not rejected (they can be read by your code via `CLI_ARGV`), but options that look like a typo of a known one (e.g. `--tag`) produce a warning.
+Invalid values (malformed JSON in `--world-parameters`/`--format-options`/`--memory-values`, non-integer `--parallel`/`--retry`, unknown profile or missing config file) fail fast with a readable error.
+
+### UI mode
+UI mode opens an interactive test runner in the browser:
+
+```bash
+npx qavajs ui --config <config> --profile <profile>
+```
+
+- browse features, rules, scenario outlines and examples as a tree with live status
+- run all tests, a feature, a rule, an outline or a single scenario; stop a run at any time
+- filter by name, file or `@tag`, and by status (failed, passed, skipped, not run)
+- inspect steps with durations, errors, data tables, doc strings and attachments (logs, images, video, json)
+- view the feature source with step results, and the full console output of the run
+- reload the test tree after changing features or step definitions
+
+Every run is executed in a separate process with the same config, profile and CLI options (`--tags`, `--world-parameters`, `--memory-values`, etc.),
+so `BeforeExecution`/`AfterExecution` hooks are called once per run. Formatters from the config are not used in UI mode.
+
+| Flag        | Default     | Description                           |
+|-------------|-------------|---------------------------------------|
+| `--port`    | random      | Port of the UI server                 |
+| `--host`    | `localhost` | Host to bind the UI server to         |
+| `--no-open` |             | Do not open the browser automatically |
+
+Keyboard shortcuts: `F5` / `Ctrl+Enter` run visible tests, `Esc` stops the run, `/` focuses the filter, arrow keys navigate the tree, `Enter` runs the focused item.
 
 ### Page object
 [Page object guide](./Commons/page-object.mdx)
